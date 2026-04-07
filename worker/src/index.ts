@@ -74,7 +74,7 @@ function generateId(): string {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    const path = url.pathname;
+    const path = url.pathname.replace(/\/$/, '') || '/';
     const method = request.method;
     const baseUrl = url.origin;
 
