@@ -115,7 +115,7 @@ export default {
     if (path === '/api/werke' && method === 'GET') {
       const kategorie = url.searchParams.get('kategorie');
       const withBilder = url.searchParams.get('with_bilder') === '1';
-      let query = 'SELECT id, name, kategorie, bild_key, aktiv, reihenfolge FROM werke WHERE aktiv = 1';
+      let query = 'SELECT id, name, kategorie, bild_key, aktiv, reihenfolge, beschreibung FROM werke WHERE aktiv = 1';
       const params: string[] = [];
       if (kategorie) { query += ' AND kategorie = ?'; params.push(kategorie); }
       query += ' ORDER BY reihenfolge ASC, created_at ASC';
@@ -216,13 +216,13 @@ export default {
       try {
         const body = await request.json() as {
           name: string; kategorie: string; bild_key?: string | null;
-          aktiv?: number; reihenfolge?: number;
+          aktiv?: number; reihenfolge?: number; beschreibung?: string | null;
         };
         if (!body.name || !body.kategorie) return json({ error: 'name and kategorie required' }, 400);
         const id = generateId();
         await env.DB.prepare(
-          'INSERT INTO werke (id, name, kategorie, bild_key, aktiv, reihenfolge) VALUES (?, ?, ?, ?, ?, ?)'
-        ).bind(id, sanitize(body.name), body.kategorie, body.bild_key ?? null, body.aktiv ?? 1, body.reihenfolge ?? 0).run();
+          'INSERT INTO werke (id, name, kategorie, bild_key, aktiv, reihenfolge, beschreibung) VALUES (?, ?, ?, ?, ?, ?, ?)'
+        ).bind(id, sanitize(body.name), body.kategorie, body.bild_key ?? null, body.aktiv ?? 1, body.reihenfolge ?? 0, body.beschreibung ?? null).run();
         return json({ id });
       } catch {
         return json({ error: 'Fehler beim Anlegen' }, 500);
@@ -235,14 +235,14 @@ export default {
       try {
         const id = werkUpdateMatch[1];
         const body = await request.json() as {
-          name?: string; kategorie?: string; bild_key?: string | null;
-          aktiv?: number; reihenfolge?: number;
+          name?: string; kategorie?: string; aktiv?: number;
+          reihenfolge?: number; beschreibung?: string | null;
         };
         await env.DB.prepare(
-          "UPDATE werke SET name=?, kategorie=?, bild_key=?, aktiv=?, reihenfolge=?, updated_at=datetime('now') WHERE id=?"
+          "UPDATE werke SET name=?, kategorie=?, aktiv=?, reihenfolge=?, beschreibung=?, updated_at=datetime('now') WHERE id=?"
         ).bind(
           sanitize(body.name ?? ''), body.kategorie ?? 'einzelstuecke',
-          body.bild_key ?? null, body.aktiv ?? 1, body.reihenfolge ?? 0, id
+          body.aktiv ?? 1, body.reihenfolge ?? 0, body.beschreibung ?? null, id
         ).run();
         return json({ ok: true });
       } catch {
@@ -274,6 +274,12 @@ export default {
         await env.DB.prepare(
           'INSERT INTO werk_bilder (id, werk_id, bild_key, beschreibung, reihenfolge) VALUES (?, ?, ?, ?, ?)'
         ).bind(id, werkId, body.bild_key, body.beschreibung ?? null, body.reihenfolge ?? 0).run();
+        // Auto-set cover if werk has no image yet
+        const werk = await env.DB.prepare('SELECT bild_key FROM werke WHERE id=?').bind(werkId).first();
+        if (!werk?.bild_key) {
+          await env.DB.prepare("UPDATE werke SET bild_key=?, updated_at=datetime('now') WHERE id=?")
+            .bind(body.bild_key, werkId).run();
+        }
         return json({ id });
       } catch { return json({ error: 'Fehler beim Anlegen' }, 500); }
     }
@@ -294,10 +300,38 @@ export default {
     const bildDelete = path.match(/^\/api\/werke\/bilder\/([a-f0-9]+)$/);
     if (bildDelete && method === 'DELETE') {
       const bildId = bildDelete[1];
-      const bild = await env.DB.prepare('SELECT bild_key FROM werk_bilder WHERE id = ?').bind(bildId).first();
-      if (bild?.bild_key) await env.IMAGES.delete(String(bild.bild_key));
+      const bild = await env.DB.prepare('SELECT bild_key, werk_id FROM werk_bilder WHERE id = ?').bind(bildId).first();
+      if (!bild) return json({ ok: true });
+      if (bild.bild_key) await env.IMAGES.delete(String(bild.bild_key));
       await env.DB.prepare('DELETE FROM werk_bilder WHERE id = ?').bind(bildId).run();
+      // Sync cover with first remaining image
+      const first = await env.DB.prepare(
+        'SELECT bild_key FROM werk_bilder WHERE werk_id=? ORDER BY reihenfolge ASC, created_at ASC LIMIT 1'
+      ).bind(String(bild.werk_id)).first();
+      await env.DB.prepare("UPDATE werke SET bild_key=?, updated_at=datetime('now') WHERE id=?")
+        .bind(first?.bild_key ?? null, String(bild.werk_id)).run();
       return json({ ok: true });
+    }
+
+    // PUT /api/werke/:id/bilder/reorder — drag-drop reorder
+    const reorderMatch = path.match(/^\/api\/werke\/([a-f0-9]+)\/bilder\/reorder$/);
+    if (reorderMatch && method === 'PUT') {
+      const werkId = reorderMatch[1];
+      try {
+        const { order } = await request.json() as { order: string[] };
+        if (!order?.length) return json({ error: 'order required' }, 400);
+        for (let i = 0; i < order.length; i++) {
+          await env.DB.prepare('UPDATE werk_bilder SET reihenfolge=? WHERE id=? AND werk_id=?')
+            .bind(i, order[i], werkId).run();
+        }
+        // Sync cover to first item
+        const first = await env.DB.prepare('SELECT bild_key FROM werk_bilder WHERE id=?').bind(order[0]).first();
+        if (first?.bild_key) {
+          await env.DB.prepare("UPDATE werke SET bild_key=?, updated_at=datetime('now') WHERE id=?")
+            .bind(String(first.bild_key), werkId).run();
+        }
+        return json({ ok: true });
+      } catch { return json({ error: 'Fehler' }, 500); }
     }
 
     // POST /api/upload — image to R2

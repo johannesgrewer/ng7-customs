@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import ShopGrid from '../components/ShopGrid.astro';
 
 const res = await fetch('https://ng7-contact.contact-1f9.workers.dev/api/werke?kategorie=entwicklung&with_bilder=1');
-const data = await res.json() as { id: string; name: string; bild_key: string | null; bilder: { bild_url: string; beschreibung: string | null }[] }[];
-const produkte = data.map(w => ({ id: w.id, name: w.name, bild: w.bild_key ? `/images/${w.bild_key}` : '', bilder: w.bilder ?? [] }));
+const data = await res.json() as { id: string; name: string; bild_key: string | null; beschreibung: string | null; bilder: { bild_url: string; beschreibung: string | null }[] }[];
+const produkte = data.map(w => ({ id: w.id, name: w.name, bild: w.bild_key ? `/images/${w.bild_key}` : '', bilder: w.bilder ?? [], beschreibung: w.beschreibung ?? null }));
 ---
 
 <Layout title="Entwicklung" description="Produktentwicklung von NG7 Customs — vom Konzept zum fertigen Produkt.">

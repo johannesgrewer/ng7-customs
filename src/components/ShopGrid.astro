@@ -9,6 +9,7 @@ interface Product {
   name: string;
   bild: string;
   bilder: GalleryImage[];
+  beschreibung?: string | null;
 }
 
 interface Props {
@@ -61,6 +62,7 @@ const { title, breadcrumb, produkte, activeCategory, description } = Astro.props
             class="group"
             style={hasImages ? 'cursor:pointer' : 'cursor:default'}
             data-werk-name={p.name}
+            data-werk-desc={p.beschreibung || ''}
             data-images={hasImages ? JSON.stringify(allImages) : '[]'}
             onclick={hasImages ? 'openLightbox(this)' : undefined}
           >
@@ -162,6 +164,7 @@ const { title, breadcrumb, produkte, activeCategory, description } = Astro.props
   let lbImages: { bild_url: string; beschreibung: string | null }[] = [];
   let lbIdx = 0;
   let lbWerkName = '';
+  let lbWerkDesc = '';
 
   function openLightbox(el: HTMLElement) {
     const raw = el.dataset.images;
@@ -171,6 +174,7 @@ const { title, breadcrumb, produkte, activeCategory, description } = Astro.props
     lbImages = imgs;
     lbIdx = 0;
     lbWerkName = el.dataset.werkName || '';
+    lbWerkDesc = el.dataset.werkDesc || '';
     lbRender();
     const lb = document.getElementById('ng7-lightbox')!;
     lb.style.display = 'flex';
@@ -197,8 +201,8 @@ const { title, breadcrumb, produkte, activeCategory, description } = Astro.props
     (document.getElementById('lb-name') as HTMLElement).textContent = lbWerkName;
 
     const descEl = document.getElementById('lb-desc') as HTMLElement;
-    if (cur.beschreibung) {
-      descEl.textContent = cur.beschreibung;
+    if (lbWerkDesc) {
+      descEl.textContent = lbWerkDesc;
       descEl.style.display = 'block';
     } else {
       descEl.style.display = 'none';

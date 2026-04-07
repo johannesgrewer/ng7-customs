@@ -58,7 +58,7 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
 .upload-hint{font-size:.72rem;color:#8A8070}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
 .modal-overlay.open{display:flex}
-.modal{background:#2A2723;border:1px solid rgba(160,151,125,.15);width:100%;max-width:480px}
+.modal{background:#2A2723;border:1px solid rgba(160,151,125,.15);width:100%;max-width:520px}
 .modal-header{padding:18px 22px;border-bottom:1px solid rgba(160,151,125,.1);display:flex;align-items:center;justify-content:space-between}
 .modal-header h2{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
 .modal-body{padding:22px}
@@ -69,22 +69,29 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
 .toggle-row span{font-size:.82rem;color:#B5AFA3}
 .empty-state{padding:60px;text-align:center;color:#8A8070;font-size:.85rem}
 .info-banner{padding:8px 20px;font-size:.7rem;color:#c08040;background:rgba(192,100,43,.07);border-bottom:1px solid rgba(192,100,43,.12);letter-spacing:.05em}
-/* Gallery */
-.gallery-item{display:flex;gap:10px;align-items:flex-start;padding:8px;background:#1A1917;border:1px solid rgba(160,151,125,.1);margin-bottom:8px}
-.gallery-item img{width:50px;height:65px;object-fit:cover;flex-shrink:0}
-.gallery-item-right{flex:1;display:flex;flex-direction:column;gap:6px}
-.gallery-desc-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(160,151,125,.2);color:#F5F0E8;padding:3px 0;font-size:.8rem;font-family:inherit;outline:none}
-.gallery-desc-input:focus{border-bottom-color:#A0977D}
-.gallery-add-preview{width:56px;height:72px;flex-shrink:0;background:#1A1917;border:1px dashed rgba(160,151,125,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.gallery-add-preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.gallery-add-plus{font-size:1.2rem;color:#8A8070;user-select:none}
-.gallery-section{margin-top:20px;padding-top:20px;border-top:1px solid rgba(160,151,125,.1)}
-.gallery-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.gallery-empty{font-size:.72rem;color:#8A8070;text-align:center;padding:16px 0}
-.gallery-add-form{background:#1A1917;border:1px solid rgba(160,151,125,.12);padding:12px;margin-top:10px;display:flex;gap:10px;align-items:flex-start}
-.gallery-add-inputs{flex:1;display:flex;flex-direction:column;gap:8px}
-.gallery-add-desc{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(160,151,125,.2);color:#F5F0E8;padding:4px 0;font-size:.8rem;font-family:inherit;outline:none}
-.gallery-add-desc:focus{border-bottom-color:#A0977D}
+/* Textarea */
+.field textarea{width:100%;background:#1A1917;border:1px solid rgba(160,151,125,.2);color:#F5F0E8;padding:9px 11px;font-size:.84rem;font-family:inherit;transition:border-color .2s;outline:none;resize:vertical;min-height:60px;line-height:1.5}
+.field textarea:focus{border-color:#A0977D}
+/* Image manager */
+.img-manager-label{display:flex;align-items:center;justify-content:space-between;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8070;margin-bottom:10px}
+.img-manager-hint{font-size:.58rem;letter-spacing:0;text-transform:none;color:#8A8070;font-weight:400}
+.main-preview{width:100%;background:#1A1917;overflow:hidden;margin-bottom:10px;display:none}
+.main-preview img{width:100%;max-height:240px;object-fit:contain;display:block}
+.thumb-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.thumb-strip::-webkit-scrollbar{height:3px}
+.thumb-strip::-webkit-scrollbar-thumb{background:rgba(160,151,125,.3)}
+.thumb{position:relative;flex-shrink:0;width:70px;cursor:grab;user-select:none}
+.thumb img{width:70px;height:93px;object-fit:cover;display:block;border:2px solid transparent;transition:border-color .15s}
+.thumb.drag-over img{border-color:#A0977D}
+.thumb-del{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.7);border:none;color:#fff;width:18px;height:18px;cursor:pointer;font-size:.65rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;padding:0;line-height:1}
+.thumb:hover .thumb-del{opacity:1}
+.thumb-cover{position:absolute;bottom:0;left:0;right:0;background:rgba(160,151,125,.9);color:#1A1917;font-size:.42rem;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:2px 0;pointer-events:none}
+.thumb-add{flex-shrink:0;width:70px;height:93px;border:1px dashed rgba(160,151,125,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:3px}
+.thumb-add:hover{border-color:#A0977D;background:rgba(160,151,125,.04)}
+.thumb-add-plus{font-size:1.5rem;color:#8A8070;line-height:1}
+.thumb-add-text{font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:#8A8070}
+.thumb-add-disabled{opacity:.35;cursor:not-allowed}
+.thumb-add-disabled:hover{border-color:rgba(160,151,125,.3);background:transparent}
 /* Settings area */
 .settings-area{display:none;padding:20px;max-width:800px}
 .settings-section-title{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:#8A8070;margin-bottom:16px}
@@ -155,59 +162,49 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
     </div>
     <div class="modal-body">
       <input type="hidden" id="editId" />
+
       <div class="field">
         <label>Name *</label>
         <input type="text" id="fName" placeholder="z.B. Messerkordel I" />
       </div>
-      <div class="field">
-        <label>Kategorie *</label>
-        <select id="fKat">
-          <option value="einzelstuecke">Einzelst&#252;cke</option>
-          <option value="entwicklung">Entwicklung</option>
-          <option value="custom">Individualisierung</option>
-          <option value="neue_werke">Neue Werke 2025</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Bild</label>
-        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-          <img id="uploadPreview" class="upload-preview" style="display:none" alt="" />
-          <span class="upload-hint" id="uploadHint">Klicken zum Hochladen</span>
+
+      <div style="display:flex;gap:12px;align-items:flex-end;margin-bottom:16px">
+        <div class="field" style="flex:1;margin-bottom:0">
+          <label>Kategorie *</label>
+          <select id="fKat">
+            <option value="einzelstuecke">Einzelst&#252;cke</option>
+            <option value="entwicklung">Entwicklung</option>
+            <option value="custom">Individualisierung</option>
+            <option value="neue_werke">Neue Werke 2025</option>
+          </select>
         </div>
-        <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="onFileChange(this)" />
-      </div>
-      <div class="row-fields">
-        <div class="field" style="margin-bottom:0">
-          <label>Reihenfolge</label>
-          <input type="number" id="fOrder" value="0" min="0" />
-        </div>
-        <label class="toggle-row">
+        <label class="toggle-row" style="margin-bottom:3px;flex-shrink:0">
           <input type="checkbox" id="fAktiv" checked />
           <span>Sichtbar</span>
         </label>
       </div>
 
-      <!-- Galerie-Bilder (nur bei bestehendem Werk) -->
-      <div class="gallery-section" id="gallerySection" style="display:none">
-        <div class="gallery-header">
-          <span style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8070">Galerie-Bilder</span>
-          <button class="btn btn-ghost btn-sm" onclick="showGalleryAdd()">+ Bild hinzuf&#252;gen</button>
+      <div class="field">
+        <label>Beschreibung <span style="font-size:.58rem;letter-spacing:0;text-transform:none;font-weight:400;color:#8A8070">&#8212; erscheint im Lightbox</span></label>
+        <textarea id="fDesc" rows="2" placeholder="Kurze Beschreibung des Werks (optional)&#8230;"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Reihenfolge <span style="font-size:.58rem;letter-spacing:0;text-transform:none;font-weight:400;color:#8A8070">&#8212; Position im Grid</span></label>
+        <input type="number" id="fOrder" value="0" min="0" />
+      </div>
+
+      <!-- Bilder-Manager -->
+      <div style="padding-top:16px;border-top:1px solid rgba(160,151,125,.1)">
+        <div class="img-manager-label">
+          <span>Bilder</span>
+          <span class="img-manager-hint">Erstes Bild = Cover im Grid &mdash; ziehen zum Sortieren</span>
         </div>
-        <div id="galleryList"></div>
-        <div id="galleryAddForm" class="gallery-add-form" style="display:none">
-          <div class="gallery-add-preview" id="galleryAddPreview" onclick="document.getElementById('galleryFileInput').click()">
-            <img id="galleryAddImg" style="display:none" alt="" />
-            <span class="gallery-add-plus" id="galleryAddPlus">+</span>
-          </div>
-          <div class="gallery-add-inputs">
-            <input type="text" id="galleryAddDesc" class="gallery-add-desc" placeholder="Beschreibung (optional)" />
-            <div style="display:flex;gap:6px">
-              <button class="btn btn-primary btn-sm" onclick="confirmGalleryAdd()">Hochladen</button>
-              <button class="btn btn-ghost btn-sm" onclick="hideGalleryAdd()">Abbrechen</button>
-            </div>
-          </div>
-          <input type="file" id="galleryFileInput" accept="image/*" style="display:none" onchange="onGalleryFileChange(this)" />
+        <div id="mainPreview" class="main-preview">
+          <img id="mainPreviewImg" alt="" />
         </div>
+        <div id="thumbStrip" class="thumb-strip"></div>
+        <input type="file" id="thumbFileInput" accept="image/*" style="display:none" onchange="onThumbFile(this)" />
       </div>
     </div>
     <div class="modal-footer">
@@ -252,12 +249,11 @@ let token = localStorage.getItem('ng7_tok') || '';
 let werke = [];
 let settings = {};
 let activeFilter = 'all';
-let pendingFile = null;
 let editingId = null;
+let werkBilder = [];
+let dragSrcIdx = null;
 let pendingSettingFile = null;
 let editingSettingKey = null;
-let galleryBilder = [];
-let pendingGalleryFile = null;
 
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -461,24 +457,16 @@ function renderKatCards() {
 
 function openModal(werk) {
   editingId = werk ? werk.id : null;
+  werkBilder = [];
   document.getElementById('modalTitle').textContent = werk ? 'Werk bearbeiten' : 'Neues Werk';
   document.getElementById('editId').value = werk ? werk.id : '';
   document.getElementById('fName').value = werk ? werk.name : '';
   document.getElementById('fKat').value = werk ? werk.kategorie : 'einzelstuecke';
   document.getElementById('fOrder').value = werk ? String(werk.reihenfolge) : '0';
   document.getElementById('fAktiv').checked = werk ? !!werk.aktiv : true;
-  const prev = document.getElementById('uploadPreview');
-  const hint = document.getElementById('uploadHint');
-  if (werk && werk.bild_url) { prev.src = werk.bild_url; prev.style.display = 'block'; hint.textContent = 'Klicken zum \\u00c4ndern'; }
-  else { prev.src = ''; prev.style.display = 'none'; hint.textContent = 'Klicken zum Hochladen'; }
-  pendingFile = null;
-  pendingGalleryFile = null;
-  galleryBilder = [];
-  document.getElementById('fileInput').value = '';
-  hideGalleryAdd();
-  const gs = document.getElementById('gallerySection');
-  if (editingId) { gs.style.display = 'block'; loadGallery(editingId); }
-  else { gs.style.display = 'none'; document.getElementById('galleryList').textContent = ''; }
+  document.getElementById('fDesc').value = (werk && werk.beschreibung) ? werk.beschreibung : '';
+  renderImageManager();
+  if (editingId) loadGallery(editingId);
   document.getElementById('modalOverlay').classList.add('open');
   setTimeout(() => document.getElementById('fName').focus(), 60);
 }
@@ -486,19 +474,7 @@ function openModal(werk) {
 function editWork(id) { const w = werke.find(x => x.id === id); if (w) openModal(w); }
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');
-  pendingFile = null; pendingGalleryFile = null; editingId = null; galleryBilder = [];
-}
-
-function onFileChange(input) {
-  const f = input.files[0]; if (!f) return;
-  pendingFile = f;
-  const r = new FileReader();
-  r.onload = e => {
-    const prev = document.getElementById('uploadPreview');
-    prev.src = String(e.target.result); prev.style.display = 'block';
-    document.getElementById('uploadHint').textContent = f.name;
-  };
-  r.readAsDataURL(f);
+  editingId = null; werkBilder = []; dragSrcIdx = null;
 }
 
 async function saveWork() {
@@ -507,25 +483,27 @@ async function saveWork() {
   const kategorie = document.getElementById('fKat').value;
   const reihenfolge = parseInt(document.getElementById('fOrder').value) || 0;
   const aktiv = document.getElementById('fAktiv').checked ? 1 : 0;
+  const beschreibung = document.getElementById('fDesc').value.trim() || null;
   if (!name) { setStatus('Name ist erforderlich.','error'); return; }
   btn.textContent = 'Speichern...'; btn.disabled = true;
   try {
-    let bildKey = null;
-    if (pendingFile) {
-      const fd = new FormData(); fd.append('file', pendingFile);
-      const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
-      if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error || 'Upload fehlgeschlagen ('+ur.status+')'); }
-      const ud = await ur.json(); bildKey = ud.key;
-    } else if (editingId) {
-      const ex = werke.find(w => w.id === editingId);
-      if (ex) bildKey = ex.bild_key;
+    const body = {name, kategorie, reihenfolge, aktiv, beschreibung};
+    if (editingId) {
+      const res = await fetch('/api/werke/'+editingId,{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify(body)});
+      if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error||'Fehler ('+res.status+')'); }
+      setStatus('Gespeichert.','success');
+      closeModal(); await loadWerke();
+    } else {
+      const res = await fetch('/api/werke',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify(body)});
+      if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error||'Fehler ('+res.status+')'); }
+      const {id} = await res.json();
+      editingId = id;
+      document.getElementById('editId').value = id;
+      document.getElementById('modalTitle').textContent = 'Werk bearbeiten';
+      setStatus('Werk angelegt \u2014 jetzt Bilder hinzuf\u00fcgen.','success');
+      await loadWerke();
+      renderImageManager();
     }
-    const body = {name,kategorie,reihenfolge,aktiv,bild_key:bildKey};
-    const url = editingId ? '/api/werke/'+editingId : '/api/werke';
-    const res = await fetch(url,{method:editingId?'PUT':'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify(body)});
-    if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error || 'Speichern fehlgeschlagen ('+res.status+')'); }
-    setStatus(editingId ? 'Gespeichert.' : 'Werk angelegt.','success');
-    closeModal(); await loadWerke();
   } catch(e) { setStatus(e.message,'error'); }
   finally { btn.textContent = 'Speichern'; btn.disabled = false; }
 }
@@ -537,114 +515,136 @@ async function deleteWork(id, name) {
   else setStatus('L\\u00f6schen fehlgeschlagen.','error');
 }
 
-// ── Gallery ─────────────────────────────────────────
+// ── Image Manager ────────────────────────────────────
 async function loadGallery(werkId) {
-  const list = document.getElementById('galleryList');
-  list.textContent = '';
   try {
     const r = await fetch('/api/werke/'+werkId+'/bilder',{headers:{'Authorization':'Bearer '+token}});
     if (!r.ok) return;
-    galleryBilder = await r.json();
-    renderGalleryList();
+    werkBilder = await r.json();
+    renderImageManager();
   } catch {}
 }
 
-function renderGalleryList() {
-  const list = document.getElementById('galleryList');
-  list.textContent = '';
-  if (!galleryBilder.length) {
-    const empty = document.createElement('p');
-    empty.className = 'gallery-empty';
-    empty.textContent = 'Noch keine Galerie-Bilder.';
-    list.appendChild(empty);
-    return;
+function renderImageManager() {
+  const strip = document.getElementById('thumbStrip');
+  const preview = document.getElementById('mainPreview');
+  const previewImg = document.getElementById('mainPreviewImg');
+  strip.textContent = '';
+
+  if (werkBilder.length) {
+    preview.style.display = 'block';
+    previewImg.src = werkBilder[0].bild_url;
+  } else {
+    preview.style.display = 'none';
+    previewImg.src = '';
   }
-  galleryBilder.forEach(bild => {
-    const item = document.createElement('div');
-    item.className = 'gallery-item';
+
+  werkBilder.forEach((bild, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'thumb';
+    thumb.setAttribute('draggable', 'true');
 
     const img = document.createElement('img');
     img.src = bild.bild_url; img.alt = '';
-    item.appendChild(img);
+    thumb.appendChild(img);
 
-    const right = document.createElement('div');
-    right.className = 'gallery-item-right';
+    const del = document.createElement('button');
+    del.className = 'thumb-del';
+    del.title = 'Entfernen';
+    del.textContent = '\\u00d7';
+    del.addEventListener('click', e => { e.stopPropagation(); deleteThumb(idx); });
+    thumb.appendChild(del);
 
-    const desc = document.createElement('input');
-    desc.type = 'text'; desc.className = 'gallery-desc-input';
-    desc.value = bild.beschreibung || '';
-    desc.placeholder = 'Beschreibung...';
-    let saveTimer;
-    desc.addEventListener('input', () => {
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => updateGalleryBild(bild.id, desc.value), 800);
+    if (idx === 0) {
+      const badge = document.createElement('div');
+      badge.className = 'thumb-cover';
+      badge.textContent = 'COVER';
+      thumb.appendChild(badge);
+    }
+
+    thumb.addEventListener('dragstart', e => {
+      dragSrcIdx = idx;
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => { thumb.style.opacity = '.3'; }, 0);
     });
-    right.appendChild(desc);
+    thumb.addEventListener('dragend', () => {
+      thumb.style.opacity = '1';
+      dragSrcIdx = null;
+      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('drag-over'));
+    });
+    thumb.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('drag-over'));
+      thumb.classList.add('drag-over');
+    });
+    thumb.addEventListener('drop', e => {
+      e.preventDefault();
+      thumb.classList.remove('drag-over');
+      if (dragSrcIdx === null || dragSrcIdx === idx) return;
+      const moved = werkBilder.splice(dragSrcIdx, 1)[0];
+      werkBilder.splice(idx, 0, moved);
+      dragSrcIdx = null;
+      renderImageManager();
+      saveThumbOrder();
+    });
 
-    const delBtn = document.createElement('button');
-    delBtn.className = 'btn btn-ghost btn-sm btn-danger';
-    delBtn.style.alignSelf = 'flex-start';
-    delBtn.textContent = 'Entfernen';
-    delBtn.addEventListener('click', () => deleteGalleryBild(bild.id, delBtn));
-    right.appendChild(delBtn);
-
-    item.appendChild(right);
-    list.appendChild(item);
+    strip.appendChild(thumb);
   });
+
+  // Add button
+  const addBtn = document.createElement('div');
+  addBtn.className = editingId ? 'thumb-add' : 'thumb-add thumb-add-disabled';
+  if (editingId) {
+    addBtn.addEventListener('click', () => document.getElementById('thumbFileInput').click());
+  }
+  const plus = document.createElement('span');
+  plus.className = 'thumb-add-plus';
+  plus.textContent = '+';
+  addBtn.appendChild(plus);
+  const lbl = document.createElement('span');
+  lbl.className = 'thumb-add-text';
+  lbl.textContent = editingId ? 'Bild' : 'Erst speichern';
+  addBtn.appendChild(lbl);
+  strip.appendChild(addBtn);
 }
 
-async function updateGalleryBild(bildId, beschreibung) {
-  await fetch('/api/werke/bilder/'+bildId,{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({beschreibung:beschreibung||null,reihenfolge:0})}).catch(()=>{});
+async function saveThumbOrder() {
+  if (!editingId || !werkBilder.length) return;
+  await fetch('/api/werke/'+editingId+'/bilder/reorder',{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({order:werkBilder.map(b=>b.id)})}).catch(()=>{});
+  await loadWerke();
 }
 
-async function deleteGalleryBild(bildId, btn) {
-  if (!confirm('Bild aus Galerie entfernen?')) return;
-  btn.disabled = true;
-  const r = await fetch('/api/werke/bilder/'+bildId,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
-  if (r.ok) { galleryBilder = galleryBilder.filter(b => b.id !== bildId); renderGalleryList(); }
-  else { btn.disabled = false; setStatus('Fehler beim L\\u00f6schen.','error'); }
+async function deleteThumb(idx) {
+  if (!confirm('Bild entfernen?')) return;
+  const bild = werkBilder[idx];
+  if (!bild) return;
+  const r = await fetch('/api/werke/bilder/'+bild.id,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
+  if (r.ok) {
+    werkBilder.splice(idx, 1);
+    renderImageManager();
+    await loadWerke();
+    setStatus('Bild entfernt.','success');
+  } else setStatus('Fehler beim Entfernen.','error');
 }
 
-function showGalleryAdd() { document.getElementById('galleryAddForm').style.display = 'flex'; }
-function hideGalleryAdd() {
-  document.getElementById('galleryAddForm').style.display = 'none';
-  pendingGalleryFile = null;
-  document.getElementById('galleryAddImg').style.display = 'none';
-  document.getElementById('galleryAddPlus').style.display = '';
-  document.getElementById('galleryAddDesc').value = '';
-  if (document.getElementById('galleryFileInput')) document.getElementById('galleryFileInput').value = '';
-}
-
-function onGalleryFileChange(input) {
-  const f = input.files[0]; if (!f) return;
-  pendingGalleryFile = f;
-  const r = new FileReader();
-  r.onload = e => {
-    const img = document.getElementById('galleryAddImg');
-    img.src = String(e.target.result); img.style.display = 'block';
-    document.getElementById('galleryAddPlus').style.display = 'none';
-  };
-  r.readAsDataURL(f);
-}
-
-async function confirmGalleryAdd() {
-  if (!pendingGalleryFile) { setStatus('Bitte zuerst ein Bild w\\u00e4hlen.','error'); return; }
-  if (!editingId) return;
-  const btn = document.querySelector('#galleryAddForm .btn-primary');
-  btn.textContent = '...'; btn.disabled = true;
+async function onThumbFile(input) {
+  const f = input.files[0]; if (!f || !editingId) return;
+  input.value = '';
+  const addBtn = document.querySelector('.thumb-add');
+  if (addBtn) addBtn.style.opacity = '.4';
   try {
-    const fd = new FormData(); fd.append('file', pendingGalleryFile);
+    const fd = new FormData(); fd.append('file', f);
     const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
     if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error||'Upload fehlgeschlagen'); }
-    const { key } = await ur.json();
-    const desc = document.getElementById('galleryAddDesc').value.trim();
-    const cr = await fetch('/api/werke/'+editingId+'/bilder',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({bild_key:key,beschreibung:desc||null,reihenfolge:galleryBilder.length})});
+    const {key} = await ur.json();
+    const cr = await fetch('/api/werke/'+editingId+'/bilder',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({bild_key:key,reihenfolge:werkBilder.length})});
     if (!cr.ok) throw new Error('Fehler beim Speichern');
-    hideGalleryAdd();
     await loadGallery(editingId);
+    await loadWerke();
     setStatus('Bild hinzugef\\u00fcgt.','success');
   } catch(e) { setStatus(e.message,'error'); }
-  finally { btn.textContent = 'Hochladen'; btn.disabled = false; }
+  finally { if (addBtn) addBtn.style.opacity = '1'; }
 }
 
 // ── Settings modal ──────────────────────────────────
