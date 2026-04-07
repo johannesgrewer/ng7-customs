@@ -121,7 +121,7 @@ export default {
       const { results } = await env.DB.prepare(query).bind(...params).all();
       const werke = results.map(w => ({
         ...w,
-        bild_url: w.bild_key ? `${baseUrl}/images/${w.bild_key}` : null,
+        bild_url: w.bild_key ? `/images/${w.bild_key}` : null,
       }));
       return new Response(JSON.stringify(werke), {
         headers: {
@@ -129,6 +129,16 @@ export default {
           'Access-Control-Allow-Origin': '*',
           'Cache-Control': 'public, max-age=60',
         },
+      });
+    }
+
+    // ── PUBLIC: GET /api/settings ─────────────────────
+    if (path === '/api/settings' && method === 'GET') {
+      const { results } = await env.DB.prepare('SELECT key, bild_key FROM settings').all();
+      const out: Record<string, string | null> = {};
+      results.forEach(r => { out[String(r.key)] = r.bild_key ? `/images/${r.bild_key}` : null; });
+      return new Response(JSON.stringify(out), {
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=60' },
       });
     }
 
@@ -147,6 +157,16 @@ export default {
     // ── PROTECTED: all remaining routes need auth ─────
     if (!(await isAuthed(request, env))) return unauthorized();
 
+    // PUT /api/settings/:key
+    const settingMatch = path.match(/^\/api\/settings\/([a-z_]+)$/);
+    if (settingMatch && method === 'PUT') {
+      const key = settingMatch[1];
+      const body = await request.json() as { bild_key?: string | null };
+      await env.DB.prepare("UPDATE settings SET bild_key=?, updated_at=datetime('now') WHERE key=?")
+        .bind(body.bild_key ?? null, key).run();
+      return json({ ok: true });
+    }
+
     // GET /api/werke/all — admin sees all including inactive
     if (path === '/api/werke/all' && method === 'GET') {
       const { results } = await env.DB.prepare(
@@ -154,7 +174,7 @@ export default {
       ).all();
       const werke = results.map(w => ({
         ...w,
-        bild_url: w.bild_key ? `${baseUrl}/images/${w.bild_key}` : null,
+        bild_url: w.bild_key ? `/images/${w.bild_key}` : null,
       }));
       return json(werke);
     }
@@ -234,7 +254,7 @@ export default {
         await env.IMAGES.put(key, await file.arrayBuffer(), {
           httpMetadata: { contentType: file.type },
         });
-        return json({ key, url: `${baseUrl}/images/${key}` });
+        return json({ key, url: `/images/${key}` });
       } catch {
         return json({ error: 'Upload fehlgeschlagen' }, 500);
       }

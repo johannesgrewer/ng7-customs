@@ -1,3 +1,38 @@
+---
+let settings: Record<string, string | null> = {};
+try {
+  const res = await fetch('https://ng7-contact.contact-1f9.workers.dev/api/settings');
+  if (res.ok) settings = await res.json();
+} catch {}
+
+const kategorien = [
+  {
+    href: '/einzelstuecke',
+    img: settings.kat_einzelstuecke ?? '/images/kat-einzelstuecke.webp',
+    alt: 'Einzelstücke',
+    nr: '01',
+    title: 'Einzelstücke',
+    desc: 'Unikate mit Charakter — jedes Stück ein Original aus Handarbeit.',
+  },
+  {
+    href: '/entwicklung',
+    img: settings.kat_entwicklung ?? '/images/kat-nachmass.webp',
+    alt: 'Auf-/Nach Maß',
+    nr: '02',
+    title: 'Auf-/Nach Maß',
+    desc: 'Deine Vision, meine Hände — maßgeschneidert nach deinen Wünschen.',
+  },
+  {
+    href: '/custom',
+    img: settings.kat_custom ?? '/images/kat-custom.webp',
+    alt: 'Finishes',
+    nr: '03',
+    title: 'Finishes',
+    desc: 'Individualisierung deiner Lieblingsstücke — Gravuren, Beschichtungen, Veredelung.',
+  },
+];
+---
+
 <!-- 2. KATEGORIEN — Expanding Panels -->
 <section id="kategorien" style="background: #656350;" class="py-20 px-6">
   <div class="max-w-[1200px] mx-auto">
@@ -7,11 +42,7 @@
     </div>
 
     <div class="kat-panels flex flex-col md:flex-row gap-2 md:h-[550px]">
-      {[
-        { href: '/einzelstuecke', img: '/images/kat-einzelstuecke.webp', alt: 'Einzelstücke', nr: '01', title: 'Einzelstücke', desc: 'Unikate mit Charakter — jedes Stück ein Original aus Handarbeit.' },
-        { href: '/entwicklung', img: '/images/kat-nachmass.webp', alt: 'Auf-/Nach Maß', nr: '02', title: 'Auf-/Nach Maß', desc: 'Deine Vision, meine Hände — maßgeschneidert nach deinen Wünschen.' },
-        { href: '/custom', img: '/images/kat-custom.webp', alt: 'Finishes', nr: '03', title: 'Finishes', desc: 'Individualisierung deiner Lieblingsstücke — Gravuren, Beschichtungen, Veredelung.' },
-      ].map((kat) => (
+      {kategorien.map((kat) => (
         <a href={kat.href} class="kat-panel group relative flex-1 overflow-hidden transition-all duration-700 ease-in-out min-h-[200px] md:min-h-0 md:hover:flex-[3]" style="background: #35342B;">
           <img src={kat.img} alt={kat.alt} class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" width="600" height="800" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:from-black/70 group-hover:via-black/20 group-hover:to-transparent transition-all duration-500"></div>

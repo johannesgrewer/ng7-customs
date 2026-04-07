@@ -25,3 +25,14 @@ CREATE TABLE IF NOT EXISTS werke (
 CREATE INDEX IF NOT EXISTS idx_werke_kategorie ON werke(kategorie);
 CREATE INDEX IF NOT EXISTS idx_werke_aktiv ON werke(aktiv);
 CREATE INDEX IF NOT EXISTS idx_werke_reihenfolge ON werke(reihenfolge);
+
+CREATE TABLE IF NOT EXISTS settings (
+  key TEXT PRIMARY KEY,
+  bild_key TEXT DEFAULT NULL,
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+INSERT OR IGNORE INTO settings (key, bild_key) VALUES
+  ('kat_einzelstuecke', NULL),
+  ('kat_entwicklung', NULL),
+  ('kat_custom', NULL);

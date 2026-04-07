@@ -33,6 +33,7 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
 .card-name{font-size:.8rem;font-weight:500;color:#F5F0E8;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card-meta{display:flex;align-items:center;justify-content:space-between}
 .badge{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;background:rgba(160,151,125,.1);color:#A0977D}
+.badge-warn{background:rgba(192,100,43,.12);color:#c08040}
 .card-actions{display:flex;gap:4px}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:1px solid;transition:all .2s;background:none;font-family:inherit;white-space:nowrap}
 .btn:disabled{opacity:.5;cursor:not-allowed}
@@ -67,6 +68,17 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
 .toggle-row input{accent-color:#A0977D;width:15px;height:15px;cursor:pointer}
 .toggle-row span{font-size:.82rem;color:#B5AFA3}
 .empty-state{padding:60px;text-align:center;color:#8A8070;font-size:.85rem}
+.info-banner{padding:8px 20px;font-size:.7rem;color:#c08040;background:rgba(192,100,43,.07);border-bottom:1px solid rgba(192,100,43,.12);letter-spacing:.05em}
+/* Settings area */
+.settings-area{display:none;padding:20px;max-width:800px}
+.settings-section-title{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:#8A8070;margin-bottom:16px}
+.kat-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:32px}
+.kat-card{background:#2A2723;border:1px solid rgba(160,151,125,.1);padding:0}
+.kat-card-img{aspect-ratio:16/9;overflow:hidden;background:#1A1917;display:flex;align-items:center;justify-content:center;position:relative}
+.kat-card-img img{width:100%;height:100%;object-fit:cover}
+.kat-card-no-img{font-size:.7rem;color:#8A8070}
+.kat-card-body{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.kat-card-name{font-size:.78rem;font-weight:500;color:#F5F0E8}
 </style>
 </head>
 <body>
@@ -90,13 +102,14 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
     <div class="spacer"></div>
     <button class="btn btn-ghost btn-sm" id="deployBtn" onclick="triggerDeploy()">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      Veröffentlichen
+      Ver&#246;ffentlichen
     </button>
-    <button class="btn btn-primary btn-sm" onclick="openModal(null)">+ Neues Werk</button>
+    <button class="btn btn-primary btn-sm" id="newWerkBtn" onclick="openModal(null)">+ Neues Werk</button>
     <button class="btn btn-ghost btn-sm" onclick="logout()">Abmelden</button>
   </div>
 
   <div class="status-bar" id="statusBar"></div>
+  <div class="info-banner" id="infoBanner" style="display:none"></div>
 
   <div class="tabs">
     <button class="tab active" onclick="setFilter('all',this)">Alle</button>
@@ -104,11 +117,17 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
     <button class="tab" onclick="setFilter('entwicklung',this)">Entwicklung</button>
     <button class="tab" onclick="setFilter('custom',this)">Individualisierung</button>
     <button class="tab" onclick="setFilter('neue_werke',this)">Neue Werke</button>
+    <button class="tab" onclick="setFilter('settings',this)">&#9881; Einstellungen</button>
   </div>
 
   <div class="grid-area">
     <div class="works-grid" id="worksGrid"></div>
     <div class="empty-state" id="emptyState" style="display:none">Noch keine Werke in dieser Kategorie.</div>
+  </div>
+
+  <div class="settings-area" id="settingsArea">
+    <p class="settings-section-title">Kategorie-Bilder</p>
+    <div class="kat-cards" id="katCards"></div>
   </div>
 </div>
 
@@ -159,13 +178,45 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
   </div>
 </div>
 
+<!-- Settings upload modal -->
+<div class="modal-overlay" id="settingModalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="settingModalTitle">Kategorie-Bild</h2>
+      <button class="btn btn-icon" onclick="closeSettingModal()">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Bild</label>
+        <div class="upload-area" id="settingUploadArea" onclick="document.getElementById('settingFileInput').click()">
+          <img id="settingUploadPreview" class="upload-preview" style="display:none" alt="" />
+          <span class="upload-hint" id="settingUploadHint">Klicken zum Hochladen</span>
+        </div>
+        <input type="file" id="settingFileInput" accept="image/*" style="display:none" onchange="onSettingFileChange(this)" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeSettingModal()">Abbrechen</button>
+      <button class="btn btn-primary" id="settingSaveBtn" onclick="saveSettingImage()">Speichern</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const CAT_LABELS = {einzelstuecke:'Einzelst\\u00fccke',entwicklung:'Entwicklung',custom:'Individualisierung',neue_werke:'Neue Werke'};
+const KAT_KEYS = [
+  {key:'kat_einzelstuecke', label:'Einzelst\\u00fccke'},
+  {key:'kat_entwicklung',   label:'Entwicklung'},
+  {key:'kat_custom',        label:'Individualisierung'},
+];
 let token = localStorage.getItem('ng7_tok') || '';
 let werke = [];
+let settings = {};
 let activeFilter = 'all';
 let pendingFile = null;
 let editingId = null;
+let pendingSettingFile = null;
+let editingSettingKey = null;
 
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -192,7 +243,7 @@ function logout() {
 async function init() {
   if (!token) return;
   const ok = await loadWerke();
-  if (ok) showDash(); else { token = ''; localStorage.removeItem('ng7_tok'); }
+  if (ok) { showDash(); loadSettings(); } else { token = ''; localStorage.removeItem('ng7_tok'); }
 }
 
 function showDash() {
@@ -200,6 +251,7 @@ function showDash() {
   const d = document.getElementById('dashboard');
   d.style.display = 'flex';
   loadWerke();
+  loadSettings();
 }
 
 async function loadWerke() {
@@ -212,17 +264,50 @@ async function loadWerke() {
   } catch { return false; }
 }
 
+async function loadSettings() {
+  try {
+    const r = await fetch('/api/settings');
+    if (r.ok) { settings = await r.json(); renderKatCards(); }
+  } catch {}
+}
+
 function setFilter(cat, btn) {
   activeFilter = cat;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  renderGrid();
+  const isSettings = cat === 'settings';
+  document.getElementById('gridArea') && (document.getElementById('gridArea').style.display = isSettings ? 'none' : 'block');
+  document.querySelector('.grid-area').style.display = isSettings ? 'none' : 'block';
+  document.getElementById('settingsArea').style.display = isSettings ? 'block' : 'none';
+  document.getElementById('newWerkBtn').style.display = isSettings ? 'none' : '';
+  if (!isSettings) renderGrid();
 }
 
 function renderGrid() {
-  const filtered = activeFilter === 'all' ? werke : werke.filter(w => w.kategorie === activeFilter);
+  const filtered = activeFilter === 'all' || activeFilter === 'settings'
+    ? werke
+    : werke.filter(w => w.kategorie === activeFilter);
   const grid = document.getElementById('worksGrid');
   const empty = document.getElementById('emptyState');
+  const banner = document.getElementById('infoBanner');
+
+  // Neue Werke warning
+  if (activeFilter === 'neue_werke') {
+    const aktiveNW = werke.filter(w => w.kategorie === 'neue_werke' && w.aktiv).length;
+    if (aktiveNW > 4) {
+      banner.textContent = '\\u26a0\\ufe0f ' + aktiveNW + ' aktive Eintr\\u00e4ge \\u2014 auf der Website werden nur die ersten 4 angezeigt.';
+      banner.style.display = 'block';
+    } else if (aktiveNW === 4) {
+      banner.textContent = '\\u2713 4 / 4 aktive Werke \\u2014 Maximum erreicht.';
+      banner.style.display = 'block';
+    } else {
+      banner.textContent = aktiveNW + ' / 4 aktive Werke.';
+      banner.style.display = 'block';
+    }
+  } else {
+    banner.style.display = 'none';
+  }
+
   if (!filtered.length) { grid.textContent = ''; empty.style.display = 'block'; return; }
   empty.style.display = 'none';
   grid.textContent = '';
@@ -274,14 +359,14 @@ function renderGrid() {
     const editBtn = document.createElement('button');
     editBtn.className = 'btn btn-icon btn-sm';
     editBtn.title = 'Bearbeiten';
-    editBtn.textContent = '✎';
+    editBtn.textContent = '\\u270e';
     editBtn.addEventListener('click', () => editWork(w.id));
     actions.appendChild(editBtn);
 
     const delBtn = document.createElement('button');
     delBtn.className = 'btn btn-icon btn-sm btn-danger';
-    delBtn.title = 'Löschen';
-    delBtn.textContent = '✕';
+    delBtn.title = 'L\\u00f6schen';
+    delBtn.textContent = '\\u2715';
     delBtn.addEventListener('click', () => deleteWork(w.id, w.name));
     actions.appendChild(delBtn);
 
@@ -289,6 +374,47 @@ function renderGrid() {
     body.appendChild(meta);
     card.appendChild(body);
     grid.appendChild(card);
+  });
+}
+
+function renderKatCards() {
+  const container = document.getElementById('katCards');
+  container.textContent = '';
+  KAT_KEYS.forEach(({key, label}) => {
+    const card = document.createElement('div');
+    card.className = 'kat-card';
+
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'kat-card-img';
+    const imgUrl = settings[key];
+    if (imgUrl) {
+      const img = document.createElement('img');
+      img.src = imgUrl; img.alt = label;
+      imgWrap.appendChild(img);
+    } else {
+      const noImg = document.createElement('div');
+      noImg.className = 'kat-card-no-img';
+      noImg.textContent = 'Kein Bild';
+      imgWrap.appendChild(noImg);
+    }
+    card.appendChild(imgWrap);
+
+    const body = document.createElement('div');
+    body.className = 'kat-card-body';
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'kat-card-name';
+    nameEl.textContent = label;
+    body.appendChild(nameEl);
+
+    const uploadBtn = document.createElement('button');
+    uploadBtn.className = 'btn btn-ghost btn-sm';
+    uploadBtn.textContent = 'Bild \\u00e4ndern';
+    uploadBtn.addEventListener('click', () => openSettingModal(key, label, imgUrl));
+    body.appendChild(uploadBtn);
+
+    card.appendChild(body);
+    container.appendChild(card);
   });
 }
 
@@ -338,7 +464,7 @@ async function saveWork() {
     if (pendingFile) {
       const fd = new FormData(); fd.append('file', pendingFile);
       const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
-      if (!ur.ok) throw new Error('Bild-Upload fehlgeschlagen');
+      if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error || 'Upload fehlgeschlagen ('+ur.status+')'); }
       const ud = await ur.json(); bildKey = ud.key;
     } else if (editingId) {
       const ex = werke.find(w => w.id === editingId);
@@ -347,7 +473,7 @@ async function saveWork() {
     const body = {name,kategorie,reihenfolge,aktiv,bild_key:bildKey};
     const url = editingId ? '/api/werke/'+editingId : '/api/werke';
     const res = await fetch(url,{method:editingId?'PUT':'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify(body)});
-    if (!res.ok) throw new Error('Speichern fehlgeschlagen');
+    if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error || 'Speichern fehlgeschlagen ('+res.status+')'); }
     setStatus(editingId ? 'Gespeichert.' : 'Werk angelegt.','success');
     closeModal(); await loadWerke();
   } catch(e) { setStatus(e.message,'error'); }
@@ -361,11 +487,58 @@ async function deleteWork(id, name) {
   else setStatus('L\\u00f6schen fehlgeschlagen.','error');
 }
 
+// ── Settings modal ──────────────────────────────────
+function openSettingModal(key, label, currentUrl) {
+  editingSettingKey = key;
+  pendingSettingFile = null;
+  document.getElementById('settingModalTitle').textContent = label + ' \\u2014 Bild';
+  const prev = document.getElementById('settingUploadPreview');
+  const hint = document.getElementById('settingUploadHint');
+  if (currentUrl) { prev.src = currentUrl; prev.style.display = 'block'; hint.textContent = 'Klicken zum \\u00c4ndern'; }
+  else { prev.src = ''; prev.style.display = 'none'; hint.textContent = 'Klicken zum Hochladen'; }
+  document.getElementById('settingFileInput').value = '';
+  document.getElementById('settingModalOverlay').classList.add('open');
+}
+
+function closeSettingModal() {
+  document.getElementById('settingModalOverlay').classList.remove('open');
+  pendingSettingFile = null; editingSettingKey = null;
+}
+
+function onSettingFileChange(input) {
+  const f = input.files[0]; if (!f) return;
+  pendingSettingFile = f;
+  const r = new FileReader();
+  r.onload = e => {
+    const prev = document.getElementById('settingUploadPreview');
+    prev.src = String(e.target.result); prev.style.display = 'block';
+    document.getElementById('settingUploadHint').textContent = f.name;
+  };
+  r.readAsDataURL(f);
+}
+
+async function saveSettingImage() {
+  if (!pendingSettingFile || !editingSettingKey) { setStatus('Kein Bild ausgew\\u00e4hlt.','error'); return; }
+  const btn = document.getElementById('settingSaveBtn');
+  btn.textContent = 'Speichern...'; btn.disabled = true;
+  try {
+    const fd = new FormData(); fd.append('file', pendingSettingFile);
+    const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
+    if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error || 'Upload fehlgeschlagen ('+ur.status+')'); }
+    const ud = await ur.json();
+    const res = await fetch('/api/settings/'+editingSettingKey,{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({bild_key:ud.key})});
+    if (!res.ok) throw new Error('Speichern fehlgeschlagen ('+res.status+')');
+    setStatus('Kategorie-Bild gespeichert.','success');
+    closeSettingModal(); await loadSettings();
+  } catch(e) { setStatus(e.message,'error'); }
+  finally { btn.textContent = 'Speichern'; btn.disabled = false; }
+}
+
 async function triggerDeploy() {
   const btn = document.getElementById('deployBtn');
   btn.disabled = true;
   const r = await fetch('/api/deploy',{method:'POST',headers:{'Authorization':'Bearer '+token}});
-  setStatus(r.ok ? 'Deploy gestartet — Website ist in ~30s aktuell.' : 'Deploy fehlgeschlagen. VERCEL_DEPLOY_HOOK konfiguriert?', r.ok?'success':'error');
+  setStatus(r.ok ? 'Deploy gestartet \\u2014 Website ist in ~30s aktuell.' : 'Deploy fehlgeschlagen. VERCEL_DEPLOY_HOOK konfiguriert?', r.ok?'success':'error');
   setTimeout(() => { btn.disabled = false; }, 4000);
 }
 
@@ -373,11 +546,12 @@ let stTimer;
 function setStatus(msg, type) {
   const b = document.getElementById('statusBar');
   b.textContent = msg; b.className = 'status-bar status-'+type;
-  clearTimeout(stTimer); stTimer = setTimeout(() => { b.textContent=''; b.className='status-bar'; }, 5000);
+  clearTimeout(stTimer); stTimer = setTimeout(() => { b.textContent=''; b.className='status-bar'; }, 6000);
 }
 
 document.getElementById('loginPw').addEventListener('keydown', e => { if (e.key==='Enter') login(); });
 document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target===document.getElementById('modalOverlay')) closeModal(); });
+document.getElementById('settingModalOverlay').addEventListener('click', e => { if (e.target===document.getElementById('settingModalOverlay')) closeSettingModal(); });
 
 init();
 <\/script>

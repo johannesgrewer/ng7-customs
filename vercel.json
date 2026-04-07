@@ -7,6 +7,8 @@
     { "source": "/api/werke",       "destination": "https://ng7-contact.contact-1f9.workers.dev/api/werke" },
     { "source": "/api/upload",      "destination": "https://ng7-contact.contact-1f9.workers.dev/api/upload" },
     { "source": "/api/deploy",      "destination": "https://ng7-contact.contact-1f9.workers.dev/api/deploy" },
+    { "source": "/api/settings",    "destination": "https://ng7-contact.contact-1f9.workers.dev/api/settings" },
+    { "source": "/api/settings/:path*", "destination": "https://ng7-contact.contact-1f9.workers.dev/api/settings/:path*" },
     { "source": "/images/:path*",   "destination": "https://ng7-contact.contact-1f9.workers.dev/images/:path*" }
   ],
   "headers": [
