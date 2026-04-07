@@ -1,0 +1,112 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'NG7 Customs — Maßgefertigtes Handwerk aus Trier. Einzelstücke, Maßanfertigungen und Custom-Finishes.' } = Astro.props;
+---
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title} | NG7 Customs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="header" style="background: rgba(42,42,42,0.85); backdrop-filter: blur(8px);">
+    <div class="max-w-[1300px] mx-auto px-6 py-3 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2">
+        <img src="/images/ng7-logo-white.png" alt="NG7 Customs" class="h-6" />
+      </a>
+      <h2 class="sr-only">NG7 Customs</h2>
+
+      <nav class="hidden md:flex items-center gap-7">
+        <a href="/" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Home</a>
+        <a href="/einzelstuecke" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Nach Maß</a>
+        <a href="/entwicklung" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Entwicklung</a>
+        <a href="/custom" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Custom</a>
+        <a href="/ueber-mich" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Über Mich</a>
+        <a href="/kontakt" class="text-[11px] tracking-[0.15em] uppercase text-white bg-white/15 border border-white/40 px-5 py-2 hover:bg-white/25 transition-colors">Jetzt anfragen</a>
+      </nav>
+
+      <button class="md:hidden text-white" id="menu-toggle" aria-label="Menü">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="md:hidden hidden border-t border-white/10" id="mobile-nav" style="background: rgba(42,42,42,0.95);">
+      <nav class="flex flex-col p-6 gap-4">
+        <a href="/" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Home</a>
+        <a href="/einzelstuecke" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Nach Maß</a>
+        <a href="/entwicklung" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Entwicklung</a>
+        <a href="/custom" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Custom</a>
+        <a href="/ueber-mich" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Über Mich</a>
+        <a href="/kontakt" class="text-sm tracking-wider uppercase text-white border border-white/40 px-4 py-2 mt-2 text-center hover:bg-white/10">Jetzt anfragen</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <!-- Footer (hellgrau, wie Original) -->
+  <footer style="background: #F0F0F0; border-top: 1px solid #E0E0E0;">
+    <div class="max-w-[1300px] mx-auto px-6 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <!-- Contact Info -->
+        <div>
+          <h4 class="text-xs font-medium mb-3" style="color: #1A1A1A;">Contact Info</h4>
+          <div class="flex flex-col gap-1.5 text-sm" style="color: #6E6E6E;">
+            <a href="mailto:nicolas.mrx@googlemail.com" class="hover:text-[#1A1A1A] transition-colors">nicolas.mrx@googlemail.com</a>
+            <span>Tel. 123-456-7890</span>
+          </div>
+          <h4 class="text-xs font-medium mt-5 mb-2" style="color: #1A1A1A;">Socials</h4>
+          <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Instagram</a>
+        </div>
+
+        <!-- Menu -->
+        <div>
+          <h4 class="text-xs font-medium mb-3" style="color: #1A1A1A;">Menu</h4>
+          <nav class="flex flex-col gap-1.5">
+            <a href="/" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Home</a>
+            <a href="/einzelstuecke" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Nach Maß</a>
+            <a href="/entwicklung" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Entwicklung</a>
+            <a href="/custom" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Custom</a>
+            <a href="/impressum" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Impressum</a>
+            <a href="/datenschutz" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Datenschutz</a>
+            <a href="/agb" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">AGB</a>
+          </nav>
+        </div>
+
+        <!-- Copyright + Logo -->
+        <div class="flex flex-col items-start md:items-end justify-between">
+          <img src="/images/ng7-logo-white.png" alt="NG7 Customs" class="h-10 brightness-0 opacity-30" />
+          <p class="text-[11px] mt-6" style="color: #999;">All rights reserved. &copy; 2025. Created by NG7 Customs.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    toggle?.addEventListener('click', () => {
+      mobileNav?.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

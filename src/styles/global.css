@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* NG7 Customs — Design Tokens (Light, Earthy/Olive like Original) */
+:root {
+  --ng7-white: #FFFFFF;
+  --ng7-light: #F0F0F0;
+  --ng7-light-warm: #F1ECE8;
+  --ng7-border: #E0E0E0;
+  --ng7-border-dark: #C2C2C2;
+  --ng7-olive: #656350;
+  --ng7-olive-dark: #35342B;
+  --ng7-olive-light: #A1A89A;
+  --ng7-dark: #2A2A2A;
+  --ng7-text: #1A1A1A;
+  --ng7-text-mid: #6E6E6E;
+  --ng7-text-light: #999999;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--ng7-white);
+  color: var(--ng7-text);
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: var(--ng7-olive);
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid var(--ng7-olive);
+}
+
+.btn-primary:hover {
+  background: var(--ng7-olive-dark);
+  border-color: var(--ng7-olive-dark);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: var(--ng7-olive);
+  border: 1px solid var(--ng7-olive);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: var(--ng7-olive);
+  color: #FFFFFF;
+}
+
+.btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.15);
+}

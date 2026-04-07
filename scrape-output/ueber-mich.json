@@ -1,0 +1,250 @@
+{
+  "title": "Über Mich | NG7",
+  "sections": [
+    {
+      "tag": "h2",
+      "text": "NG7 & Nicolas",
+      "href": "",
+      "classes": "font_2 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "This is a space to welcome visitors to the site. Grab their attention with copy that clearly states what the site is about.",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "h2",
+      "text": "Meine Werte",
+      "href": "",
+      "classes": "font_3 wixui-rich-text__text"
+    },
+    {
+      "tag": "h3",
+      "text": "Liebe zum Detail",
+      "href": "",
+      "classes": "font_6 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "Liebe zum Detail, die absolute Präzision sicherstellt.",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "h3",
+      "text": "Weisheit",
+      "href": "",
+      "classes": "font_6 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "Weisheit in der Materialauswahl und den Arbeitsprozessen, um die höchste Qualität zu erzielen.",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "h3",
+      "text": "Ehrlichkeit",
+      "href": "",
+      "classes": "font_6 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "Ehrlichkeit und Gerechtigkeit in der direkten Zusammenarbeit mit dir.",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "h2",
+      "text": "NG7 in Zahlen",
+      "href": "",
+      "classes": "font_4 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "250",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "h3",
+      "text": "Handgefertigte EInzelstücke",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "Use this space to explain the above number.",
+      "href": "",
+      "classes": "font_9 wixui-rich-text__text"
+    },
+    {
+      "tag": "h3",
+      "text": "Zufriedene Kunden",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "100%",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "h3",
+      "text": "Herzblut",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "1x",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "h3",
+      "text": "Dein NG7 Unikat weltweit.",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "About",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "h3",
+      "text": "Nicolas Meriaux",
+      "href": "",
+      "classes": "font_3 wixui-rich-text__text"
+    },
+    {
+      "tag": "h6",
+      "text": "Hi, ich bin Nicolas und komme aus der ältesten Stadt Deutschlands – Trier.\n\nHauptberuflich tätig als Mechatroniker, lebe ich hier meine Leidenschaft zu Kreativität, Design und vielseitigen Materialien aus. Ich lege großen Wert darauf, alles vom ersten Strich bis zur letzten Schraube in Eigenarbeit umzusetzen.\n\nUm auch deine Wünsche und Ideen verwirklichen zu können, erweitere ich stets mein Repertoire an Maschinen und Werkzeugen. Von Kunstobjekten über maßgefertigte Lösungen bis zur Individualis",
+      "href": "",
+      "classes": "font_6 wixui-rich-text__text"
+    },
+    {
+      "tag": "h2",
+      "text": "Weshalb der Name NG7?",
+      "href": "",
+      "classes": "font_4 wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "Warum NG7?\n \nDies ist der Raum, um dir meine Philosophie hinter NG7 CUSTOMS zu vermitteln. Ich bin hier, um deine Vision präzise umzusetzen.\nDer Name NG7 steht offiziell für NEXUS GRATIA SEPTEM – die bewusste Verbindung von sieben fundamentalen Tugenden:",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "span",
+      "text": "Warum NG7?",
+      "href": "",
+      "classes": "wixui-rich-text__text"
+    },
+    {
+      "tag": "p",
+      "text": "Liebe, Weisheit, Mut, Gerechtigkeit, Mäßigung, Ehrlichkeit, Hoffnung.\n\nDiese Werte sind das unumstößliche Fundament, auf dem ich arbeite. \nIch betrachte jedes Custom-Projekt als Ausdruck deiner Identität. Mein Ziel ist es, ein technisch einwandfreies und emotional resonantes Unikat zu erschaffen. Das ist kein Zufallsprodukt, sondern das Ergebnis konsequenter Wertarbeit.\n\nDie 7 ist mein persönliches Leitmotiv: Sie symbolisiert den Antrieb, konsequent nach dem Besonderen zu streben und niemals vor",
+      "href": "",
+      "classes": "font_8 wixui-rich-text__text"
+    },
+    {
+      "tag": "span",
+      "text": "Liebe, Weisheit, Mut, Gerechtigkeit, Mäßigung, Ehrlichkeit, Hoffnung.",
+      "href": "",
+      "classes": "wixui-rich-text__text"
+    },
+    {
+      "tag": "span",
+      "text": "Diese Werte sind das unumstößliche Fundament, auf dem ich arbeite.",
+      "href": "",
+      "classes": "wixui-rich-text__text"
+    },
+    {
+      "tag": "span",
+      "text": "Ich betrachte jedes Custom-Projekt als Ausdruck deiner Identität. Mein Ziel ist es, ein technisch einwandfreies und emotional resonantes Unikat zu erschaffen. Das ist kein Zufallsprodukt, sondern das Ergebnis konsequenter Wertarbeit.\n\nDie 7 ist mein persönliches Leitmotiv: Sie symbolisiert den Antrieb, konsequent nach dem Besonderen zu streben und niemals vor der Herausforderung zurückzuschrecken, das nächste Level an Perfektion zu erreichen.\n\nNG7 CUSTOMS ist die Schnittstelle, an der höchste Ha",
+      "href": "",
+      "classes": "wixui-rich-text__text"
+    }
+  ],
+  "images": [
+    {
+      "alt": "NG7_White.png",
+      "src": "https://static.wixstatic.com/media/cfa5db_764111404f1341ffab88db5a42bf0c01~mv2.png/v1/fill/w_46,h_31,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NG7_White.png",
+      "width": 46,
+      "height": 31
+    },
+    {
+      "alt": "johannes1025_Pen_and_paper_blueprint_somebody_planning_someth_21140db7-775c-4841-869a-5399",
+      "src": "https://static.wixstatic.com/media/cfa5db_320c4dbfc82443b2ba5c478e7dee6ef3~mv2.png/v1/fill/w_1306,h_816,al_c,q_90,enc_avif,quality_auto/cfa5db_320c4dbfc82443b2ba5c478e7dee6ef3~mv2.png",
+      "width": 1306,
+      "height": 816
+    },
+    {
+      "alt": "WhatsApp Bild 2025-05-10 um 13.40.44_1945009a.jpg",
+      "src": "https://static.wixstatic.com/media/cfa5db_f13d556b677a47b9b7257bbd4d952097~mv2.jpg/v1/fill/w_649,h_300,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/WhatsApp%20Bild%202025-05-10%20um%2013_40_44_1945009a.jpg",
+      "width": 649,
+      "height": 300
+    },
+    {
+      "alt": "Martin_Schulz_Unterschrift.svg.png",
+      "src": "https://static.wixstatic.com/media/cfa5db_5974ed6d53964e90823a4fe85c30f242~mv2.png/v1/fill/w_49,h_25,al_c,q_85,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/Martin_Schulz_Unterschrift_svg.png",
+      "width": 49,
+      "height": 25
+    },
+    {
+      "alt": "2025-01-24 17-56-31.png",
+      "src": "https://static.wixstatic.com/media/cfa5db_c5745f159108451dae05e4263fc1b245~mv2.png/v1/fill/w_648,h_719,fp_0.44_0.21,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/2025-01-24%2017-56-31.png",
+      "width": 648,
+      "height": 719
+    },
+    {
+      "alt": "WhatsApp Bild 2025-06-01 um 13.23.18_b1f4ea0d.jpg",
+      "src": "https://static.wixstatic.com/media/cfa5db_8c36cbbfce7e4c9793b669ec319aa57b~mv2.jpg/v1/fill/w_106,h_90,al_c,q_80,usm_0.66_1.00_0.01,blur_3,enc_avif,quality_auto/cfa5db_8c36cbbfce7e4c9793b669ec319aa57b~mv2.jpg",
+      "width": 106,
+      "height": 90
+    },
+    {
+      "alt": "Gemini_Generated_Image_ep52oiep52oiep52.png",
+      "src": "https://static.wixstatic.com/media/cfa5db_cd1d78362ffd47129bbb3043cbf30a5b~mv2.png/v1/fill/w_49,h_52,al_c,q_85,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/Gemini_Generated_Image_ep52oiep52oiep52.png",
+      "width": 49,
+      "height": 52
+    },
+    {
+      "alt": "NG7_White.png",
+      "src": "https://static.wixstatic.com/media/cfa5db_764111404f1341ffab88db5a42bf0c01~mv2.png/v1/fill/w_49,h_42,al_c,q_85,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/NG7_White.png",
+      "width": 49,
+      "height": 42
+    }
+  ],
+  "videos": [],
+  "bgColors": [
+    "rgb(255, 255, 255)",
+    "rgb(240, 240, 240)",
+    "rgba(255, 255, 255, 0)",
+    "rgb(42, 42, 42)",
+    "rgba(238, 238, 238, 0)",
+    "rgb(101, 99, 80)",
+    "rgb(161, 168, 154)",
+    "rgb(241, 236, 232)",
+    "rgba(255, 255, 255, 0.7)",
+    "rgb(53, 52, 43)",
+    "rgba(0, 0, 0, 0.2)",
+    "rgb(194, 194, 194)",
+    "rgba(0, 0, 0, 0.8)"
+  ],
+  "fonts": [
+    "Arial",
+    "Madefor-Text",
+    "madefor-text",
+    "rubik-light",
+    "madefor-display-bold",
+    "rubik-medium",
+    "wix-madefor-text-v2",
+    "madefor-display",
+    "rubik-v2"
+  ]
+}

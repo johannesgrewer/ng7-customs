@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Über Mich" description="Nicolas Meriaux — Mechatroniker und Handwerker aus Trier. Die Geschichte hinter NG7 Customs.">
+
+  <!-- HERO — Fullscreen Portrait mit Text-Overlay -->
+  <section class="relative h-screen flex items-end overflow-hidden">
+    <img src="/images/blueprint-hero.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);"></div>
+    <div class="relative z-10 px-6 pb-20 max-w-[1200px] mx-auto w-full">
+      <p class="text-sm uppercase tracking-[0.3em] text-white/50 mb-4" style="font-family: 'DM Sans', sans-serif;">Die Geschichte</p>
+      <h1 style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: clamp(3rem, 7vw, 5.5rem); color: #FFFFFF; line-height: 1.05;">
+        Der Mensch<br/>hinter dem <span style="color: #A1A89A;">Handwerk</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- INTRO — Großes Statement -->
+  <section class="py-24 px-6" style="background: #FFFFFF;">
+    <div class="max-w-[900px] mx-auto text-center">
+      <p class="text-[26px] md:text-[36px] leading-relaxed font-light" style="font-family: 'Rubik', sans-serif; color: #1A1A1A;">
+        "Vom ersten Strich bis zur letzten Schraube —<br class="hidden md:block" />
+        <strong class="font-medium">alles in Eigenarbeit.</strong>"
+      </p>
+      <div class="w-12 h-px mx-auto mt-8" style="background: #A1A89A;"></div>
+    </div>
+  </section>
+
+  <!-- PORTRAIT + STORY — Split Layout -->
+  <section class="px-6" style="background: #F5F4F0;">
+    <div class="max-w-[1300px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0">
+      <!-- Portrait — Edge to edge auf seiner Seite -->
+      <div class="relative h-[500px] lg:h-auto overflow-hidden">
+        <img src="/images/nicolas-portrait.png" alt="Nicolas Meriaux" class="absolute inset-0 w-full h-full object-cover object-top" />
+      </div>
+
+      <!-- Story -->
+      <div class="py-16 lg:py-24 lg:pl-16 lg:pr-8">
+        <p class="text-sm uppercase tracking-[0.3em] mb-4" style="color: #A1A89A; font-family: 'DM Sans', sans-serif;">Trier, Deutschland</p>
+        <h2 class="mb-8" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 2.8rem; color: #1A1A1A;">Nicolas Meriaux</h2>
+
+        <p class="text-lg leading-[1.8] mb-5" style="color: #555; font-family: 'DM Sans', sans-serif;">
+          Hi, ich bin Nicolas und komme aus der ältesten Stadt Deutschlands – Trier. Hauptberuflich tätig als Mechatroniker, lebe ich hier meine Leidenschaft zu Kreativität, Design und vielseitigen Materialien aus.
+        </p>
+        <p class="text-lg leading-[1.8] mb-5" style="color: #555; font-family: 'DM Sans', sans-serif;">
+          Ich lege großen Wert darauf, alles vom ersten Strich bis zur letzten Schraube in Eigenarbeit umzusetzen. Um auch deine Wünsche und Ideen verwirklichen zu können, erweitere ich stets mein Repertoire an Maschinen und Werkzeugen.
+        </p>
+        <p class="text-lg leading-[1.8]" style="color: #555; font-family: 'DM Sans', sans-serif;">
+          Von Kunstobjekten über maßgefertigte Lösungen bis zur Individualisierung deiner Lieblingsgegenstände – mit etwas Kreativität und Handarbeit wird alles möglich.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZAHLEN — Horizontal, dunkel -->
+  <section class="py-16 px-6" style="background: #35342B;">
+    <div class="max-w-[1100px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <span class="block text-5xl md:text-7xl font-light" style="font-family: 'Rubik', sans-serif; color: #A1A89A;">250+</span>
+        <p class="text-xs uppercase tracking-[0.15em] mt-4" style="color: rgba(255,255,255,0.5);">Einzelstücke gefertigt</p>
+      </div>
+      <div>
+        <span class="block text-5xl md:text-7xl font-light" style="font-family: 'Rubik', sans-serif; color: #A1A89A;">100%</span>
+        <p class="text-xs uppercase tracking-[0.15em] mt-4" style="color: rgba(255,255,255,0.5);">Handarbeit</p>
+      </div>
+      <div>
+        <span class="block text-5xl md:text-7xl font-light" style="font-family: 'Rubik', sans-serif; color: #A1A89A;">1x</span>
+        <p class="text-xs uppercase tracking-[0.15em] mt-4" style="color: rgba(255,255,255,0.5);">Jedes Stück ein Unikat</p>
+      </div>
+      <div>
+        <span class="block text-5xl md:text-7xl font-light" style="font-family: 'Rubik', sans-serif; color: #A1A89A;">∞</span>
+        <p class="text-xs uppercase tracking-[0.15em] mt-4" style="color: rgba(255,255,255,0.5);">Möglichkeiten</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WERTE — 3 Columns, clean -->
+  <section class="py-24 px-6" style="background: #FFFFFF;">
+    <div class="max-w-[1100px] mx-auto">
+      <p class="text-sm uppercase tracking-[0.3em] mb-3" style="color: #A1A89A; font-family: 'DM Sans', sans-serif;">Philosophie</p>
+      <h2 class="mb-16" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 2.5rem; color: #1A1A1A;">Meine Werte</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div>
+          <div class="w-12 h-12 flex items-center justify-center mb-6" style="background: #F5F4F0;">
+            <span class="text-xl" style="color: #656350;">◆</span>
+          </div>
+          <h3 class="text-lg font-medium mb-3" style="color: #1A1A1A; font-family: 'Rubik', sans-serif;">Präzision</h3>
+          <p class="text-base leading-[1.8]" style="color: #888; font-family: 'DM Sans', sans-serif;">Liebe zum Detail, die absolute Präzision sicherstellt. Kein Kompromiss bei der Verarbeitung — jede Naht, jede Kante, jedes Finish muss stimmen.</p>
+        </div>
+        <div>
+          <div class="w-12 h-12 flex items-center justify-center mb-6" style="background: #F5F4F0;">
+            <span class="text-xl" style="color: #656350;">✦</span>
+          </div>
+          <h3 class="text-lg font-medium mb-3" style="color: #1A1A1A; font-family: 'Rubik', sans-serif;">Materialwissen</h3>
+          <p class="text-base leading-[1.8]" style="color: #888; font-family: 'DM Sans', sans-serif;">Weisheit in der Materialauswahl und den Arbeitsprozessen. Stahl, Holz, Leder, Carbon — jedes Material hat seinen Charakter und will verstanden werden.</p>
+        </div>
+        <div>
+          <div class="w-12 h-12 flex items-center justify-center mb-6" style="background: #F5F4F0;">
+            <span class="text-xl" style="color: #656350;">⬡</span>
+          </div>
+          <h3 class="text-lg font-medium mb-3" style="color: #1A1A1A; font-family: 'Rubik', sans-serif;">Ehrlichkeit</h3>
+          <p class="text-base leading-[1.8]" style="color: #888; font-family: 'DM Sans', sans-serif;">Ehrlichkeit und Gerechtigkeit in der direkten Zusammenarbeit mit dir. Transparent, fair, auf Augenhöhe — vom ersten Gespräch bis zur Übergabe.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXUS GRATIA SEPTEM — Fullwidth cinematic -->
+  <section class="relative py-32 px-6 overflow-hidden">
+    <img src="/images/werkstatt.png" alt="" class="absolute inset-0 w-full h-full object-cover" style="filter: brightness(0.4);" />
+    <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(53,52,43,0.7) 0%, rgba(101,99,80,0.5) 100%);"></div>
+
+    <div class="relative z-10 max-w-[800px] mx-auto text-center">
+      <img src="/images/ng7-emblem.png" alt="NG7 Emblem" class="w-32 h-auto mx-auto mb-10 opacity-80" />
+      <p class="text-sm uppercase tracking-[0.4em] mb-5" style="color: rgba(255,255,255,0.4);">Nexus Gratia Septem</p>
+      <h2 class="mb-8" style="font-family: 'Rubik', sans-serif; font-weight: 400; font-size: clamp(2rem, 5vw, 3.2rem); color: #FFFFFF; line-height: 1.3;">
+        Die bewusste Verbindung von sieben<br class="hidden md:block" /> fundamentalen Tugenden
+      </h2>
+      <p class="text-xl leading-[1.9] mb-6" style="color: rgba(255,255,255,0.65); font-family: 'DM Sans', sans-serif; max-width: 650px; margin: 0 auto;">
+        Liebe · Weisheit · Mut · Gerechtigkeit · Mäßigung · Ehrlichkeit · Hoffnung
+      </p>
+      <div class="w-px h-12 mx-auto my-8" style="background: rgba(255,255,255,0.2);"></div>
+      <p class="text-base leading-[1.9] italic" style="color: rgba(255,255,255,0.5); font-family: 'DM Sans', sans-serif; max-width: 600px; margin: 0 auto;">
+        Ich betrachte jedes Projekt als Ausdruck deiner Identität. Mein Ziel ist es, ein technisch einwandfreies und emotional resonantes Unikat zu erschaffen. Das ist kein Zufallsprodukt, sondern das Ergebnis konsequenter Wertarbeit.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA — Clean, minimal -->
+  <section class="py-20 px-6" style="background: #FFFFFF;">
+    <div class="max-w-[600px] mx-auto text-center">
+      <h2 class="mb-4" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 2.5rem; color: #1A1A1A;">Bereit?</h2>
+      <p class="text-lg mb-10" style="color: #999; font-family: 'DM Sans', sans-serif;">Erzähl mir von deiner Idee.</p>
+      <a href="/kontakt" class="btn-primary">Projekt anfragen</a>
+    </div>
+  </section>
+
+</Layout>

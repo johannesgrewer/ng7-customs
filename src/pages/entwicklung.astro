@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ShopGrid from '../components/ShopGrid.astro';
+
+const produkte = [
+  { name: 'Messerkordel I', preis: '3.000,00€', bild: '/images/produkt-01.jpg' },
+  { name: 'Messerkordel II', preis: '3.000,00€', bild: '/images/produkt-02.jpg' },
+  { name: 'Messerkordel III', preis: '3.000,00€', bild: '/images/produkt-03.jpg' },
+  { name: 'Messerkordel IV', preis: '3.000,00€', bild: '/images/produkt-04.jpg' },
+  { name: 'Messerkordel V', preis: '3.000,00€', bild: '/images/produkt-05.jpg' },
+  { name: 'Messerkordel', preis: '3.000,00€', bild: '/images/produkt-messerkordel-orig.png' },
+];
+---
+
+<Layout title="Entwicklung Page" description="Produktentwicklung von NG7 Customs — vom Konzept zum fertigen Produkt.">
+  <ShopGrid
+    title="Entwicklung Page"
+    breadcrumb="Entwicklung Page"
+    produkte={produkte}
+    activeCategory="Entwicklung Page"
+  />
+</Layout>

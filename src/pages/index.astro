@@ -1,17 +1,204 @@
 ---
+import Layout from '../layouts/Layout.astro';
 
+const produkte = [
+  { name: 'Messerkordel I', preis: '3.000,00€', bild: '/images/produkt-01.jpg' },
+  { name: 'Messerkordel II', preis: '3.000,00€', bild: '/images/produkt-02.jpg' },
+  { name: 'Messerkordel III', preis: '3.000,00€', bild: '/images/produkt-03.jpg' },
+  { name: 'Messerkordel IV', preis: '3.000,00€', bild: '/images/produkt-04.jpg' },
+];
+
+const galeriebilder = [
+  '/images/produkt-05.jpg',
+  '/images/produkt-06.jpg',
+  '/images/produkt-07.jpg',
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Home">
+
+  <!-- 1. HERO — Video + Claim (dunkel, fullscreen) -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+      <source src="/video/hero.mp4" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0" style="background: rgba(0,0,0,0.45);"></div>
+
+    <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
+      <h1 style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.1; color: #FFFFFF; letter-spacing: -0.01em;">
+        Maßgefertigtes Handwerk
+      </h1>
+      <p class="mt-4 text-base text-white/70 max-w-md mx-auto" style="font-family: 'DM Sans', sans-serif;">
+        Verwirkliche deine Vision, ich liefer das Handwerk.
+      </p>
+      <div class="mt-8">
+        <a href="#kategorien" class="btn-outline-white">Entdecken</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. KATEGORIEN — Olive BG, 3 Bilder mit Titeln, Entdecken-Button -->
+  <section id="kategorien" style="background: #656350;" class="py-16 px-6">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="flex justify-between items-center mb-10">
+        <h2 style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 1.6rem; color: #FFFFFF;">Kategorien</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- Einzelstücke -->
+        <a href="/einzelstuecke" class="group">
+          <div class="aspect-square overflow-hidden bg-[#35342B]">
+            <img src="/images/kat-einzelstuecke.jpg" alt="Einzelstücke" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <h3 class="mt-3 text-sm uppercase tracking-widest text-white/80" style="font-family: 'Rubik', sans-serif; font-weight: 400;">Einzelstücke</h3>
+        </a>
+
+        <!-- Auf-/Nach Maß -->
+        <a href="/entwicklung" class="group">
+          <div class="aspect-square overflow-hidden bg-[#35342B]">
+            <img src="/images/kat-nachmass.jpg" alt="Auf-/Nach Maß" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <h3 class="mt-3 text-sm uppercase tracking-widest text-white/80" style="font-family: 'Rubik', sans-serif; font-weight: 400;">Auf-/Nach Maß</h3>
+        </a>
+
+        <!-- Finishes -->
+        <a href="/custom" class="group">
+          <div class="aspect-square overflow-hidden bg-[#35342B]">
+            <img src="/images/kat-custom.jpg" alt="Finishes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <h3 class="mt-3 text-sm uppercase tracking-widest text-white/80" style="font-family: 'Rubik', sans-serif; font-weight: 400;">Finishes</h3>
+        </a>
+      </div>
+
+      <div class="mt-8 flex justify-end">
+        <a href="/shop" class="btn-outline-white text-[11px]">Entdecken</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ABOUT — Heller BG, Text links, Portrait rechts, Unterschrift -->
+  <section id="about" class="py-20 px-6" style="background: #FFFFFF;">
+    <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Text links -->
+      <div>
+        <p class="text-xs uppercase tracking-[0.2em] mb-2" style="color: #999; font-family: 'DM Sans', sans-serif;">About</p>
+        <h2 class="mb-5" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 1.8rem; color: #1A1A1A;">Nicolas Meriaux</h2>
+        <p class="text-[15px] leading-relaxed mb-4" style="color: #6E6E6E; font-family: 'DM Sans', sans-serif;">
+          Hi, ich bin Nicolas und komme aus der ältesten Stadt Deutschlands – Trier.
+        </p>
+        <p class="text-[15px] leading-relaxed mb-4" style="color: #6E6E6E; font-family: 'DM Sans', sans-serif;">
+          Hauptberuflich tätig als Mechatroniker, lebe ich hier meine Leidenschaft zu Kreativität, Design und vielseitigen Materialien aus. Ich lege großen Wert darauf, alles vom ersten Strich bis zur letzten Schraube in Eigenarbeit umzusetzen.
+        </p>
+        <p class="text-[15px] leading-relaxed mb-6" style="color: #6E6E6E; font-family: 'DM Sans', sans-serif;">
+          Um auch deine Wünsche und Ideen verwirklichen zu können, erweitere ich stets mein Repertoire an Maschinen und Werkzeugen. Von Kunstobjekten über maßgefertigte Lösungen bis zur Individualisierung deiner Lieblingsgegenstände – mit etwas Kreativität und Handarbeit wird alles möglich.
+        </p>
+        <!-- Unterschrift (kursiver Name als Ersatz für Unterschrift-Bild) -->
+        <p class="mt-4 italic text-xl opacity-40" style="font-family: 'Rubik', sans-serif; color: #1A1A1A;">Nicolas Meriaux</p>
+      </div>
+
+      <!-- Portrait rechts -->
+      <div class="overflow-hidden">
+        <img src="/images/nicolas-portrait.png" alt="Nicolas Meriaux" class="w-full h-auto object-cover" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. NEUE WERKE 2025 — Heller BG, 4 Produkt-Cards -->
+  <section class="py-16 px-6" style="background: #F0F0F0;">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="mb-10" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 1.6rem; color: #1A1A1A;">Neue Werke 2025</h2>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {produkte.map((p) => (
+          <div class="group bg-white">
+            <div class="aspect-square overflow-hidden relative">
+              <img src={p.bild} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all flex items-center justify-center">
+                <span class="opacity-0 group-hover:opacity-100 text-[10px] uppercase tracking-widest text-white border border-white px-3 py-1.5 transition-opacity">Schnellansicht</span>
+              </div>
+            </div>
+            <div class="p-3">
+              <p class="text-[13px] mb-1" style="color: #1A1A1A; font-family: 'DM Sans', sans-serif;">{p.name}</p>
+              <hr class="border-[#E0E0E0] my-1.5" />
+              <div class="flex justify-between items-center">
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider" style="color: #999;">Preis</span>
+                  <span class="block text-[13px] font-medium" style="color: #1A1A1A;">{p.preis}</span>
+                </div>
+                <a href="/kontakt" class="text-[9px] uppercase tracking-widest px-3 py-1.5 transition-all" style="background: #666; color: #FFF;">In den Warenkorb</a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. WERKSTATT BILD — Fullwidth, leicht geblurrt wie im Original -->
+  <section class="relative overflow-hidden">
+    <div class="w-full h-[50vh] md:h-[55vh]">
+      <img src="/images/werkstatt.png" alt="NG7 Werkstatt" class="w-full h-full object-cover" />
+    </div>
+  </section>
+
+  <!-- 6. WARUM NG7? — Werkstatt BG mit Olive Overlay, Emblem + Text -->
+  <section class="relative py-24 px-6 overflow-hidden">
+    <img src="/images/werkstatt.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0" style="background: rgba(101, 99, 80, 0.82);"></div>
+
+    <div class="relative z-10 max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 items-center">
+      <!-- Emblem links -->
+      <div class="flex justify-center">
+        <img src="/images/ng7-emblem.png" alt="NG7 Emblem" class="w-full max-w-sm h-auto" />
+      </div>
+
+      <!-- Text rechts -->
+      <div>
+        <h2 class="mb-5" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 1.6rem; color: #FFFFFF;">Warum NG7?</h2>
+        <p class="text-[14px] leading-relaxed mb-3" style="color: rgba(255,255,255,0.8); font-family: 'DM Sans', sans-serif;">
+          "Der Name NG7 steht offiziell für NEXUS GRATIA SEPTEM – die Verbindung der sieben Tugenden: Liebe, Weisheit, Mut, Gerechtigkeit, Mäßigung, Ehrlichkeit und Hoffnung."
+        </p>
+        <p class="text-[14px] leading-relaxed mb-5" style="color: rgba(255,255,255,0.8); font-family: 'DM Sans', sans-serif;">
+          "Diese Werte sind das unumstößliche Fundament, auf dem ich arbeite. Sie bedeuten für mich:"
+        </p>
+        <ul class="space-y-2 mb-7">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-white/60 flex-shrink-0"></span>
+            <span class="text-[14px]" style="color: rgba(255,255,255,0.8);">Liebe zum Detail, die absolute Präzision sicherstellt.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-white/60 flex-shrink-0"></span>
+            <span class="text-[14px]" style="color: rgba(255,255,255,0.8);">Weisheit in der Materialauswahl und den Arbeitsprozessen, um die höchste Qualität zu erzielen.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-white/60 flex-shrink-0"></span>
+            <span class="text-[14px]" style="color: rgba(255,255,255,0.8);">Ehrlichkeit und Gerechtigkeit in der direkten Zusammenarbeit mit dir.</span>
+          </li>
+        </ul>
+        <a href="/ueber-mich" class="btn-outline-white text-[11px]">Mehr erfahren</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. GALERIE — Heller BG, 3 Bilder nebeneinander -->
+  <section class="py-16 px-6" style="background: #FFFFFF;">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {galeriebilder.map((bild, i) => (
+          <div class="aspect-[4/5] overflow-hidden cursor-pointer group">
+            <img src={bild} alt={`NG7 Galerie ${i + 1}`} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. SCHREIB MIR — Olive BG, kompakt -->
+  <section class="py-16 px-6" style="background: #656350;">
+    <div class="max-w-[600px] mx-auto text-center">
+      <h2 class="mb-5" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 1.6rem; color: #FFFFFF;">Schreib mir</h2>
+      <a href="/kontakt" class="btn-outline-white text-[11px]">Kontakt</a>
+    </div>
+  </section>
+
+</Layout>
