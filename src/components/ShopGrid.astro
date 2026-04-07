@@ -1,7 +1,14 @@
 ---
+interface GalleryImage {
+  bild_url: string;
+  beschreibung: string | null;
+}
+
 interface Product {
+  id: string;
   name: string;
   bild: string;
+  bilder: GalleryImage[];
 }
 
 interface Props {
@@ -17,26 +24,21 @@ const { title, breadcrumb, produkte, activeCategory, description } = Astro.props
 
 <!-- Hero Banner -->
 <section class="relative pt-32 pb-20 px-6 overflow-hidden" style="background: #1A1917;">
-  <!-- Große Hintergrund-Nummer -->
   <div class="absolute top-1/2 right-10 -translate-y-1/2 pointer-events-none select-none hidden lg:block" aria-hidden="true">
     <span class="text-[20vw] font-bold leading-none" style="color: rgba(160,151,125,0.03); font-family: var(--font-display);">{String(produkte.length).padStart(2, '0')}</span>
   </div>
 
   <div class="relative z-10 max-w-[1200px] mx-auto">
-    <!-- Breadcrumb -->
     <p class="text-[11px] tracking-[0.2em] uppercase mb-8" style="color: #8A8070; font-family: var(--font-body);">
       <a href="/" class="hover:text-[#A0977D] transition-colors">Start</a>
       <span class="mx-2" style="color: #A0977D33;">/</span>
       {breadcrumb || title}
     </p>
-
     <p class="text-[11px] uppercase tracking-[0.4em] mb-3" style="color: #A0977D; font-family: var(--font-body);">Kollektion</p>
     <h1 class="mb-4" style="font-family: var(--font-display); font-weight: 500; font-size: clamp(2rem, 5vw, 3rem); color: #F5F0E8;">{title}</h1>
-
     {description && (
       <p class="text-[15px] max-w-lg mb-6" style="color: #8A8070; font-family: var(--font-body);">{description}</p>
     )}
-
     <div class="flex items-center gap-5 mt-6">
       <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
       <span class="text-[11px] uppercase tracking-[0.2em]" style="color: #A0977D; font-family: var(--font-body);">{produkte.length} Werke</span>
@@ -48,26 +50,51 @@ const { title, breadcrumb, produkte, activeCategory, description } = Astro.props
 <section class="pb-24 px-6" style="background: #1A1917;">
   <div class="max-w-[1200px] mx-auto">
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-      {produkte.map((p, i) => (
-        <div class="group cursor-default">
-          <div class="relative aspect-[3/4] overflow-hidden" style="background: #2A2723;">
-            <img src={p.bild} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <!-- Hover Overlay -->
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500 flex items-center justify-center">
-              <a href="/kontakt" class="opacity-0 group-hover:opacity-100 text-[10px] uppercase tracking-[0.15em] text-white border border-white/60 px-4 py-2 transition-all duration-500 hover:bg-white/10">Anfragen</a>
+      {produkte.map((p, i) => {
+        const allImages: GalleryImage[] = [];
+        if (p.bild) allImages.push({ bild_url: p.bild, beschreibung: null });
+        p.bilder.forEach(b => { if (b.bild_url !== p.bild) allImages.push(b); });
+        const hasImages = allImages.length > 0;
+        const extraCount = p.bilder.length;
+        return (
+          <div
+            class="group"
+            style={hasImages ? 'cursor:pointer' : 'cursor:default'}
+            data-werk-name={p.name}
+            data-images={hasImages ? JSON.stringify(allImages) : '[]'}
+            onclick={hasImages ? 'openLightbox(this)' : undefined}
+          >
+            <div class="relative aspect-[3/4] overflow-hidden" style="background: #2A2723;">
+              {p.bild ? (
+                <img src={p.bild} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center" style="color:#4A4639">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9l4-4 4 4 4-4 4 4"/><circle cx="8.5" cy="13.5" r="1.5"/></svg>
+                </div>
+              )}
+              {hasImages && (
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500 flex items-center justify-center">
+                  <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col items-center gap-2">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-white">{allImages.length > 1 ? `${allImages.length} Bilder` : 'Ansehen'}</span>
+                  </div>
+                </div>
+              )}
+              <span class="absolute top-3 left-3 text-[11px] tracking-[0.3em]" style="color: #A0977D; font-family: var(--font-body);">0{i + 1}</span>
+              {extraCount > 0 && (
+                <span class="absolute top-3 right-3 text-[9px] tracking-[0.1em] uppercase px-1.5 py-0.5" style="background:rgba(0,0,0,.65);color:#A0977D;font-family:var(--font-body);">
+                  +{extraCount}
+                </span>
+              )}
+              <div class="absolute inset-2 border border-white/0 group-hover:border-white/10 transition-colors duration-500 pointer-events-none"></div>
             </div>
-            <!-- Nummer -->
-            <span class="absolute top-3 left-3 text-[11px] tracking-[0.3em]" style="color: #A0977D; font-family: var(--font-body);">0{i + 1}</span>
-            <!-- Innerer Rahmen -->
-            <div class="absolute inset-2 border border-white/0 group-hover:border-white/10 transition-colors duration-500 pointer-events-none"></div>
+            <div class="pt-4 pb-2">
+              <div class="h-px mb-3" style="background: #A0977D22;"></div>
+              <p class="text-[13px] tracking-wide" style="color: #F5F0E8; font-family: var(--font-display);">{p.name}</p>
+            </div>
           </div>
-          <!-- Info -->
-          <div class="pt-4 pb-2">
-            <div class="h-px mb-3" style="background: #A0977D22;"></div>
-            <p class="text-[13px] tracking-wide" style="color: #F5F0E8; font-family: var(--font-display);">{p.name}</p>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>
@@ -85,3 +112,134 @@ const { title, breadcrumb, produkte, activeCategory, description } = Astro.props
     </a>
   </div>
 </section>
+
+<!-- Lightbox -->
+<div
+  id="ng7-lightbox"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(10,9,8,.94);align-items:center;justify-content:center"
+>
+  <button
+    onclick="closeLightbox()"
+    aria-label="Schließen"
+    style="position:absolute;top:20px;right:20px;background:none;border:none;color:rgba(255,255,255,.55);cursor:pointer;font-size:1.6rem;line-height:1;padding:8px;z-index:10;transition:color .2s"
+    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'"
+  >&#x2715;</button>
+
+  <button
+    id="lb-prev"
+    onclick="lbNav(-1)"
+    aria-label="Voriges Bild"
+    style="position:absolute;left:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.45);cursor:pointer;font-size:2.8rem;line-height:1;padding:12px 16px;z-index:10;transition:color .2s;display:none"
+    onmouseover="this.style.color='#A0977D'" onmouseout="this.style.color='rgba(255,255,255,.45)'"
+  >&#8249;</button>
+
+  <div style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:min(90vw,960px);padding:0 72px">
+    <img
+      id="lb-img"
+      alt=""
+      style="max-height:70vh;max-width:100%;object-fit:contain;display:block"
+    />
+    <div id="lb-info" style="text-align:center;margin-top:20px;min-height:48px">
+      <p id="lb-name" style="font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:#A0977D;font-family:var(--font-body);margin-bottom:8px"></p>
+      <p id="lb-desc" style="font-size:.95rem;color:rgba(245,240,232,.65);font-family:var(--font-body);display:none;max-width:520px;margin:0 auto;line-height:1.65"></p>
+    </div>
+    <div id="lb-dots" style="display:flex;gap:8px;margin-top:14px;align-items:center;min-height:14px"></div>
+  </div>
+
+  <button
+    id="lb-next"
+    onclick="lbNav(1)"
+    aria-label="Nächstes Bild"
+    style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.45);cursor:pointer;font-size:2.8rem;line-height:1;padding:12px 16px;z-index:10;transition:color .2s;display:none"
+    onmouseover="this.style.color='#A0977D'" onmouseout="this.style.color='rgba(255,255,255,.45)'"
+  >&#8250;</button>
+</div>
+
+<script>
+  let lbImages: { bild_url: string; beschreibung: string | null }[] = [];
+  let lbIdx = 0;
+  let lbWerkName = '';
+
+  function openLightbox(el: HTMLElement) {
+    const raw = el.dataset.images;
+    if (!raw) return;
+    const imgs = JSON.parse(raw) as { bild_url: string; beschreibung: string | null }[];
+    if (!imgs.length) return;
+    lbImages = imgs;
+    lbIdx = 0;
+    lbWerkName = el.dataset.werkName || '';
+    lbRender();
+    const lb = document.getElementById('ng7-lightbox')!;
+    lb.style.display = 'flex';
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    const lb = document.getElementById('ng7-lightbox')!;
+    lb.style.display = 'none';
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    (document.getElementById('lb-img') as HTMLImageElement).src = '';
+  }
+
+  function lbNav(dir: number) {
+    lbIdx = (lbIdx + dir + lbImages.length) % lbImages.length;
+    lbRender();
+  }
+
+  function lbRender() {
+    const cur = lbImages[lbIdx];
+    (document.getElementById('lb-img') as HTMLImageElement).src = cur.bild_url;
+    (document.getElementById('lb-name') as HTMLElement).textContent = lbWerkName;
+
+    const descEl = document.getElementById('lb-desc') as HTMLElement;
+    if (cur.beschreibung) {
+      descEl.textContent = cur.beschreibung;
+      descEl.style.display = 'block';
+    } else {
+      descEl.style.display = 'none';
+    }
+
+    const multi = lbImages.length > 1;
+    (document.getElementById('lb-prev') as HTMLElement).style.display = multi ? 'block' : 'none';
+    (document.getElementById('lb-next') as HTMLElement).style.display = multi ? 'block' : 'none';
+
+    const dots = document.getElementById('lb-dots') as HTMLElement;
+    dots.textContent = '';
+    if (multi) {
+      lbImages.forEach((_, i) => {
+        const d = document.createElement('span');
+        d.style.cssText = `width:6px;height:6px;border-radius:50%;cursor:pointer;transition:background .2s;background:${i === lbIdx ? '#A0977D' : 'rgba(255,255,255,.25)'}`;
+        d.addEventListener('click', () => { lbIdx = i; lbRender(); });
+        dots.appendChild(d);
+      });
+    }
+  }
+
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    const lb = document.getElementById('ng7-lightbox');
+    if (!lb || lb.style.display === 'none') return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight' && lbImages.length > 1) lbNav(1);
+    if (e.key === 'ArrowLeft' && lbImages.length > 1) lbNav(-1);
+  });
+
+  let touchX = 0;
+  const lbEl = document.getElementById('ng7-lightbox');
+  if (lbEl) {
+    lbEl.addEventListener('touchstart', (e: TouchEvent) => { touchX = e.touches[0].clientX; }, { passive: true });
+    lbEl.addEventListener('touchend', (e: TouchEvent) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50 && lbImages.length > 1) lbNav(dx < 0 ? 1 : -1);
+    }, { passive: true });
+    lbEl.addEventListener('click', (e: MouseEvent) => { if (e.target === lbEl) closeLightbox(); });
+  }
+
+  (window as any).openLightbox = openLightbox;
+  (window as any).closeLightbox = closeLightbox;
+  (window as any).lbNav = lbNav;
+</script>

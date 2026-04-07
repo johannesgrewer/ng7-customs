@@ -2,9 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import ShopGrid from '../components/ShopGrid.astro';
 
-const res = await fetch('https://ng7-contact.contact-1f9.workers.dev/api/werke?kategorie=einzelstuecke');
-const data = await res.json() as { name: string; bild_key: string | null }[];
-const produkte = data.map(w => ({ name: w.name, bild: w.bild_key ? `/images/${w.bild_key}` : '' }));
+const res = await fetch('https://ng7-contact.contact-1f9.workers.dev/api/werke?kategorie=einzelstuecke&with_bilder=1');
+const data = await res.json() as { id: string; name: string; bild_key: string | null; bilder: { bild_url: string; beschreibung: string | null }[] }[];
+const produkte = data.map(w => ({ id: w.id, name: w.name, bild: w.bild_key ? `/images/${w.bild_key}` : '', bilder: w.bilder ?? [] }));
 ---
 
 <Layout title="Einzelstücke" description="Maßanfertigungen von NG7 Customs — Einzelstücke nach deinen Wünschen.">

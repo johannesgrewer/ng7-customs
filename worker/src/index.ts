@@ -114,7 +114,8 @@ export default {
     // ── PUBLIC: GET /api/werke  (for Astro build) ─────
     if (path === '/api/werke' && method === 'GET') {
       const kategorie = url.searchParams.get('kategorie');
-      let query = 'SELECT * FROM werke WHERE aktiv = 1';
+      const withBilder = url.searchParams.get('with_bilder') === '1';
+      let query = 'SELECT id, name, kategorie, bild_key, aktiv, reihenfolge FROM werke WHERE aktiv = 1';
       const params: string[] = [];
       if (kategorie) { query += ' AND kategorie = ?'; params.push(kategorie); }
       query += ' ORDER BY reihenfolge ASC, created_at ASC';
@@ -123,6 +124,24 @@ export default {
         ...w,
         bild_url: w.bild_key ? `/images/${w.bild_key}` : null,
       }));
+
+      if (withBilder && werke.length > 0) {
+        const ids = werke.map(w => w.id as string);
+        const placeholders = ids.map(() => '?').join(',');
+        const { results: bilderResults } = await env.DB.prepare(
+          `SELECT id, werk_id, bild_key, beschreibung, reihenfolge FROM werk_bilder WHERE werk_id IN (${placeholders}) ORDER BY reihenfolge ASC, created_at ASC`
+        ).bind(...ids).all();
+        const bilderMap: Record<string, { bild_url: string; beschreibung: string | null }[]> = {};
+        bilderResults.forEach(b => {
+          const wid = String(b.werk_id);
+          if (!bilderMap[wid]) bilderMap[wid] = [];
+          bilderMap[wid].push({ bild_url: `/images/${b.bild_key}`, beschreibung: b.beschreibung as string | null });
+        });
+        return new Response(JSON.stringify(werke.map(w => ({ ...w, bilder: bilderMap[String(w.id)] || [] }))), {
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=60' },
+        });
+      }
+
       return new Response(JSON.stringify(werke), {
         headers: {
           'Content-Type': 'application/json',
@@ -152,6 +171,19 @@ export default {
       object.writeHttpMetadata(headers);
       headers.set('Cache-Control', 'public, max-age=31536000, immutable');
       return new Response(object.body, { headers });
+    }
+
+    // ── PUBLIC: GET /api/werke/:id/bilder ────────────
+    const werkBilderPub = path.match(/^\/api\/werke\/([a-f0-9]+)\/bilder$/);
+    if (werkBilderPub && method === 'GET') {
+      const werkId = werkBilderPub[1];
+      const { results } = await env.DB.prepare(
+        'SELECT id, werk_id, bild_key, beschreibung, reihenfolge FROM werk_bilder WHERE werk_id = ? ORDER BY reihenfolge ASC, created_at ASC'
+      ).bind(werkId).all();
+      const bilder = results.map(b => ({ ...b, bild_url: `/images/${b.bild_key}` }));
+      return new Response(JSON.stringify(bilder), {
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      });
     }
 
     // ── PROTECTED: all remaining routes need auth ─────
@@ -228,6 +260,43 @@ export default {
         await env.IMAGES.delete(String(werk.bild_key));
       }
       await env.DB.prepare('DELETE FROM werke WHERE id = ?').bind(id).run();
+      return json({ ok: true });
+    }
+
+    // POST /api/werke/:id/bilder — add gallery image
+    const werkBilderPost = path.match(/^\/api\/werke\/([a-f0-9]+)\/bilder$/);
+    if (werkBilderPost && method === 'POST') {
+      const werkId = werkBilderPost[1];
+      try {
+        const body = await request.json() as { bild_key: string; beschreibung?: string | null; reihenfolge?: number };
+        if (!body.bild_key) return json({ error: 'bild_key required' }, 400);
+        const id = generateId();
+        await env.DB.prepare(
+          'INSERT INTO werk_bilder (id, werk_id, bild_key, beschreibung, reihenfolge) VALUES (?, ?, ?, ?, ?)'
+        ).bind(id, werkId, body.bild_key, body.beschreibung ?? null, body.reihenfolge ?? 0).run();
+        return json({ id });
+      } catch { return json({ error: 'Fehler beim Anlegen' }, 500); }
+    }
+
+    // PUT /api/werke/bilder/:bildId — update description
+    const bildUpdate = path.match(/^\/api\/werke\/bilder\/([a-f0-9]+)$/);
+    if (bildUpdate && method === 'PUT') {
+      const bildId = bildUpdate[1];
+      try {
+        const body = await request.json() as { beschreibung?: string | null; reihenfolge?: number };
+        await env.DB.prepare('UPDATE werk_bilder SET beschreibung=?, reihenfolge=? WHERE id=?')
+          .bind(body.beschreibung ?? null, body.reihenfolge ?? 0, bildId).run();
+        return json({ ok: true });
+      } catch { return json({ error: 'Fehler' }, 500); }
+    }
+
+    // DELETE /api/werke/bilder/:bildId
+    const bildDelete = path.match(/^\/api\/werke\/bilder\/([a-f0-9]+)$/);
+    if (bildDelete && method === 'DELETE') {
+      const bildId = bildDelete[1];
+      const bild = await env.DB.prepare('SELECT bild_key FROM werk_bilder WHERE id = ?').bind(bildId).first();
+      if (bild?.bild_key) await env.IMAGES.delete(String(bild.bild_key));
+      await env.DB.prepare('DELETE FROM werk_bilder WHERE id = ?').bind(bildId).run();
       return json({ ok: true });
     }
 

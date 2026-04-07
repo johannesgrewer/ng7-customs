@@ -69,6 +69,22 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
 .toggle-row span{font-size:.82rem;color:#B5AFA3}
 .empty-state{padding:60px;text-align:center;color:#8A8070;font-size:.85rem}
 .info-banner{padding:8px 20px;font-size:.7rem;color:#c08040;background:rgba(192,100,43,.07);border-bottom:1px solid rgba(192,100,43,.12);letter-spacing:.05em}
+/* Gallery */
+.gallery-item{display:flex;gap:10px;align-items:flex-start;padding:8px;background:#1A1917;border:1px solid rgba(160,151,125,.1);margin-bottom:8px}
+.gallery-item img{width:50px;height:65px;object-fit:cover;flex-shrink:0}
+.gallery-item-right{flex:1;display:flex;flex-direction:column;gap:6px}
+.gallery-desc-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(160,151,125,.2);color:#F5F0E8;padding:3px 0;font-size:.8rem;font-family:inherit;outline:none}
+.gallery-desc-input:focus{border-bottom-color:#A0977D}
+.gallery-add-preview{width:56px;height:72px;flex-shrink:0;background:#1A1917;border:1px dashed rgba(160,151,125,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.gallery-add-preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gallery-add-plus{font-size:1.2rem;color:#8A8070;user-select:none}
+.gallery-section{margin-top:20px;padding-top:20px;border-top:1px solid rgba(160,151,125,.1)}
+.gallery-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.gallery-empty{font-size:.72rem;color:#8A8070;text-align:center;padding:16px 0}
+.gallery-add-form{background:#1A1917;border:1px solid rgba(160,151,125,.12);padding:12px;margin-top:10px;display:flex;gap:10px;align-items:flex-start}
+.gallery-add-inputs{flex:1;display:flex;flex-direction:column;gap:8px}
+.gallery-add-desc{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(160,151,125,.2);color:#F5F0E8;padding:4px 0;font-size:.8rem;font-family:inherit;outline:none}
+.gallery-add-desc:focus{border-bottom-color:#A0977D}
 /* Settings area */
 .settings-area{display:none;padding:20px;max-width:800px}
 .settings-section-title{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:#8A8070;margin-bottom:16px}
@@ -170,6 +186,29 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
           <span>Sichtbar</span>
         </label>
       </div>
+
+      <!-- Galerie-Bilder (nur bei bestehendem Werk) -->
+      <div class="gallery-section" id="gallerySection" style="display:none">
+        <div class="gallery-header">
+          <span style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8070">Galerie-Bilder</span>
+          <button class="btn btn-ghost btn-sm" onclick="showGalleryAdd()">+ Bild hinzuf&#252;gen</button>
+        </div>
+        <div id="galleryList"></div>
+        <div id="galleryAddForm" class="gallery-add-form" style="display:none">
+          <div class="gallery-add-preview" id="galleryAddPreview" onclick="document.getElementById('galleryFileInput').click()">
+            <img id="galleryAddImg" style="display:none" alt="" />
+            <span class="gallery-add-plus" id="galleryAddPlus">+</span>
+          </div>
+          <div class="gallery-add-inputs">
+            <input type="text" id="galleryAddDesc" class="gallery-add-desc" placeholder="Beschreibung (optional)" />
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-primary btn-sm" onclick="confirmGalleryAdd()">Hochladen</button>
+              <button class="btn btn-ghost btn-sm" onclick="hideGalleryAdd()">Abbrechen</button>
+            </div>
+          </div>
+          <input type="file" id="galleryFileInput" accept="image/*" style="display:none" onchange="onGalleryFileChange(this)" />
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal()">Abbrechen</button>
@@ -217,6 +256,8 @@ let pendingFile = null;
 let editingId = null;
 let pendingSettingFile = null;
 let editingSettingKey = null;
+let galleryBilder = [];
+let pendingGalleryFile = null;
 
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -431,13 +472,22 @@ function openModal(werk) {
   if (werk && werk.bild_url) { prev.src = werk.bild_url; prev.style.display = 'block'; hint.textContent = 'Klicken zum \\u00c4ndern'; }
   else { prev.src = ''; prev.style.display = 'none'; hint.textContent = 'Klicken zum Hochladen'; }
   pendingFile = null;
+  pendingGalleryFile = null;
+  galleryBilder = [];
   document.getElementById('fileInput').value = '';
+  hideGalleryAdd();
+  const gs = document.getElementById('gallerySection');
+  if (editingId) { gs.style.display = 'block'; loadGallery(editingId); }
+  else { gs.style.display = 'none'; document.getElementById('galleryList').textContent = ''; }
   document.getElementById('modalOverlay').classList.add('open');
   setTimeout(() => document.getElementById('fName').focus(), 60);
 }
 
 function editWork(id) { const w = werke.find(x => x.id === id); if (w) openModal(w); }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); pendingFile = null; editingId = null; }
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  pendingFile = null; pendingGalleryFile = null; editingId = null; galleryBilder = [];
+}
 
 function onFileChange(input) {
   const f = input.files[0]; if (!f) return;
@@ -485,6 +535,116 @@ async function deleteWork(id, name) {
   const r = await fetch('/api/werke/'+id,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
   if (r.ok) { setStatus('Gel\\u00f6scht.','success'); await loadWerke(); }
   else setStatus('L\\u00f6schen fehlgeschlagen.','error');
+}
+
+// ── Gallery ─────────────────────────────────────────
+async function loadGallery(werkId) {
+  const list = document.getElementById('galleryList');
+  list.textContent = '';
+  try {
+    const r = await fetch('/api/werke/'+werkId+'/bilder',{headers:{'Authorization':'Bearer '+token}});
+    if (!r.ok) return;
+    galleryBilder = await r.json();
+    renderGalleryList();
+  } catch {}
+}
+
+function renderGalleryList() {
+  const list = document.getElementById('galleryList');
+  list.textContent = '';
+  if (!galleryBilder.length) {
+    const empty = document.createElement('p');
+    empty.className = 'gallery-empty';
+    empty.textContent = 'Noch keine Galerie-Bilder.';
+    list.appendChild(empty);
+    return;
+  }
+  galleryBilder.forEach(bild => {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+
+    const img = document.createElement('img');
+    img.src = bild.bild_url; img.alt = '';
+    item.appendChild(img);
+
+    const right = document.createElement('div');
+    right.className = 'gallery-item-right';
+
+    const desc = document.createElement('input');
+    desc.type = 'text'; desc.className = 'gallery-desc-input';
+    desc.value = bild.beschreibung || '';
+    desc.placeholder = 'Beschreibung...';
+    let saveTimer;
+    desc.addEventListener('input', () => {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => updateGalleryBild(bild.id, desc.value), 800);
+    });
+    right.appendChild(desc);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn btn-ghost btn-sm btn-danger';
+    delBtn.style.alignSelf = 'flex-start';
+    delBtn.textContent = 'Entfernen';
+    delBtn.addEventListener('click', () => deleteGalleryBild(bild.id, delBtn));
+    right.appendChild(delBtn);
+
+    item.appendChild(right);
+    list.appendChild(item);
+  });
+}
+
+async function updateGalleryBild(bildId, beschreibung) {
+  await fetch('/api/werke/bilder/'+bildId,{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({beschreibung:beschreibung||null,reihenfolge:0})}).catch(()=>{});
+}
+
+async function deleteGalleryBild(bildId, btn) {
+  if (!confirm('Bild aus Galerie entfernen?')) return;
+  btn.disabled = true;
+  const r = await fetch('/api/werke/bilder/'+bildId,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
+  if (r.ok) { galleryBilder = galleryBilder.filter(b => b.id !== bildId); renderGalleryList(); }
+  else { btn.disabled = false; setStatus('Fehler beim L\\u00f6schen.','error'); }
+}
+
+function showGalleryAdd() { document.getElementById('galleryAddForm').style.display = 'flex'; }
+function hideGalleryAdd() {
+  document.getElementById('galleryAddForm').style.display = 'none';
+  pendingGalleryFile = null;
+  document.getElementById('galleryAddImg').style.display = 'none';
+  document.getElementById('galleryAddPlus').style.display = '';
+  document.getElementById('galleryAddDesc').value = '';
+  if (document.getElementById('galleryFileInput')) document.getElementById('galleryFileInput').value = '';
+}
+
+function onGalleryFileChange(input) {
+  const f = input.files[0]; if (!f) return;
+  pendingGalleryFile = f;
+  const r = new FileReader();
+  r.onload = e => {
+    const img = document.getElementById('galleryAddImg');
+    img.src = String(e.target.result); img.style.display = 'block';
+    document.getElementById('galleryAddPlus').style.display = 'none';
+  };
+  r.readAsDataURL(f);
+}
+
+async function confirmGalleryAdd() {
+  if (!pendingGalleryFile) { setStatus('Bitte zuerst ein Bild w\\u00e4hlen.','error'); return; }
+  if (!editingId) return;
+  const btn = document.querySelector('#galleryAddForm .btn-primary');
+  btn.textContent = '...'; btn.disabled = true;
+  try {
+    const fd = new FormData(); fd.append('file', pendingGalleryFile);
+    const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
+    if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error||'Upload fehlgeschlagen'); }
+    const { key } = await ur.json();
+    const desc = document.getElementById('galleryAddDesc').value.trim();
+    const cr = await fetch('/api/werke/'+editingId+'/bilder',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({bild_key:key,beschreibung:desc||null,reihenfolge:galleryBilder.length})});
+    if (!cr.ok) throw new Error('Fehler beim Speichern');
+    hideGalleryAdd();
+    await loadGallery(editingId);
+    setStatus('Bild hinzugef\\u00fcgt.','success');
+  } catch(e) { setStatus(e.message,'error'); }
+  finally { btn.textContent = 'Hochladen'; btn.disabled = false; }
 }
 
 // ── Settings modal ──────────────────────────────────
