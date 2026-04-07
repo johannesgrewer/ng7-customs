@@ -9,12 +9,9 @@ import WarumNG7 from '../components/WarumNG7.astro';
 import Galerie from '../components/Galerie.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 
-const produkte = [
-  { name: 'Messerkordel I', bild: '/images/produkt-01.webp' },
-  { name: 'Messerkordel II', bild: '/images/produkt-02.webp' },
-  { name: 'Messerkordel III', bild: '/images/produkt-03.webp' },
-  { name: 'Messerkordel IV', bild: '/images/produkt-04.webp' },
-];
+const res = await fetch('https://ng7-contact.contact-1f9.workers.dev/api/werke?kategorie=neue_werke');
+const data = await res.json() as { name: string; bild_url: string | null }[];
+const produkte = data.map(w => ({ name: w.name, bild: w.bild_url ?? '' }));
 
 const galeriebilder = [
   '/images/produkt-05.webp',

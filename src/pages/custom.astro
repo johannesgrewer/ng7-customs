@@ -2,14 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import ShopGrid from '../components/ShopGrid.astro';
 
-const produkte = [
-  { name: 'Messerkordel I', bild: '/images/produkt-01.webp' },
-  { name: 'Messerkordel II', bild: '/images/produkt-02.webp' },
-  { name: 'Messerkordel III', bild: '/images/produkt-03.webp' },
-  { name: 'Messerkordel IV', bild: '/images/produkt-04.webp' },
-  { name: 'Kitchen knife', bild: '/images/produkt-kitchen-knife.webp' },
-  { name: 'Laserschwert', bild: '/images/produkt-laserschwert.webp' },
-];
+const res = await fetch('https://ng7-contact.contact-1f9.workers.dev/api/werke?kategorie=custom');
+const data = await res.json() as { name: string; bild_url: string | null }[];
+const produkte = data.map(w => ({ name: w.name, bild: w.bild_url ?? '' }));
 ---
 
 <Layout title="Individualisierung" description="Custom-Arbeiten von NG7 Customs — Gravuren, Finishes, Umbauten.">

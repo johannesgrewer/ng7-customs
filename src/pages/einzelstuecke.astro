@@ -2,13 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import ShopGrid from '../components/ShopGrid.astro';
 
-const produkte = [
-  { name: 'Messerkordel I', bild: '/images/produkt-01.webp' },
-  { name: 'Messerkordel II', bild: '/images/produkt-02.webp' },
-  { name: 'Messerkordel III', bild: '/images/produkt-03.webp' },
-  { name: 'Messerkordel IV', bild: '/images/produkt-04.webp' },
-  { name: 'Phone Stand', bild: '/images/produkt-phone-stand.webp' },
-];
+const res = await fetch('https://ng7-contact.contact-1f9.workers.dev/api/werke?kategorie=einzelstuecke');
+const data = await res.json() as { name: string; bild_url: string | null }[];
+const produkte = data.map(w => ({ name: w.name, bild: w.bild_url ?? '' }));
 ---
 
 <Layout title="Einzelstücke" description="Maßanfertigungen von NG7 Customs — Einzelstücke nach deinen Wünschen.">
