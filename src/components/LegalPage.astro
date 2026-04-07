@@ -1,0 +1,108 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!-- Header -->
+<section class="relative pt-32 pb-16 px-6 overflow-hidden" style="background: #1A1917;">
+  <div class="absolute top-1/2 right-10 -translate-y-1/2 pointer-events-none select-none hidden lg:block" aria-hidden="true">
+    <span class="text-[18vw] font-bold leading-none" style="color: rgba(160,151,125,0.025); font-family: var(--font-display);">§</span>
+  </div>
+  <div class="relative z-10 max-w-[780px] mx-auto">
+    <p class="text-[11px] tracking-[0.2em] uppercase mb-8" style="color: #8A8070; font-family: var(--font-body);">
+      <a href="/" class="hover:text-[#A0977D] transition-colors">Start</a>
+      <span class="mx-2" style="color: #A0977D33;">/</span>
+      {title}
+    </p>
+    <p class="text-[11px] uppercase tracking-[0.4em] mb-3" style="color: #A0977D; font-family: var(--font-body);">Rechtliches</p>
+    <h1 style="font-family: var(--font-display); font-weight: 500; font-size: clamp(1.8rem, 4vw, 2.75rem); color: #F5F0E8; line-height: 1.15;">{title}</h1>
+    {description && (
+      <p class="mt-4 text-[15px] max-w-lg" style="color: #8A8070; font-family: var(--font-body);">{description}</p>
+    )}
+    <div class="flex items-center gap-5 mt-6">
+      <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Content -->
+<section class="pb-24 px-6" style="background: #1A1917;">
+  <div class="max-w-[780px] mx-auto">
+    <div class="legal-content pt-12">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  :global(.legal-content) {
+    color: #B5AFA3;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.85;
+  }
+
+  :global(.legal-content h2) {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: #F5F0E8;
+    margin-top: 2.75rem;
+    margin-bottom: 0.875rem;
+    padding-left: 1rem;
+    border-left: 2px solid #A0977D;
+    line-height: 1.4;
+  }
+
+  :global(.legal-content > div:first-child h2) {
+    margin-top: 0;
+  }
+
+  :global(.legal-content p + p) {
+    margin-top: 0.6rem;
+  }
+
+  :global(.legal-content ul) {
+    list-style: none;
+    padding: 0;
+    margin: 0.6rem 0 0;
+  }
+
+  :global(.legal-content ul li) {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.35rem;
+  }
+
+  :global(.legal-content ul li::before) {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #A0977D;
+  }
+
+  :global(.legal-content a) {
+    color: #A0977D;
+    text-decoration: underline;
+    text-decoration-color: rgba(160, 151, 125, 0.3);
+    transition: color 0.2s, text-decoration-color 0.2s;
+  }
+
+  :global(.legal-content a:hover) {
+    color: #C4B68A;
+    text-decoration-color: rgba(196, 182, 138, 0.5);
+  }
+
+  :global(.legal-content .section-block) {
+    padding-top: 0.25rem;
+  }
+
+  :global(.legal-content hr) {
+    border: none;
+    border-top: 1px solid rgba(160, 151, 125, 0.12);
+    margin: 2.5rem 0;
+  }
+</style>

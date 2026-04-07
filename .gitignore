@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# dev tools
+scrape-output/
+screenshots/
+
+# worker dependencies
+worker/node_modules/

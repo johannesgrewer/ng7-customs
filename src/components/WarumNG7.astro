@@ -1,0 +1,128 @@
+<!-- 6. WARUM NG7? — Tugenden-Showcase -->
+<section class="relative py-28 px-6 overflow-hidden" style="background: #1A1917;">
+
+  <!-- Große Hintergrund-7 als Deko -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none" aria-hidden="true">
+    <span class="text-[30vw] font-bold leading-none" style="color: rgba(160,151,125,0.03); font-family: var(--font-body);">7</span>
+  </div>
+
+  <div class="relative z-10 max-w-[1100px] mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <p class="text-[11px] uppercase tracking-[0.4em] mb-3" style="color: #A0977D; font-family: var(--font-body);">Nexus Gratia Septem</p>
+      <h2 class="mb-6" style="font-family: var(--font-display); font-weight: 500; font-size: 2.2rem; color: #F5F0E8;">Warum NG7?</h2>
+      <div class="w-12 h-px mx-auto mb-8" style="background: #A0977D;"></div>
+
+      <!-- Zitat -->
+      <div class="max-w-2xl mx-auto">
+        <p class="text-[15px] leading-relaxed italic" style="color: #B5AFA3; font-family: var(--font-body);">
+          „Der Name NG7 steht für die Verbindung der sieben Tugenden. Das unumstößliche Fundament, auf dem ich arbeite."
+        </p>
+      </div>
+    </div>
+
+    <!-- Emblem + Tugenden Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 items-stretch">
+      <!-- Emblem links -->
+      <div class="relative">
+        <div class="absolute -inset-4 border opacity-10" style="border-color: #A0977D;"></div>
+        <img src="/images/ng7-emblem.webp" alt="NG7 Customs Emblem" class="w-full h-full object-cover relative" loading="lazy" width="500" height="500" />
+      </div>
+
+      <!-- Tugend-Spotlight (Auto-Rotate) -->
+      <div id="tugend-spotlight" class="relative p-8 md:p-12 border flex flex-col justify-center" style="border-color: #A0977D33; background: rgba(255,255,255,0.02);">
+        <!-- Nummer groß im Hintergrund -->
+        <span id="tugend-nr-bg" class="absolute top-6 right-8 text-[140px] font-bold leading-none pointer-events-none transition-opacity duration-500" style="color: rgba(160,151,125,0.06); font-family: var(--font-body);" aria-hidden="true">01</span>
+
+        <div class="relative z-10">
+          <span id="tugend-nr" class="text-[11px] tracking-[0.3em] block mb-4 transition-opacity duration-500" style="color: #A0977D; font-family: var(--font-body);">01 / 07</span>
+          <h4 id="tugend-name" class="text-3xl uppercase tracking-[0.1em] mb-5 transition-opacity duration-500" style="color: #F5F0E8; font-family: var(--font-display); font-weight: 500;">Liebe</h4>
+          <div class="w-8 h-px mb-5" style="background: #A0977D;"></div>
+          <p id="tugend-desc" class="text-[15px] leading-[1.8] max-w-lg transition-opacity duration-500" style="color: #B5AFA3; font-family: var(--font-body);">Jedes Detail zählt. Von der ersten Skizze bis zur letzten Schraube fließt Sorgfalt in jeden Arbeitsschritt. Präzision ist kein Zufall, sondern das Ergebnis von Hingabe.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex items-center gap-4 mt-auto pt-6">
+          <button id="tugend-prev" class="w-10 h-10 border flex items-center justify-center transition-colors hover:bg-white/10" style="border-color: #A0977D44; color: #A0977D;" aria-label="Vorherige Tugend">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </button>
+          <div class="flex gap-2" role="tablist" aria-label="Tugenden">
+            {[0,1,2,3,4,5,6].map((i) => (
+              <button data-tugend-idx={i} class="tugend-dot w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer" style={`background: ${i === 0 ? '#A0977D' : 'rgba(255,255,255,0.15)'};`} role="tab" aria-label={`Tugend ${i + 1}`} aria-selected={i === 0 ? 'true' : 'false'}></button>
+            ))}
+          </div>
+          <button id="tugend-next" class="w-10 h-10 border flex items-center justify-center transition-colors hover:bg-white/10" style="border-color: #A0977D44; color: #A0977D;" aria-label="Nächste Tugend">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-14">
+      <a href="/ueber-mich" class="text-[11px] uppercase tracking-[0.15em] px-6 py-3 border transition-all hover:bg-white/5" style="color: #F5F0E8; border-color: #A0977D;">Mehr erfahren</a>
+    </div>
+  </div>
+
+  <script>
+    const tugenden = [
+      { nr: '01', name: 'Liebe', desc: 'Jedes Detail zählt. Von der ersten Skizze bis zur letzten Schraube fließt Sorgfalt in jeden Arbeitsschritt. Präzision ist kein Zufall, sondern das Ergebnis von Hingabe.' },
+      { nr: '02', name: 'Weisheit', desc: 'Die richtige Materialwahl entscheidet über Qualität und Langlebigkeit. Jeder Werkstoff wird bewusst ausgewählt, jeder Prozess durchdacht, bevor die Arbeit beginnt.' },
+      { nr: '03', name: 'Mut', desc: 'Neue Wege führen zu außergewöhnlichen Ergebnissen. Unkonventionelle Techniken und kreative Lösungen machen den Unterschied zwischen gut und einzigartig.' },
+      { nr: '04', name: 'Gerechtigkeit', desc: 'Zusammenarbeit auf Augenhöhe. Deine Ideen werden ernst genommen, dein Budget respektiert und deine Erwartungen ehrlich eingeschätzt.' },
+      { nr: '05', name: 'Mäßigung', desc: 'Weniger ist mehr. Jedes Element hat seinen Zweck, nichts ist überflüssig. Reduktion auf das Wesentliche bringt die wahre Qualität zum Vorschein.' },
+      { nr: '06', name: 'Ehrlichkeit', desc: 'Offene Kommunikation von Anfang an. Was machbar ist, wird umgesetzt. Was nicht funktioniert, wird direkt angesprochen. Keine leeren Versprechen.' },
+      { nr: '07', name: 'Hoffnung', desc: 'Jede Vision verdient es, verwirklicht zu werden. Egal wie ungewöhnlich die Idee, gemeinsam finden wir einen Weg vom Gedanken zum fertigen Objekt.' },
+    ];
+
+    let currentTugend = 0;
+
+    function initTugenden() {
+      const elNrBg = document.getElementById('tugend-nr-bg');
+      const elNr = document.getElementById('tugend-nr');
+      const elName = document.getElementById('tugend-name');
+      const elDesc = document.getElementById('tugend-desc');
+      const dots = document.querySelectorAll('.tugend-dot');
+      const btnPrev = document.getElementById('tugend-prev');
+      const btnNext = document.getElementById('tugend-next');
+
+      if (!elNr || !elName || !elDesc) return;
+
+      function showTugend(index: number) {
+        currentTugend = index;
+        const t = tugenden[index];
+
+        [elNrBg, elNr, elName, elDesc].forEach(el => { if (el) el.style.opacity = '0'; });
+
+        setTimeout(() => {
+          if (elNrBg) elNrBg.textContent = t.nr;
+          if (elNr) elNr.textContent = `${t.nr} / 07`;
+          if (elName) elName.textContent = t.name;
+          if (elDesc) elDesc.textContent = t.desc;
+          [elNrBg, elNr, elName, elDesc].forEach(el => { if (el) el.style.opacity = '1'; });
+        }, 300);
+
+        dots.forEach((dot, i) => {
+          (dot as HTMLElement).style.background = i === index ? '#A0977D' : 'rgba(255,255,255,0.15)';
+          (dot as HTMLElement).style.transform = i === index ? 'scale(1.3)' : 'scale(1)';
+          dot.setAttribute('aria-selected', String(i === index));
+        });
+      }
+
+      btnPrev?.addEventListener('click', () => {
+        showTugend((currentTugend - 1 + tugenden.length) % tugenden.length);
+      });
+      btnNext?.addEventListener('click', () => {
+        showTugend((currentTugend + 1) % tugenden.length);
+      });
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => showTugend(i));
+      });
+
+      showTugend(0);
+    }
+
+    initTugenden();
+    document.addEventListener('astro:after-swap', initTugenden);
+  </script>
+</section>

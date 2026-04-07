@@ -1,0 +1,31 @@
+---
+interface Props {
+  bilder: string[];
+}
+
+const { bilder } = Astro.props;
+const offsets = ['md:mt-0', 'md:mt-10', 'md:mt-4'];
+---
+
+<!-- 7. GALERIE — Olive BG, versetztes Layout -->
+<section class="py-20 px-6" style="background: #656350;">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="flex items-center gap-5 mb-12">
+      <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 1.6rem; color: #F5F0E8; white-space: nowrap;">Aus der Werkstatt</h2>
+      <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {bilder.map((bild, i) => (
+        <div class={`group relative overflow-hidden ${offsets[i]}`}>
+          <div class="aspect-[3/4] overflow-hidden">
+            <img src={bild} alt={`NG7 Werkstück ${i + 1}`} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" width="400" height="533" />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="absolute inset-3 border border-white/0 group-hover:border-white/10 transition-colors duration-500 pointer-events-none"></div>
+          <span class="absolute bottom-4 left-4 text-[11px] tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="color: #A0977D;">0{i + 1}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

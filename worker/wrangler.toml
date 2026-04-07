@@ -1,0 +1,22 @@
+name = "ng7-contact"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ng7-contacts"
+database_id = "b5e6a460-1e49-4c8b-a251-a455bd6001b0"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "ng7-images"
+
+[vars]
+NOTIFY_EMAIL = "nicolas.mrx@googlemail.com"
+FROM_EMAIL = "anfrage@ng7-customs.de"
+ALLOWED_ORIGIN = "https://ng7-customs.de"
+
+# Secrets → über `wrangler secret put` setzen (NICHT hier eintragen):
+# RESEND_API_KEY
+# ADMIN_PASSWORD   (Passwort für /admin)
+# VERCEL_DEPLOY_HOOK  (URL aus Vercel Dashboard → Settings → Git → Deploy Hooks)

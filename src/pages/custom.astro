@@ -3,20 +3,21 @@ import Layout from '../layouts/Layout.astro';
 import ShopGrid from '../components/ShopGrid.astro';
 
 const produkte = [
-  { name: 'Messerkordel I', preis: '3.000,00€', bild: '/images/produkt-01.jpg' },
-  { name: 'Messerkordel II', preis: '3.000,00€', bild: '/images/produkt-02.jpg' },
-  { name: 'Messerkordel III', preis: '3.000,00€', bild: '/images/produkt-03.jpg' },
-  { name: 'Messerkordel IV', preis: '3.000,00€', bild: '/images/produkt-04.jpg' },
-  { name: 'Kitchen knife', preis: '3.000,00€', bild: '/images/produkt-kitchen-knife.png' },
-  { name: 'Laserschwert', preis: '3.000,00€', bild: '/images/produkt-laserschwert.png' },
+  { name: 'Messerkordel I', bild: '/images/produkt-01.webp' },
+  { name: 'Messerkordel II', bild: '/images/produkt-02.webp' },
+  { name: 'Messerkordel III', bild: '/images/produkt-03.webp' },
+  { name: 'Messerkordel IV', bild: '/images/produkt-04.webp' },
+  { name: 'Kitchen knife', bild: '/images/produkt-kitchen-knife.webp' },
+  { name: 'Laserschwert', bild: '/images/produkt-laserschwert.webp' },
 ];
 ---
 
-<Layout title="Custom Page" description="Custom-Arbeiten von NG7 Customs — Gravuren, Finishes, Umbauten.">
+<Layout title="Individualisierung" description="Custom-Arbeiten von NG7 Customs — Gravuren, Finishes, Umbauten.">
   <ShopGrid
-    title="Custom Page"
-    breadcrumb="Custom Page"
+    title="Individualisierung"
+    breadcrumb="Individualisierung"
     produkte={produkte}
-    activeCategory="Custom Page"
+    activeCategory="Individualisierung"
+    description="Gravuren, Beschichtungen, Veredelung. Dein Lieblingsstück, einzigartig gemacht."
   />
 </Layout>

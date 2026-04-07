@@ -5,122 +5,236 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Kontakt" description="Kontaktiere NG7 Customs — Anfragen für Einzelstücke, Custom-Arbeiten und Entwicklung. Nicolas Meriaux, Trier.">
 
   <!-- Page Header -->
-  <section class="pt-32 pb-16 px-6">
-    <div class="max-w-4xl mx-auto">
-      <p class="text-xs uppercase tracking-[0.3em] text-[var(--ng7-accent)] mb-3">Kontakt</p>
-      <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 7vw, 5rem); letter-spacing: 0.02em;">Schreib mir</h1>
-      <p class="mt-4 text-[var(--ng7-text-dim)] max-w-xl leading-relaxed">
+  <section class="relative pt-32 pb-16 px-6 overflow-hidden" style="background: #1A1917;">
+    <div class="absolute top-1/2 right-10 -translate-y-1/2 pointer-events-none select-none hidden lg:block" aria-hidden="true">
+      <span class="text-[18vw] font-bold leading-none" style="color: rgba(160,151,125,0.025); font-family: var(--font-display);">AN</span>
+    </div>
+    <div class="relative z-10 max-w-[1200px] mx-auto">
+      <p class="text-[11px] tracking-[0.2em] uppercase mb-8" style="color: #8A8070; font-family: var(--font-body);">
+        <a href="/" class="hover:text-[#A0977D] transition-colors">Start</a>
+        <span class="mx-2" style="color: #A0977D33;">/</span>
+        Kontakt
+      </p>
+      <p class="text-[11px] uppercase tracking-[0.4em] mb-3" style="color: #A0977D; font-family: var(--font-body);">Anfragen</p>
+      <h1 style="font-family: var(--font-display); font-weight: 500; font-size: clamp(2rem, 5vw, 3rem); color: #F5F0E8; line-height: 1.15;">Schreib mir</h1>
+      <p class="mt-4 text-[15px] max-w-lg" style="color: #8A8070; font-family: var(--font-body);">
         Erzähl mir von deiner Idee — ob Einzelstück, Custom-Arbeit oder Entwicklungsprojekt. Ich melde mich innerhalb von 24 Stunden.
       </p>
+      <div class="flex items-center gap-5 mt-6">
+        <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
+      </div>
     </div>
   </section>
 
   <!-- Form + Info -->
-  <section class="pb-24 px-6">
-    <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12">
+  <section class="pb-24 px-6" style="background: #1A1917;">
+    <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 pt-12">
 
       <!-- Formular -->
       <div class="lg:col-span-3">
-        <form class="flex flex-col gap-6">
+        <form id="contact-form" class="flex flex-col gap-6" novalidate>
+          <!-- Honeypot -->
+          <div style="position: absolute; left: -9999px; opacity: 0; height: 0;" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" name="_t" id="form-timestamp" />
+
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label class="block text-xs uppercase tracking-widest text-[var(--ng7-text-muted)] mb-2">Name *</label>
-              <input type="text" name="name" required
-                class="w-full bg-[var(--ng7-surface)] border border-[var(--ng7-border)] text-[var(--ng7-text)] px-4 py-3 text-sm focus:border-[var(--ng7-accent)] focus:outline-none transition-colors"
+              <label for="contact-name" class="block text-[11px] uppercase tracking-[0.2em] mb-2.5" style="color: #8A8070; font-family: var(--font-body);">Name *</label>
+              <input type="text" name="name" id="contact-name" required
+                class="contact-input w-full px-4 py-3 text-sm focus:outline-none"
                 placeholder="Dein Name" />
             </div>
             <div>
-              <label class="block text-xs uppercase tracking-widest text-[var(--ng7-text-muted)] mb-2">E-Mail *</label>
-              <input type="email" name="email" required
-                class="w-full bg-[var(--ng7-surface)] border border-[var(--ng7-border)] text-[var(--ng7-text)] px-4 py-3 text-sm focus:border-[var(--ng7-accent)] focus:outline-none transition-colors"
+              <label for="contact-email" class="block text-[11px] uppercase tracking-[0.2em] mb-2.5" style="color: #8A8070; font-family: var(--font-body);">E-Mail *</label>
+              <input type="email" name="email" id="contact-email" required
+                class="contact-input w-full px-4 py-3 text-sm focus:outline-none"
                 placeholder="deine@email.de" />
             </div>
           </div>
 
           <div>
-            <label class="block text-xs uppercase tracking-widest text-[var(--ng7-text-muted)] mb-2">Kategorie</label>
-            <select name="kategorie"
-              class="w-full bg-[var(--ng7-surface)] border border-[var(--ng7-border)] text-[var(--ng7-text-dim)] px-4 py-3 text-sm focus:border-[var(--ng7-accent)] focus:outline-none transition-colors appearance-none">
+            <label for="contact-kategorie" class="block text-[11px] uppercase tracking-[0.2em] mb-2.5" style="color: #8A8070; font-family: var(--font-body);">Kategorie</label>
+            <select name="kategorie" id="contact-kategorie" class="contact-input w-full px-4 py-3 text-sm focus:outline-none">
               <option value="">Bitte wählen</option>
               <option value="einzelstueck">Einzelstück</option>
               <option value="entwicklung">Entwicklung / Prototyp</option>
               <option value="custom">Custom / Finish</option>
-              <option value="shop">Shop-Artikel</option>
               <option value="sonstiges">Sonstiges</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-xs uppercase tracking-widest text-[var(--ng7-text-muted)] mb-2">Deine Nachricht *</label>
-            <textarea name="nachricht" rows="6" required
-              class="w-full bg-[var(--ng7-surface)] border border-[var(--ng7-border)] text-[var(--ng7-text)] px-4 py-3 text-sm focus:border-[var(--ng7-accent)] focus:outline-none transition-colors resize-y"
+            <label for="contact-nachricht" class="block text-[11px] uppercase tracking-[0.2em] mb-2.5" style="color: #8A8070; font-family: var(--font-body);">Deine Nachricht *</label>
+            <textarea name="nachricht" id="contact-nachricht" rows="6" required
+              class="contact-input w-full px-4 py-3 text-sm focus:outline-none resize-y"
               placeholder="Beschreib dein Projekt, deine Idee oder deinen Wunsch..."></textarea>
           </div>
 
           <div>
-            <label class="block text-xs uppercase tracking-widest text-[var(--ng7-text-muted)] mb-2">Fotos / Referenzen (optional)</label>
-            <div class="border border-dashed border-[var(--ng7-border)] bg-[var(--ng7-surface)] p-8 text-center hover:border-[var(--ng7-accent)] transition-colors cursor-pointer">
-              <p class="text-sm text-[var(--ng7-text-dim)]">Dateien hierher ziehen oder klicken</p>
-              <p class="text-xs text-[var(--ng7-text-muted)] mt-1">JPG, PNG, PDF — max. 10 MB</p>
-            </div>
-          </div>
-
-          <div>
             <label class="flex items-start gap-3 cursor-pointer">
-              <input type="checkbox" required class="mt-1 accent-[var(--ng7-accent)]" />
-              <span class="text-xs text-[var(--ng7-text-dim)] leading-relaxed">
-                Ich stimme der Verarbeitung meiner Daten gemäß der <a href="/datenschutz" class="text-[var(--ng7-accent)] underline">Datenschutzerklärung</a> zu. *
+              <input type="checkbox" name="datenschutz" required class="mt-0.5 flex-shrink-0" style="accent-color: #A0977D; width: 16px; height: 16px;" />
+              <span class="text-[12px] leading-relaxed" style="color: #8A8070; font-family: var(--font-body);">
+                Ich stimme der Verarbeitung meiner Daten gemäß der <a href="/datenschutz" style="color: #A0977D;" class="hover:text-[#C4B68A] transition-colors">Datenschutzerklärung</a> zu. *
               </span>
             </label>
           </div>
 
-          <button type="submit" class="btn-primary self-start">Anfrage senden</button>
+          <!-- Status -->
+          <div id="form-status" class="hidden text-sm px-4 py-3 border" role="alert" style="font-family: var(--font-body);"></div>
+
+          <div>
+            <button type="submit" class="btn-primary" id="submit-btn">
+              Anfrage senden
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
         </form>
       </div>
 
       <!-- Kontakt-Info -->
       <div class="lg:col-span-2">
-        <div class="border border-[var(--ng7-border)] bg-[var(--ng7-surface)] p-8 sticky top-28">
-          <h3 class="text-sm uppercase tracking-widest mb-6">Direkt erreichen</h3>
+        <div class="sticky top-28">
+          <!-- Direkt-Kontakt Card -->
+          <div class="p-8" style="background: #2A2723; border: 1px solid rgba(160,151,125,0.15); border-top: 2px solid #A0977D;">
+            <p class="text-[10px] uppercase tracking-[0.3em] mb-6" style="color: #A0977D; font-family: var(--font-body);">Direkt erreichen</p>
 
-          <div class="flex flex-col gap-5">
-            <div>
-              <p class="text-xs text-[var(--ng7-text-muted)] uppercase tracking-widest mb-1">E-Mail</p>
-              <a href="mailto:nicolas.mrx@googlemail.com" class="text-sm text-[var(--ng7-text-dim)] hover:text-[var(--ng7-accent)] transition-colors">
-                nicolas.mrx@googlemail.com
-              </a>
+            <div class="flex flex-col gap-6">
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.2em] mb-1.5" style="color: #8A8070; font-family: var(--font-body);">E-Mail</p>
+                <a href="mailto:nicolas.mrx@googlemail.com" class="text-[13px] transition-colors hover:text-[#C4B68A]" style="color: #B5AFA3; font-family: var(--font-body);">
+                  nicolas.mrx@googlemail.com
+                </a>
+              </div>
+
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.2em] mb-1.5" style="color: #8A8070; font-family: var(--font-body);">Social Media</p>
+                <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" class="flex items-center gap-2 text-[13px] transition-colors hover:text-[#C4B68A]" style="color: #B5AFA3; font-family: var(--font-body);">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  @ng7_customs
+                </a>
+              </div>
+
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.2em] mb-1.5" style="color: #8A8070; font-family: var(--font-body);">Standort</p>
+                <p class="text-[13px]" style="color: #B5AFA3; font-family: var(--font-body);">Trier, Deutschland</p>
+              </div>
+
+              <div class="h-px" style="background: rgba(160,151,125,0.12);"></div>
+
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.2em] mb-1.5" style="color: #8A8070; font-family: var(--font-body);">Antwortzeit</p>
+                <p class="text-[13px]" style="color: #B5AFA3; font-family: var(--font-body);">In der Regel innerhalb von 24h</p>
+              </div>
             </div>
+          </div>
 
-            <div>
-              <p class="text-xs text-[var(--ng7-text-muted)] uppercase tracking-widest mb-1">Instagram</p>
-              <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" class="text-sm text-[var(--ng7-text-dim)] hover:text-[var(--ng7-accent)] transition-colors">
-                @ng7_customs
-              </a>
-            </div>
-
-            <div>
-              <p class="text-xs text-[var(--ng7-text-muted)] uppercase tracking-widest mb-1">Standort</p>
-              <p class="text-sm text-[var(--ng7-text-dim)]">Trier, Deutschland</p>
-            </div>
-
-            <hr class="border-[var(--ng7-border)]" />
-
-            <div>
-              <p class="text-xs text-[var(--ng7-text-muted)] uppercase tracking-widest mb-1">Antwortzeit</p>
-              <p class="text-sm text-[var(--ng7-text-dim)]">In der Regel innerhalb von 24h</p>
-            </div>
-
-            <div>
-              <p class="text-xs text-[var(--ng7-text-muted)] uppercase tracking-widest mb-1">Hinweis</p>
-              <p class="text-xs text-[var(--ng7-text-dim)] leading-relaxed">
-                Alle Arbeiten sind Einzelanfertigungen. Je genauer du dein Projekt beschreibst, desto besser kann ich dir ein Angebot machen.
-              </p>
-            </div>
+          <!-- Hinweis -->
+          <div class="mt-5 px-1">
+            <p class="text-[12px] leading-relaxed" style="color: #8A8070; font-family: var(--font-body);">
+              Alle Arbeiten sind Einzelanfertigungen. Je genauer du dein Projekt beschreibst, desto besser kann ich dir ein Angebot machen.
+            </p>
           </div>
         </div>
       </div>
 
     </div>
   </section>
+
+  <style>
+    .contact-input {
+      background: #2A2723;
+      border: 1px solid rgba(160, 151, 125, 0.2);
+      color: #F5F0E8;
+      font-family: var(--font-body);
+      transition: border-color 0.2s;
+    }
+    .contact-input::placeholder {
+      color: #8A8070;
+    }
+    .contact-input:hover {
+      border-color: rgba(160, 151, 125, 0.4);
+    }
+    .contact-input:focus {
+      border-color: #A0977D;
+      outline: none;
+    }
+    select.contact-input option {
+      background: #2A2723;
+      color: #F5F0E8;
+    }
+  </style>
+
+  <script>
+    function initContactForm() {
+      const form = document.getElementById('contact-form') as HTMLFormElement | null;
+      const statusEl = document.getElementById('form-status');
+      const submitBtn = document.getElementById('submit-btn');
+      const timestampField = document.getElementById('form-timestamp') as HTMLInputElement | null;
+
+      if (!form || !statusEl || !submitBtn || !timestampField) return;
+
+      timestampField.value = String(Date.now());
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        if (formData.get('website')) return;
+
+        const elapsed = Date.now() - Number(formData.get('_t'));
+        if (elapsed < 3000) return;
+
+        const nachricht = String(formData.get('nachricht') || '');
+        if (/https?:\/\//i.test(nachricht)) {
+          showStatus('Links sind in Nachrichten nicht erlaubt.', 'error');
+          return;
+        }
+
+        submitBtn.textContent = 'Wird gesendet…';
+        (submitBtn as HTMLButtonElement).disabled = true;
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: formData.get('name'),
+              email: formData.get('email'),
+              kategorie: formData.get('kategorie'),
+              nachricht,
+            }),
+          });
+
+          if (response.ok) {
+            showStatus('Vielen Dank! Deine Anfrage wurde gesendet. Ich melde mich innerhalb von 24h.', 'success');
+            form.reset();
+            timestampField.value = String(Date.now());
+          } else {
+            throw new Error('Serverfehler');
+          }
+        } catch {
+          showStatus('Leider ist ein Fehler aufgetreten. Bitte schreib mir direkt an nicolas.mrx@googlemail.com', 'error');
+        } finally {
+          submitBtn.textContent = 'Anfrage senden';
+          (submitBtn as HTMLButtonElement).disabled = false;
+        }
+      });
+
+      function showStatus(message: string, type: 'success' | 'error') {
+        if (!statusEl) return;
+        statusEl.textContent = message;
+        statusEl.style.borderColor = type === 'success' ? '#A0977D' : '#c0392b';
+        statusEl.style.color = type === 'success' ? '#A0977D' : '#c0392b';
+        statusEl.style.background = type === 'success' ? 'rgba(160,151,125,0.05)' : 'rgba(192,57,43,0.05)';
+        statusEl.classList.remove('hidden');
+      }
+    }
+
+    initContactForm();
+    document.addEventListener('astro:after-swap', initContactForm);
+  </script>
 
 </Layout>

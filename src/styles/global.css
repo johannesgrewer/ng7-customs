@@ -1,51 +1,113 @@
 @import "tailwindcss";
 
-/* NG7 Customs — Design Tokens (Light, Earthy/Olive like Original) */
-:root {
-  --ng7-white: #FFFFFF;
-  --ng7-light: #F0F0F0;
-  --ng7-light-warm: #F1ECE8;
-  --ng7-border: #E0E0E0;
-  --ng7-border-dark: #C2C2C2;
-  --ng7-olive: #656350;
-  --ng7-olive-dark: #35342B;
-  --ng7-olive-light: #A1A89A;
-  --ng7-dark: #2A2A2A;
-  --ng7-text: #1A1A1A;
-  --ng7-text-mid: #6E6E6E;
-  --ng7-text-light: #999999;
+/* ================================================
+   NG7 Customs — Design System
+   Display: Bitter (serif) · Body: Work Sans (sans)
+   ================================================ */
+
+/* --- Self-hosted Fonts --- */
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/bitter/bitter-latin-wght-normal.woff2') format('woff2');
 }
 
+@font-face {
+  font-family: 'Bitter';
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/bitter/bitter-latin-wght-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/work-sans/work-sans-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/work-sans/work-sans-latin-wght-italic.woff2') format('woff2');
+}
+
+/* --- Tailwind Theme + CSS Custom Properties --- */
+@theme {
+  --font-display: 'Bitter', Georgia, serif;
+  --font-body: 'Work Sans', system-ui, sans-serif;
+
+  --color-primary: #A0977D;
+  --color-primary-light: #C4B68A;
+  --color-accent: #A0977D;
+  --color-accent-hover: #C4B68A;
+  --color-bg: #1A1917;
+  --color-bg-mid: #4A4639;
+  --color-bg-olive: #656350;
+  --color-surface: #2A2723;
+  --color-surface-alt: #3B3629;
+  --color-text: #F5F0E8;
+  --color-text-mid: #B5AFA3;
+  --color-text-muted: #8A8070;
+  --color-border: rgba(160, 151, 125, 0.15);
+}
+
+:root {
+  --ng7-primary: #A0977D;
+  --ng7-primary-light: #C4B68A;
+  --ng7-accent: #A0977D;
+  --ng7-accent-hover: #C4B68A;
+  --ng7-bg: #1A1917;
+  --ng7-bg-mid: #4A4639;
+  --ng7-bg-olive: #656350;
+  --ng7-surface: #2A2723;
+  --ng7-surface-alt: #3B3629;
+  --ng7-text: #F5F0E8;
+  --ng7-text-mid: #B5AFA3;
+  --ng7-text-dim: #B5AFA3;
+  --ng7-text-muted: #8A8070;
+  --ng7-border: rgba(160, 151, 125, 0.15);
+  --ng7-border-dark: rgba(160, 151, 125, 0.25);
+}
+
+/* --- Base Styles --- */
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--ng7-white);
+  background: var(--ng7-bg);
   color: var(--ng7-text);
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
+/* --- Buttons --- */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 2rem;
-  background: var(--ng7-olive);
-  color: #FFFFFF;
-  font-weight: 500;
+  background: var(--ng7-accent);
+  color: var(--ng7-bg);
+  font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
   transition: all 0.3s ease;
-  border: 1px solid var(--ng7-olive);
+  border: 1px solid var(--ng7-accent);
 }
 
 .btn-primary:hover {
-  background: var(--ng7-olive-dark);
-  border-color: var(--ng7-olive-dark);
+  background: var(--ng7-accent-hover);
+  border-color: var(--ng7-accent-hover);
 }
 
 .btn-outline {
@@ -54,8 +116,8 @@ body {
   gap: 0.5rem;
   padding: 0.75rem 2rem;
   background: transparent;
-  color: var(--ng7-olive);
-  border: 1px solid var(--ng7-olive);
+  color: var(--ng7-accent);
+  border: 1px solid var(--ng7-accent);
   font-weight: 500;
   font-size: 0.8rem;
   letter-spacing: 0.08em;
@@ -65,8 +127,8 @@ body {
 }
 
 .btn-outline:hover {
-  background: var(--ng7-olive);
-  color: #FFFFFF;
+  background: rgba(160, 151, 125, 0.15);
+  color: var(--ng7-accent-hover);
 }
 
 .btn-outline-white {
@@ -75,7 +137,7 @@ body {
   padding: 0.75rem 2rem;
   background: transparent;
   color: #FFFFFF;
-  border: 1px solid #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.6);
   font-weight: 500;
   font-size: 0.8rem;
   letter-spacing: 0.08em;
@@ -85,5 +147,15 @@ body {
 }
 
 .btn-outline-white:hover {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

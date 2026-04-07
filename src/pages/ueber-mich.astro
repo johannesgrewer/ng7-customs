@@ -4,137 +4,371 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Über Mich" description="Nicolas Meriaux — Mechatroniker und Handwerker aus Trier. Die Geschichte hinter NG7 Customs.">
 
-  <!-- HERO — Fullscreen Portrait mit Text-Overlay -->
-  <section class="relative h-screen flex items-end overflow-hidden">
-    <img src="/images/blueprint-hero.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
-    <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);"></div>
-    <div class="relative z-10 px-6 pb-20 max-w-[1200px] mx-auto w-full">
-      <p class="text-sm uppercase tracking-[0.3em] text-white/50 mb-4" style="font-family: 'DM Sans', sans-serif;">Die Geschichte</p>
-      <h1 style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: clamp(3rem, 7vw, 5.5rem); color: #FFFFFF; line-height: 1.05;">
-        Der Mensch<br/>hinter dem <span style="color: #A1A89A;">Handwerk</span>
+  <!-- HERO — Fullscreen mit Parallax -->
+  <section class="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
+    <img src="/images/blueprint-hero-new.webp" alt="" class="absolute inset-0 w-full h-[140%] object-cover will-change-transform hero-zoom" id="hero-img" style="top: -20%;" />
+    <div class="absolute inset-0" style="background: rgba(0,0,0,0.45);"></div>
+    <div class="relative z-10 text-center px-6 max-w-3xl mx-auto reveal">
+      <h1 style="font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.1; color: #FFFFFF; letter-spacing: -0.01em;">
+        Der Mensch hinter dem <span style="color: #A0977D;">Handwerk</span>
       </h1>
+      <p class="mt-4 text-base text-white/70 max-w-md mx-auto" style="font-family: var(--font-body);">
+        Die Geschichte hinter NG7 Customs.
+      </p>
+      <div class="mt-8">
+        <a href="#story" class="btn-outline-white">Entdecken</a>
+      </div>
     </div>
   </section>
 
-  <!-- INTRO — Großes Statement -->
-  <section class="py-24 px-6" style="background: #FFFFFF;">
-    <div class="max-w-[900px] mx-auto text-center">
-      <p class="text-[26px] md:text-[36px] leading-relaxed font-light" style="font-family: 'Rubik', sans-serif; color: #1A1A1A;">
-        "Vom ersten Strich bis zur letzten Schraube —<br class="hidden md:block" />
-        <strong class="font-medium">alles in Eigenarbeit.</strong>"
+  <!-- INTRO — Statement auf dunklem BG -->
+  <section id="story" class="py-28 px-6" style="background: #1A1917;">
+    <div class="max-w-[900px] mx-auto text-center reveal">
+      <div class="w-px h-10 mx-auto mb-10" style="background: #A0977D44;"></div>
+      <p class="text-[24px] md:text-[34px] leading-relaxed font-light" style="font-family: var(--font-body); color: #F5F0E8;">
+        „Vom ersten Strich bis zur letzten Schraube.<br class="hidden md:block" />
+        <strong class="font-medium" style="color: #A0977D;">Alles in Eigenarbeit.</strong>"
       </p>
-      <div class="w-12 h-px mx-auto mt-8" style="background: #A1A89A;"></div>
+      <div class="w-12 h-px mx-auto mt-10" style="background: #A0977D;"></div>
     </div>
   </section>
 
   <!-- PORTRAIT + STORY — Split Layout -->
-  <section class="px-6" style="background: #F5F4F0;">
-    <div class="max-w-[1300px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0">
-      <!-- Portrait — Edge to edge auf seiner Seite -->
-      <div class="relative h-[500px] lg:h-auto overflow-hidden">
-        <img src="/images/nicolas-portrait.png" alt="Nicolas Meriaux" class="absolute inset-0 w-full h-full object-cover object-top" />
+  <section class="px-6 py-20" style="background: #4A4639;">
+    <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Portrait -->
+      <div class="relative reveal-left">
+        <div class="absolute -inset-3 border opacity-15" style="border-color: #A0977D;"></div>
+        <div class="absolute -inset-1.5 border opacity-8" style="border-color: #A0977D;"></div>
+        <div class="relative h-[500px] lg:h-[550px] overflow-hidden">
+          <img src="/images/nicolas-portrait.webp" alt="Nicolas Meriaux" class="w-full h-full object-cover object-top" />
+        </div>
       </div>
 
       <!-- Story -->
-      <div class="py-16 lg:py-24 lg:pl-16 lg:pr-8">
-        <p class="text-sm uppercase tracking-[0.3em] mb-4" style="color: #A1A89A; font-family: 'DM Sans', sans-serif;">Trier, Deutschland</p>
-        <h2 class="mb-8" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 2.8rem; color: #1A1A1A;">Nicolas Meriaux</h2>
+      <div class="reveal-right">
+        <p class="text-[11px] uppercase tracking-[0.4em] mb-4" style="color: #A0977D; font-family: var(--font-body);">Trier, Deutschland</p>
+        <h2 class="mb-8" style="font-family: var(--font-display); font-weight: 500; font-size: 2.4rem; color: #F5F0E8;">Nicolas Meriaux</h2>
 
-        <p class="text-lg leading-[1.8] mb-5" style="color: #555; font-family: 'DM Sans', sans-serif;">
-          Hi, ich bin Nicolas und komme aus der ältesten Stadt Deutschlands – Trier. Hauptberuflich tätig als Mechatroniker, lebe ich hier meine Leidenschaft zu Kreativität, Design und vielseitigen Materialien aus.
-        </p>
-        <p class="text-lg leading-[1.8] mb-5" style="color: #555; font-family: 'DM Sans', sans-serif;">
+        <div class="mb-6 pl-5" style="border-left: 2px solid #A0977D;">
+          <p class="text-[16px] leading-[1.8] italic" style="color: #D4CFC3; font-family: var(--font-body);">
+            Hi, ich bin Nicolas und komme aus der ältesten Stadt Deutschlands. Hauptberuflich Mechatroniker, lebe ich hier meine Leidenschaft zu Kreativität, Design und vielseitigen Materialien aus.
+          </p>
+        </div>
+
+        <p class="text-[15px] leading-[1.8] mb-5" style="color: #B5AFA3; font-family: var(--font-body);">
           Ich lege großen Wert darauf, alles vom ersten Strich bis zur letzten Schraube in Eigenarbeit umzusetzen. Um auch deine Wünsche und Ideen verwirklichen zu können, erweitere ich stets mein Repertoire an Maschinen und Werkzeugen.
         </p>
-        <p class="text-lg leading-[1.8]" style="color: #555; font-family: 'DM Sans', sans-serif;">
-          Von Kunstobjekten über maßgefertigte Lösungen bis zur Individualisierung deiner Lieblingsgegenstände – mit etwas Kreativität und Handarbeit wird alles möglich.
+        <p class="text-[15px] leading-[1.8]" style="color: #B5AFA3; font-family: var(--font-body);">
+          Von Kunstobjekten über maßgefertigte Lösungen bis zur Individualisierung deiner Lieblingsgegenstände. Mit etwas Kreativität und Handarbeit wird alles möglich.
         </p>
+
+        <div class="flex items-center gap-4 mt-8">
+          <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D, transparent);"></div>
+        </div>
+        <p class="mt-6 italic text-xl" style="font-family: var(--font-display); color: #A0977D;">Nicolas Meriaux</p>
       </div>
     </div>
   </section>
 
-  <!-- ZAHLEN — Horizontal, dunkel -->
-  <section class="py-16 px-6" style="background: #35342B;">
-    <div class="max-w-[1100px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-      <div>
-        <span class="block text-5xl md:text-7xl font-light" style="font-family: 'Rubik', sans-serif; color: #A1A89A;">250+</span>
-        <p class="text-xs uppercase tracking-[0.15em] mt-4" style="color: rgba(255,255,255,0.5);">Einzelstücke gefertigt</p>
+  <!-- ZAHLEN — Horizontal, dunkel mit Trennlinien + Counter -->
+  <section id="stats-section" class="py-20 px-6" style="background: #1A1917;">
+    <div class="max-w-[1100px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-0 text-center">
+      <div class="py-8" style="border-color: #A0977D22;">
+        <span class="counter block text-4xl md:text-6xl font-light" data-target="250" data-suffix="+" style="font-family: var(--font-display); color: #A0977D;">0</span>
+        <p class="text-[10px] uppercase tracking-[0.2em] mt-4" style="color: #8A8070; font-family: var(--font-body);">Einzelstücke gefertigt</p>
       </div>
-      <div>
-        <span class="block text-5xl md:text-7xl font-light" style="font-family: 'Rubik', sans-serif; color: #A1A89A;">100%</span>
-        <p class="text-xs uppercase tracking-[0.15em] mt-4" style="color: rgba(255,255,255,0.5);">Handarbeit</p>
+      <div class="py-8 md:border-l" style="border-color: #A0977D22;">
+        <span class="counter block text-4xl md:text-6xl font-light" data-target="100" data-suffix="%" style="font-family: var(--font-display); color: #A0977D;">0</span>
+        <p class="text-[10px] uppercase tracking-[0.2em] mt-4" style="color: #8A8070; font-family: var(--font-body);">Handarbeit</p>
       </div>
-      <div>
-        <span class="block text-5xl md:text-7xl font-light" style="font-family: 'Rubik', sans-serif; color: #A1A89A;">1x</span>
-        <p class="text-xs uppercase tracking-[0.15em] mt-4" style="color: rgba(255,255,255,0.5);">Jedes Stück ein Unikat</p>
+      <div class="py-8 md:border-l" style="border-color: #A0977D22;">
+        <span class="block text-2xl md:text-4xl font-light" style="font-family: var(--font-display); color: #A0977D;">Einzigartig</span>
+        <p class="text-[10px] uppercase tracking-[0.2em] mt-4" style="color: #8A8070; font-family: var(--font-body);">Jedes Stück ein Unikat</p>
       </div>
-      <div>
-        <span class="block text-5xl md:text-7xl font-light" style="font-family: 'Rubik', sans-serif; color: #A1A89A;">∞</span>
-        <p class="text-xs uppercase tracking-[0.15em] mt-4" style="color: rgba(255,255,255,0.5);">Möglichkeiten</p>
+      <div class="py-8 md:border-l" style="border-color: #A0977D22;">
+        <span class="block text-4xl md:text-6xl font-light" style="font-family: var(--font-display); color: #A0977D;">∞</span>
+        <p class="text-[10px] uppercase tracking-[0.2em] mt-4" style="color: #8A8070; font-family: var(--font-body);">Möglichkeiten</p>
       </div>
     </div>
   </section>
 
-  <!-- WERTE — 3 Columns, clean -->
-  <section class="py-24 px-6" style="background: #FFFFFF;">
+  <!-- WERTE — 3 Columns mit Nummern -->
+  <section class="py-24 px-6" style="background: #656350;">
     <div class="max-w-[1100px] mx-auto">
-      <p class="text-sm uppercase tracking-[0.3em] mb-3" style="color: #A1A89A; font-family: 'DM Sans', sans-serif;">Philosophie</p>
-      <h2 class="mb-16" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 2.5rem; color: #1A1A1A;">Meine Werte</h2>
+      <div class="flex items-center gap-5 mb-14 reveal">
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.4em] mb-2" style="color: #A0977D; font-family: var(--font-body);">Philosophie</p>
+          <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 2rem; color: #F5F0E8;">Meine Werte</h2>
+        </div>
+        <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div>
-          <div class="w-12 h-12 flex items-center justify-center mb-6" style="background: #F5F4F0;">
-            <span class="text-xl" style="color: #656350;">◆</span>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 stagger">
+        {[
+          { nr: '01', name: 'Präzision', desc: 'Liebe zum Detail, die absolute Präzision sicherstellt. Kein Kompromiss bei der Verarbeitung. Jede Naht, jede Kante, jedes Finish muss stimmen.' },
+          { nr: '02', name: 'Materialwissen', desc: 'Weisheit in der Materialauswahl und den Arbeitsprozessen. Stahl, Holz, Leder, Carbon. Jedes Material hat seinen Charakter und will verstanden werden.' },
+          { nr: '03', name: 'Ehrlichkeit', desc: 'Ehrlichkeit und Gerechtigkeit in der direkten Zusammenarbeit mit dir. Transparent, fair, auf Augenhöhe. Vom ersten Gespräch bis zur Übergabe.' },
+        ].map((wert) => (
+          <div class="wert-card group p-7 border cursor-default" style="border-color: rgba(255,255,255,0.08); background: rgba(0,0,0,0.15);">
+            <span class="wert-nr text-[10px] tracking-[0.3em] block mb-4" style="color: #A0977D; font-family: var(--font-body);">{wert.nr}</span>
+            <h3 class="wert-title text-[16px] uppercase tracking-[0.1em] font-medium mb-4" style="color: #F5F0E8; font-family: var(--font-display);">{wert.name}</h3>
+            <div class="wert-line w-6 h-px mb-4" style="background: #A0977D55;"></div>
+            <p class="text-[14px] leading-[1.8]" style="color: #B5AFA3; font-family: var(--font-body);">{wert.desc}</p>
           </div>
-          <h3 class="text-lg font-medium mb-3" style="color: #1A1A1A; font-family: 'Rubik', sans-serif;">Präzision</h3>
-          <p class="text-base leading-[1.8]" style="color: #888; font-family: 'DM Sans', sans-serif;">Liebe zum Detail, die absolute Präzision sicherstellt. Kein Kompromiss bei der Verarbeitung — jede Naht, jede Kante, jedes Finish muss stimmen.</p>
-        </div>
-        <div>
-          <div class="w-12 h-12 flex items-center justify-center mb-6" style="background: #F5F4F0;">
-            <span class="text-xl" style="color: #656350;">✦</span>
-          </div>
-          <h3 class="text-lg font-medium mb-3" style="color: #1A1A1A; font-family: 'Rubik', sans-serif;">Materialwissen</h3>
-          <p class="text-base leading-[1.8]" style="color: #888; font-family: 'DM Sans', sans-serif;">Weisheit in der Materialauswahl und den Arbeitsprozessen. Stahl, Holz, Leder, Carbon — jedes Material hat seinen Charakter und will verstanden werden.</p>
-        </div>
-        <div>
-          <div class="w-12 h-12 flex items-center justify-center mb-6" style="background: #F5F4F0;">
-            <span class="text-xl" style="color: #656350;">⬡</span>
-          </div>
-          <h3 class="text-lg font-medium mb-3" style="color: #1A1A1A; font-family: 'Rubik', sans-serif;">Ehrlichkeit</h3>
-          <p class="text-base leading-[1.8]" style="color: #888; font-family: 'DM Sans', sans-serif;">Ehrlichkeit und Gerechtigkeit in der direkten Zusammenarbeit mit dir. Transparent, fair, auf Augenhöhe — vom ersten Gespräch bis zur Übergabe.</p>
-        </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- NEXUS GRATIA SEPTEM — Fullwidth cinematic -->
-  <section class="relative py-32 px-6 overflow-hidden">
-    <img src="/images/werkstatt.png" alt="" class="absolute inset-0 w-full h-full object-cover" style="filter: brightness(0.4);" />
-    <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(53,52,43,0.7) 0%, rgba(101,99,80,0.5) 100%);"></div>
+  <!-- DIVIDER — Leichter Parallax Werkstatt-Funken -->
+  <section class="relative h-[45vh] md:h-[50vh] overflow-hidden" id="sparks-divider">
+    <img src="/images/divider-sparks-wide.webp" alt="" class="absolute inset-0 w-full h-[200%] object-cover will-change-transform" id="sparks-img" style="top: -50%;" />
+    <div class="absolute inset-0" style="background: rgba(0,0,0,0.1);"></div>
+  </section>
 
-    <div class="relative z-10 max-w-[800px] mx-auto text-center">
-      <img src="/images/ng7-emblem.png" alt="NG7 Emblem" class="w-32 h-auto mx-auto mb-10 opacity-80" />
-      <p class="text-sm uppercase tracking-[0.4em] mb-5" style="color: rgba(255,255,255,0.4);">Nexus Gratia Septem</p>
-      <h2 class="mb-8" style="font-family: 'Rubik', sans-serif; font-weight: 400; font-size: clamp(2rem, 5vw, 3.2rem); color: #FFFFFF; line-height: 1.3;">
-        Die bewusste Verbindung von sieben<br class="hidden md:block" /> fundamentalen Tugenden
-      </h2>
-      <p class="text-xl leading-[1.9] mb-6" style="color: rgba(255,255,255,0.65); font-family: 'DM Sans', sans-serif; max-width: 650px; margin: 0 auto;">
-        Liebe · Weisheit · Mut · Gerechtigkeit · Mäßigung · Ehrlichkeit · Hoffnung
-      </p>
-      <div class="w-px h-12 mx-auto my-8" style="background: rgba(255,255,255,0.2);"></div>
-      <p class="text-base leading-[1.9] italic" style="color: rgba(255,255,255,0.5); font-family: 'DM Sans', sans-serif; max-width: 600px; margin: 0 auto;">
-        Ich betrachte jedes Projekt als Ausdruck deiner Identität. Mein Ziel ist es, ein technisch einwandfreies und emotional resonantes Unikat zu erschaffen. Das ist kein Zufallsprodukt, sondern das Ergebnis konsequenter Wertarbeit.
-      </p>
+  <!-- NEXUS GRATIA SEPTEM — Typografisch, die 7 Tugenden als große Wörter -->
+  <section class="py-32 px-6 overflow-hidden" style="background: #1A1917;">
+    <div class="max-w-[1200px] mx-auto">
+
+      <!-- Headline zentriert -->
+      <div class="text-center mb-20 reveal">
+        <p class="text-[11px] uppercase tracking-[0.5em] mb-4" style="color: #A0977D; font-family: var(--font-body);">Nexus Gratia Septem</p>
+        <h2 class="mb-6" style="font-family: var(--font-display); font-weight: 400; font-size: clamp(1.6rem, 4vw, 2.2rem); color: #F5F0E8; line-height: 1.4;">
+          Sieben Tugenden. Ein Fundament.
+        </h2>
+        <div class="w-10 h-px mx-auto" style="background: #A0977D;"></div>
+      </div>
+
+      <!-- Die 7 Tugenden als große typografische Elemente -->
+      <div class="space-y-0 stagger">
+        {[
+          { name: 'Liebe', desc: 'Zum Detail. Absolute Präzision in jedem Schritt.' },
+          { name: 'Weisheit', desc: 'In Material und Prozess. Für höchste Qualität.' },
+          { name: 'Mut', desc: 'Neue Wege gehen. Unkonventionell denken.' },
+          { name: 'Gerechtigkeit', desc: 'Faire Zusammenarbeit auf Augenhöhe.' },
+          { name: 'Mäßigung', desc: 'Reduktion auf das Wesentliche.' },
+          { name: 'Ehrlichkeit', desc: 'Transparent und direkt. Keine leeren Versprechen.' },
+          { name: 'Hoffnung', desc: 'Jede Vision verdient Verwirklichung.' },
+        ].map((t, i) => (
+          <div class="tugend-row group flex items-center gap-6 py-6 border-b cursor-default select-none" style="border-color: rgba(255,255,255,0.05);">
+            <span class="tugend-nr text-[11px] tracking-[0.3em] flex-shrink-0 w-8" style="color: #A0977D; font-family: var(--font-body);">0{i + 1}</span>
+            <h3 class="tugend-name text-[clamp(1.8rem,5vw,3.5rem)] uppercase tracking-wide flex-shrink-0" style="font-family: var(--font-display); font-weight: 300; color: #F5F0E8; line-height: 1;">{t.name}</h3>
+            <span class="tugend-desc hidden md:block text-[15px] leading-relaxed ml-8" style="color: #B5AFA3; font-family: var(--font-body);"> — {t.desc}</span>
+          </div>
+        ))}
+      </div>
+
+      <!-- Zitat unten -->
+      <div class="mt-16 max-w-xl mx-auto text-center reveal">
+        <p class="text-[15px] leading-[1.9] italic" style="color: #8A8070; font-family: var(--font-body);">
+          „Ich betrachte jedes Projekt als Ausdruck deiner Identität. Ein technisch einwandfreies und emotional resonantes Unikat. Das Ergebnis konsequenter Wertarbeit."
+        </p>
+        <p class="mt-6 italic text-lg" style="font-family: var(--font-display); color: #A0977D;">Nicolas Meriaux</p>
+      </div>
     </div>
   </section>
 
-  <!-- CTA — Clean, minimal -->
-  <section class="py-20 px-6" style="background: #FFFFFF;">
-    <div class="max-w-[600px] mx-auto text-center">
-      <h2 class="mb-4" style="font-family: 'Rubik', sans-serif; font-weight: 500; font-size: 2.5rem; color: #1A1A1A;">Bereit?</h2>
-      <p class="text-lg mb-10" style="color: #999; font-family: 'DM Sans', sans-serif;">Erzähl mir von deiner Idee.</p>
-      <a href="/kontakt" class="btn-primary">Projekt anfragen</a>
+  <!-- CTA — Minimalistisch -->
+  <section class="py-24 px-6" style="background: #4A4639;">
+    <div class="max-w-[1100px] mx-auto flex flex-col md:flex-row items-center justify-between gap-10 reveal">
+      <div>
+        <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 2rem; color: #F5F0E8;">Du hast eine Idee?</h2>
+        <p class="text-[15px] mt-2" style="color: #B5AFA3; font-family: var(--font-body);">Lass uns darüber reden. Vom Gedanken zum fertigen Objekt.</p>
+      </div>
+      <a href="/kontakt" class="inline-flex items-center gap-3 text-[12px] uppercase tracking-[0.2em] px-8 py-4 border transition-all hover:bg-white/10 flex-shrink-0" style="color: #F5F0E8; border-color: #A0977D;">
+        Projekt anfragen
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
     </div>
   </section>
 
+  <style>
+    /* Hero cinematic zoom */
+    @keyframes heroZoom {
+      0% { scale: 1.15; }
+      100% { scale: 1; }
+    }
+    .hero-zoom {
+      animation: heroZoom 8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+
+    /* Scroll-Animationen */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .stagger.visible > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+    .stagger.visible > *:nth-child(2) { transition-delay: 0.1s; }
+    .stagger.visible > *:nth-child(3) { transition-delay: 0.2s; }
+    .stagger.visible > *:nth-child(4) { transition-delay: 0.3s; }
+    .stagger.visible > *:nth-child(5) { transition-delay: 0.4s; }
+    .stagger.visible > *:nth-child(6) { transition-delay: 0.5s; }
+    .stagger.visible > *:nth-child(7) { transition-delay: 0.6s; }
+
+    /* Werte-Karten hover */
+    .wert-card {
+      transition: border-color 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  background 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  box-shadow 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+      will-change: transform;
+    }
+    .wert-card:hover {
+      border-color: rgba(160, 151, 125, 0.3);
+      transform: translateY(-8px);
+      background: rgba(0,0,0,0.25);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .wert-nr { transition: color 0.5s ease; }
+    .wert-card:hover .wert-nr { color: #C4B68A; }
+    .wert-title { transition: color 0.5s ease; }
+    .wert-card:hover .wert-title { color: #C4B68A; }
+    .wert-line { transition: width 0.5s ease, background 0.5s ease; }
+    .wert-card:hover .wert-line { width: 2.5rem; background: #A0977D; }
+
+    /* Tugend-Zeilen — smooth hover */
+    .tugend-row {
+      background: transparent;
+      border-color: rgba(255,255,255,0.05);
+      transition: background-color 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  border-color 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .tugend-row:hover {
+      background: rgba(160, 151, 125, 0.04);
+      border-color: rgba(160, 151, 125, 0.25);
+    }
+    .tugend-nr {
+      transition: color 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+      will-change: transform, color;
+    }
+    .tugend-row:hover .tugend-nr {
+      color: #C4B68A;
+      transform: translateX(12px);
+    }
+    .tugend-name {
+      transition: color 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+      will-change: transform, color;
+    }
+    .tugend-row:hover .tugend-name {
+      color: #C4B68A;
+      transform: translateX(12px);
+    }
+    .tugend-desc {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .tugend-row:hover .tugend-desc {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  </style>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Counter Animation
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counters = entry.target.querySelectorAll('.counter');
+          counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target') || '0');
+            const suffix = counter.getAttribute('data-suffix') || '';
+            const duration = 2000;
+            const steps = 60;
+            const increment = target / steps;
+            let current = 0;
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= target) {
+                current = target;
+                clearInterval(timer);
+              }
+              (counter as HTMLElement).textContent = Math.floor(current) + suffix;
+            }, duration / steps);
+          });
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const statsSection = document.getElementById('stats-section');
+    if (statsSection) counterObserver.observe(statsSection);
+
+    // Leichter Parallax für Divider-Bild
+    // Parallax für alle Divider-Bilder
+    const parallaxItems = [
+      { section: document.getElementById('sparks-divider'), img: document.getElementById('sparks-img') },
+      { section: document.querySelector('.h-screen'), img: document.getElementById('hero-img') },
+    ];
+
+    window.addEventListener('scroll', () => {
+      const windowH = window.innerHeight;
+      parallaxItems.forEach(({ section, img }) => {
+        if (!section || !img) return;
+        const rect = section.getBoundingClientRect();
+        if (rect.top < windowH && rect.bottom > 0) {
+          const progress = (windowH - rect.top) / (windowH + rect.height);
+          const offset = (progress - 0.5) * 300;
+          img.style.transform = `translateY(${offset}px)`;
+        }
+      });
+    }, { passive: true });
+  </script>
 </Layout>

@@ -3,20 +3,21 @@ import Layout from '../layouts/Layout.astro';
 import ShopGrid from '../components/ShopGrid.astro';
 
 const produkte = [
-  { name: 'Messerkordel I', preis: '3.000,00€', bild: '/images/produkt-01.jpg' },
-  { name: 'Messerkordel II', preis: '3.000,00€', bild: '/images/produkt-02.jpg' },
-  { name: 'Messerkordel III', preis: '3.000,00€', bild: '/images/produkt-03.jpg' },
-  { name: 'Messerkordel IV', preis: '3.000,00€', bild: '/images/produkt-04.jpg' },
-  { name: 'Messerkordel V', preis: '3.000,00€', bild: '/images/produkt-05.jpg' },
-  { name: 'Messerkordel', preis: '3.000,00€', bild: '/images/produkt-messerkordel-orig.png' },
+  { name: 'Messerkordel I', bild: '/images/produkt-01.webp' },
+  { name: 'Messerkordel II', bild: '/images/produkt-02.webp' },
+  { name: 'Messerkordel III', bild: '/images/produkt-03.webp' },
+  { name: 'Messerkordel IV', bild: '/images/produkt-04.webp' },
+  { name: 'Messerkordel V', bild: '/images/produkt-05.webp' },
+  { name: 'Messerkordel', bild: '/images/produkt-messerkordel-orig.webp' },
 ];
 ---
 
-<Layout title="Entwicklung Page" description="Produktentwicklung von NG7 Customs — vom Konzept zum fertigen Produkt.">
+<Layout title="Entwicklung" description="Produktentwicklung von NG7 Customs — vom Konzept zum fertigen Produkt.">
   <ShopGrid
-    title="Entwicklung Page"
-    breadcrumb="Entwicklung Page"
+    title="Entwicklung"
+    breadcrumb="Entwicklung"
     produkte={produkte}
-    activeCategory="Entwicklung Page"
+    activeCategory="Entwicklung"
+    description="Vom Konzept zum fertigen Produkt. Deine Vision, meine Hände."
   />
 </Layout>

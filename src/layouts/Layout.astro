@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const { title, description = 'NG7 Customs — Maßgefertigtes Handwerk aus Trier. Einzelstücke, Maßanfertigungen und Custom-Finishes.' } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.de');
 ---
 <!doctype html>
 <html lang="de">
@@ -14,32 +16,104 @@ const { title, description = 'NG7 Customs — Maßgefertigtes Handwerk aus Trier
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalUrl.href} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <title>{title} | NG7 Customs</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Self-hosted Font Preloads -->
+  <link rel="preload" href="/fonts/bitter/bitter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/work-sans/work-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={`${title} | NG7 Customs`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content="https://ng7-customs.de/og-image.jpg" />
+  <meta property="og:url" content={canonicalUrl.href} />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="NG7 Customs" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "NG7 Customs",
+    "description": "Maßgefertigtes Handwerk aus Trier — Einzelstücke, Maßanfertigungen und Custom-Finishes.",
+    "url": "https://ng7-customs.de",
+    "image": "https://ng7-customs.de/og-image.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Trier",
+      "addressCountry": "DE"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Nicolas Meriaux"
+    },
+    "sameAs": [
+      "https://www.instagram.com/ng7_customs/"
+    ]
+  })} />
+
+  <ClientRouter />
+  <style>
+    ::view-transition-old(root) {
+      animation: fadeOut 0.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    ::view-transition-new(root) {
+      animation: fadeIn 0.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; filter: blur(0); }
+      to { opacity: 0; filter: blur(4px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; filter: blur(4px); }
+      to { opacity: 1; filter: blur(0); }
+    }
+  </style>
 </head>
 <body>
+  <!-- Skip to Content -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--ng7-accent)] focus:text-[var(--ng7-bg)] focus:text-sm focus:font-medium">
+    Zum Inhalt springen
+  </a>
+
   <!-- Header -->
-  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="header" style="background: rgba(42,42,42,0.85); backdrop-filter: blur(8px);">
-    <div class="max-w-[1300px] mx-auto px-6 py-3 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2">
-        <img src="/images/ng7-logo-white.png" alt="NG7 Customs" class="h-6" />
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="header" style="background: rgba(26,25,23,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(160,151,125,0.1);">
+    <div class="max-w-[1300px] mx-auto px-8 py-4 flex items-center relative">
+      <!-- Logo links -->
+      <a href="/" class="flex items-center gap-2 flex-shrink-0">
+        <img src="/images/ng7-logo-white.webp" alt="NG7 Customs — Zur Startseite" class="h-5 w-auto" />
       </a>
+
       <h2 class="sr-only">NG7 Customs</h2>
 
-      <nav class="hidden md:flex items-center gap-7">
-        <a href="/" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Home</a>
-        <a href="/einzelstuecke" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Nach Maß</a>
-        <a href="/entwicklung" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Entwicklung</a>
-        <a href="/custom" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Custom</a>
-        <a href="/ueber-mich" class="text-[11px] tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors">Über Mich</a>
-        <a href="/kontakt" class="text-[11px] tracking-[0.15em] uppercase text-white bg-white/15 border border-white/40 px-5 py-2 hover:bg-white/25 transition-colors">Jetzt anfragen</a>
+      <!-- Nav mittig -->
+      <nav class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2" aria-label="Hauptnavigation">
+        <a href="/" class="nav-link text-[10px] tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(245,240,232,0.5); font-family: var(--font-body);">Home</a>
+        <a href="/einzelstuecke" class="nav-link text-[10px] tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(245,240,232,0.5); font-family: var(--font-body);">Einzelstücke</a>
+        <a href="/entwicklung" class="nav-link text-[10px] tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(245,240,232,0.5); font-family: var(--font-body);">Entwicklung</a>
+        <a href="/custom" class="nav-link text-[10px] tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(245,240,232,0.5); font-family: var(--font-body);">Individualisierung</a>
+        <a href="/ueber-mich" class="nav-link text-[10px] tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(245,240,232,0.5); font-family: var(--font-body);">Über Mich</a>
       </nav>
 
-      <button class="md:hidden text-white" id="menu-toggle" aria-label="Menü">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Social + CTA rechts -->
+      <div class="hidden md:flex items-center gap-5 ml-auto">
+        <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" aria-label="NG7 Customs auf Instagram" class="transition-colors duration-300 hover:text-[#C4B68A]" style="color: rgba(245,240,232,0.4);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="/kontakt" class="inline-flex items-center gap-2 text-[10px] tracking-[0.15em] uppercase px-5 py-2 border transition-all duration-300 hover:bg-[#A0977D22]" style="color: #A0977D; border-color: #A0977D55; font-family: var(--font-body);">
+          Anfragen
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Mobile Toggle -->
+      <button class="md:hidden text-white ml-auto" id="menu-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-nav">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <line x1="3" y1="6" x2="21" y2="6" />
           <line x1="3" y1="12" x2="21" y2="12" />
           <line x1="3" y1="18" x2="21" y2="18" />
@@ -47,65 +121,154 @@ const { title, description = 'NG7 Customs — Maßgefertigtes Handwerk aus Trier
       </button>
     </div>
 
-    <div class="md:hidden hidden border-t border-white/10" id="mobile-nav" style="background: rgba(42,42,42,0.95);">
-      <nav class="flex flex-col p-6 gap-4">
-        <a href="/" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Home</a>
-        <a href="/einzelstuecke" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Nach Maß</a>
-        <a href="/entwicklung" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Entwicklung</a>
-        <a href="/custom" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Custom</a>
-        <a href="/ueber-mich" class="text-sm tracking-wider uppercase text-white/70 hover:text-white">Über Mich</a>
-        <a href="/kontakt" class="text-sm tracking-wider uppercase text-white border border-white/40 px-4 py-2 mt-2 text-center hover:bg-white/10">Jetzt anfragen</a>
+    <!-- Mobile Nav -->
+    <div class="md:hidden hidden" id="mobile-nav" style="background: rgba(26,25,23,0.98); border-top: 1px solid rgba(160,151,125,0.1);">
+      <nav class="flex flex-col p-6 gap-5" aria-label="Mobile Navigation">
+        <a href="/" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Home</a>
+        <a href="/einzelstuecke" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Einzelstücke</a>
+        <a href="/entwicklung" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Entwicklung</a>
+        <a href="/custom" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Individualisierung</a>
+        <a href="/ueber-mich" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Über Mich</a>
+        <a href="/kontakt" class="text-[12px] tracking-[0.2em] uppercase border px-4 py-2.5 mt-2 text-center transition-all hover:bg-[#A0977D22]" style="color: #A0977D; border-color: #A0977D55;">Jetzt anfragen</a>
+        <div class="pt-4 mt-1 border-t flex items-center gap-4" style="border-color: rgba(160,151,125,0.12);">
+          <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" class="flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase transition-colors hover:text-[#C4B68A]" style="color: rgba(245,240,232,0.4);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main>
+  <style>
+    .nav-link {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      width: 0;
+      height: 1px;
+      background: #A0977D;
+      transition: width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  left 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    @media (hover: hover) {
+      .nav-link:hover {
+        color: #C4B68A !important;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+        left: 0;
+      }
+    }
+  </style>
+
+  <main id="main-content">
     <slot />
   </main>
 
-  <!-- Footer (hellgrau, wie Original) -->
-  <footer style="background: #F0F0F0; border-top: 1px solid #E0E0E0;">
+  <!-- Footer -->
+  <footer style="background: var(--ng7-bg); border-top: 1px solid var(--ng7-border);">
     <div class="max-w-[1300px] mx-auto px-6 py-14">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
         <!-- Contact Info -->
         <div>
-          <h4 class="text-xs font-medium mb-3" style="color: #1A1A1A;">Contact Info</h4>
-          <div class="flex flex-col gap-1.5 text-sm" style="color: #6E6E6E;">
-            <a href="mailto:nicolas.mrx@googlemail.com" class="hover:text-[#1A1A1A] transition-colors">nicolas.mrx@googlemail.com</a>
-            <span>Tel. 123-456-7890</span>
+          <h4 class="text-xs font-medium uppercase tracking-[0.15em] mb-3" style="color: var(--ng7-text);">Kontakt</h4>
+          <div class="flex flex-col gap-2 text-sm" style="color: var(--ng7-text-muted);">
+            <a href="mailto:nicolas.mrx@googlemail.com" class="flex items-center gap-2 hover:text-[var(--ng7-accent)] transition-colors">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              nicolas.mrx@googlemail.com
+            </a>
+            <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-[var(--ng7-accent)] transition-colors">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @ng7_customs
+            </a>
           </div>
-          <h4 class="text-xs font-medium mt-5 mb-2" style="color: #1A1A1A;">Socials</h4>
-          <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Instagram</a>
         </div>
 
         <!-- Menu -->
         <div>
-          <h4 class="text-xs font-medium mb-3" style="color: #1A1A1A;">Menu</h4>
-          <nav class="flex flex-col gap-1.5">
-            <a href="/" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Home</a>
-            <a href="/einzelstuecke" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Nach Maß</a>
-            <a href="/entwicklung" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Entwicklung</a>
-            <a href="/custom" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Custom</a>
-            <a href="/impressum" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Impressum</a>
-            <a href="/datenschutz" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">Datenschutz</a>
-            <a href="/agb" class="text-sm hover:text-[#1A1A1A] transition-colors" style="color: #6E6E6E;">AGB</a>
+          <h4 class="text-xs font-medium uppercase tracking-[0.15em] mb-3" style="color: var(--ng7-text);">Navigation</h4>
+          <nav class="flex flex-col gap-1.5" aria-label="Footer Navigation">
+            <a href="/" class="text-sm hover:text-[var(--ng7-accent)] transition-colors" style="color: var(--ng7-text-muted);">Home</a>
+            <a href="/einzelstuecke" class="text-sm hover:text-[var(--ng7-accent)] transition-colors" style="color: var(--ng7-text-muted);">Einzelstücke</a>
+            <a href="/entwicklung" class="text-sm hover:text-[var(--ng7-accent)] transition-colors" style="color: var(--ng7-text-muted);">Entwicklung</a>
+            <a href="/custom" class="text-sm hover:text-[var(--ng7-accent)] transition-colors" style="color: var(--ng7-text-muted);">Individualisierung</a>
+            <a href="/ueber-mich" class="text-sm hover:text-[var(--ng7-accent)] transition-colors" style="color: var(--ng7-text-muted);">Über Mich</a>
           </nav>
         </div>
 
-        <!-- Copyright + Logo -->
+        <!-- Legal + Logo -->
         <div class="flex flex-col items-start md:items-end justify-between">
-          <img src="/images/ng7-logo-white.png" alt="NG7 Customs" class="h-10 brightness-0 opacity-30" />
-          <p class="text-[11px] mt-6" style="color: #999;">All rights reserved. &copy; 2025. Created by NG7 Customs.</p>
+          <img src="/images/ng7-logo-white.webp" alt="NG7 Customs" class="h-10 w-auto opacity-30" />
+          <div class="flex flex-col items-start md:items-end gap-2 mt-6">
+            <div class="flex gap-4 text-[11px]" style="color: var(--ng7-text-muted);">
+              <a href="/impressum" class="hover:text-[var(--ng7-accent)] transition-colors">Impressum</a>
+              <a href="/datenschutz" class="hover:text-[var(--ng7-accent)] transition-colors">Datenschutz</a>
+              <a href="/agb" class="hover:text-[var(--ng7-accent)] transition-colors">AGB</a>
+            </div>
+            <p class="text-[11px]" style="color: var(--ng7-text-muted);">&copy; 2026 NG7 Customs. Alle Rechte vorbehalten.</p>
+          </div>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
-    const toggle = document.getElementById('menu-toggle');
-    const mobileNav = document.getElementById('mobile-nav');
-    toggle?.addEventListener('click', () => {
-      mobileNav?.classList.toggle('hidden');
+    function initMobileNav() {
+      const toggle = document.getElementById('menu-toggle');
+      const mobileNav = document.getElementById('mobile-nav');
+
+      if (!toggle || !mobileNav) return;
+
+      toggle.addEventListener('click', () => {
+        const isOpen = !mobileNav.classList.contains('hidden');
+        mobileNav.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        toggle.setAttribute('aria-label', isOpen ? 'Menü öffnen' : 'Menü schließen');
+      });
+
+      // Close on link click
+      mobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileNav.classList.add('hidden');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Menü öffnen');
+        });
+      });
+    }
+
+    // Lenis Smooth Scroll
+    import Lenis from 'lenis';
+
+    let lenis: InstanceType<typeof Lenis>;
+
+    function initLenis() {
+      if (lenis) lenis.destroy();
+      lenis = new Lenis({
+        duration: 1.4,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+
+    // Init on first load
+    initMobileNav();
+    initLenis();
+
+    // Re-init after View Transitions
+    document.addEventListener('astro:after-swap', () => {
+      initMobileNav();
+      initLenis();
     });
   </script>
 </body>

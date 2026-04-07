@@ -1,0 +1,50 @@
+---
+interface Props {
+  produkte: { name: string; bild: string }[];
+}
+
+const { produkte } = Astro.props;
+const rotations = ['-2deg', '1.5deg', '-1deg', '2.5deg'];
+const offsets = ['translate-y-3', '-translate-y-2', 'translate-y-5', '-translate-y-1'];
+---
+
+<!-- 4. NEUE WERKE 2025 — Werkstatt-Tisch -->
+<section class="py-24 px-6 overflow-hidden" style="background: #3B3629;">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="flex items-center gap-5 mb-16">
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.3em] mb-2" style="color: #A0977D; font-family: var(--font-body);">Kollektion</p>
+        <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 1.8rem; color: #F5F0E8;">Neue Werke 2025</h2>
+      </div>
+      <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+      {produkte.map((p, i) => (
+        <div class={`group ${offsets[i]} transition-all duration-500 hover:translate-y-0`} style={`transform: rotate(${rotations[i]});`}>
+          <div class="relative transition-all duration-500 group-hover:rotate-0 group-hover:scale-105">
+            <!-- Schatten unter der Karte -->
+            <div class="absolute -bottom-3 left-2 right-2 h-6 blur-xl opacity-30" style="background: #000;"></div>
+            <!-- Karte -->
+            <div class="relative overflow-hidden" style="background: #F5F0E8; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+              <!-- Polaroid-artiger Rahmen -->
+              <div class="p-2.5 pb-0">
+                <div class="aspect-[3/4] overflow-hidden">
+                  <img src={p.bild} alt={p.name} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" width="300" height="400" />
+                </div>
+              </div>
+              <div class="p-3 pt-2">
+                <div class="flex items-center justify-between">
+                  <p class="text-[12px]" style="color: #2A2723; font-family: var(--font-body);">{p.name}</p>
+                  <span class="text-[10px] tracking-widest" style="color: #A0977D;">0{i + 1}</span>
+                </div>
+              </div>
+            </div>
+            <!-- Klebeband-Effekt oben -->
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-6 opacity-40 pointer-events-none" style="background: linear-gradient(135deg, #D4A574, #C49A6C); transform: translateX(-50%) rotate(-3deg); box-shadow: 0 1px 4px rgba(0,0,0,0.2);"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Seite nicht gefunden" description="Diese Seite existiert nicht.">
+  <section class="min-h-[70svh] flex items-center justify-center px-6" style="background: var(--ng7-bg);">
+    <div class="text-center max-w-lg">
+      <span class="text-[120px] md:text-[180px] font-bold leading-none block mb-4" style="font-family: var(--font-display); color: rgba(160,151,125,0.1);">404</span>
+      <h1 class="text-2xl mb-4" style="font-family: var(--font-display); font-weight: 500; color: var(--ng7-text);">Seite nicht gefunden</h1>
+      <p class="text-[15px] leading-relaxed mb-8" style="color: var(--ng7-text-muted); font-family: var(--font-body);">
+        Die Seite, die du suchst, existiert nicht oder wurde verschoben.
+      </p>
+      <a href="/" class="btn-outline">Zurück zur Startseite</a>
+    </div>
+  </section>
+</Layout>

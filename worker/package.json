@@ -1,0 +1,14 @@
+{
+  "name": "ng7-contact-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create ng7-contacts",
+    "db:init": "wrangler d1 execute ng7-contacts --file=schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}
