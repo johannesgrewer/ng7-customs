@@ -29,5 +29,6 @@ screenshots/
 
 # worker dependencies
 worker/node_modules/
+worker/.wrangler/
 
 .vercel
