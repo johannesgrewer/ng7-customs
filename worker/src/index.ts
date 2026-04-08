@@ -1,7 +1,31 @@
 import { adminHtml } from './admin-html';
 import { EmailMessage } from 'cloudflare:email';
-import { createMimeMessage } from 'mimetext/browser';
-const NG7_LOGO_URL = 'https://ng7-customs.com/images/ng7-logo-white.png';
+
+function utf8ToBase64(str: string): string {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  const chunk = 8192;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  }
+  return btoa(binary);
+}
+
+function buildRawEmail(from: string, to: string, subject: string, htmlBody: string): string {
+  const encodedSubject = `=?UTF-8?B?${utf8ToBase64(subject)}?=`;
+  const base64Body = utf8ToBase64(htmlBody);
+  const wrappedBody = (base64Body.match(/.{1,76}/g) ?? [base64Body]).join('\r\n');
+  return [
+    'MIME-Version: 1.0',
+    `From: NG7 Customs <${from}>`,
+    `To: ${to}`,
+    `Subject: ${encodedSubject}`,
+    'Content-Type: text/html; charset=UTF-8',
+    'Content-Transfer-Encoding: base64',
+    '',
+    wrappedBody,
+  ].join('\r\n');
+}
 
 interface Env {
   DB: D1Database;
@@ -442,8 +466,7 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
       <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" bgcolor="#2A2723" style="background-color:#2A2723;max-width:560px;width:100%;">
         <!-- Header -->
         <tr><td bgcolor="#2A2723" style="background-color:#2A2723;padding:32px 40px 24px;border-bottom:1px solid #3A372F;">
-          <img src="${NG7_LOGO_URL}" alt="NG7" width="auto" height="24" style="height:24px;width:auto;display:inline;vertical-align:middle;" />
-          <span style="font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#A0977D;padding-left:12px;">NG7 Customs</span>
+          <span style="font-size:18px;letter-spacing:4px;text-transform:uppercase;color:#A0977D;font-weight:700;font-family:'Helvetica Neue',Arial,sans-serif;">NG7</span><span style="font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#A0977D;padding-left:8px;font-family:'Helvetica Neue',Arial,sans-serif;">Customs</span>
         </td></tr>
         <!-- Title -->
         <tr><td bgcolor="#2A2723" style="background-color:#2A2723;padding:28px 40px 8px;">
@@ -494,13 +517,8 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
 </body>
 </html>`;
 
-      const msg = createMimeMessage();
-      msg.setSender({ name: 'NG7 Customs', addr: env.FROM_EMAIL });
-      msg.setRecipient(env.NOTIFY_EMAIL);
-      msg.setSubject(subject);
-      msg.addMessage({ contentType: 'text/html', encoding: 'base64', charset: 'UTF-8', data: htmlBody });
-
-      const emailMessage = new EmailMessage(env.FROM_EMAIL, env.NOTIFY_EMAIL, msg.asRaw());
+      const rawEmail = buildRawEmail(env.FROM_EMAIL, env.NOTIFY_EMAIL, subject, htmlBody);
+      const emailMessage = new EmailMessage(env.FROM_EMAIL, env.NOTIFY_EMAIL, rawEmail);
       await env.SEND_EMAIL.send(emailMessage);
     } catch (emailErr) {
       console.error('Email send failed:', emailErr);
