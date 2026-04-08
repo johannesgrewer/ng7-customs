@@ -13,10 +13,13 @@ bucket_name = "ng7-images"
 
 [vars]
 NOTIFY_EMAIL = "nicolas.mrx@googlemail.com"
-FROM_EMAIL = "anfrage@ng7-customs.de"
-ALLOWED_ORIGIN = "https://ng7-customs.de"
+FROM_EMAIL = "anfrage@ng7-customs.com"
+ALLOWED_ORIGIN = "https://ng7-customs.com"
 
 # Secrets → über `wrangler secret put` setzen (NICHT hier eintragen):
-# RESEND_API_KEY
 # ADMIN_PASSWORD   (Passwort für /admin)
 # VERCEL_DEPLOY_HOOK  (URL aus Vercel Dashboard → Settings → Git → Deploy Hooks)
+
+[[send_email]]
+name = "SEND_EMAIL"
+destination_address = "nicolas.mrx@googlemail.com"

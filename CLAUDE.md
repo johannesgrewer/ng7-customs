@@ -1,7 +1,7 @@
 # NG7 Customs — Website
 
 ## Status
-CMS vollständig implementiert und live auf Vercel. Admin-Panel unter `/admin` erreichbar. Alle Produkt-Seiten fetchen Daten aus Cloudflare D1+R2. Nächster Schritt: Echte Domain eintragen, Resend Key setzen, Adressdaten im Impressum nachtragen.
+CMS + Galerie vollständig implementiert und live. Admin-Panel unter `/admin` mit unified Image Manager (Drag-Drop, Cover-Sync). Lightbox auf allen Produktseiten aktiv. Domain `ng7-customs.com` in Vercel + Cloudflare DNS konfiguriert. E-Mail über Cloudflare Email Routing. Deploy Hook aktiv. Umami Analytics eingebaut. Nächste Schritte: OG-Image + Favicon erstellen, SSL verifizieren.
 
 ## Tech Stack
 - **Framework:** Astro 6 (SSG, static output)
@@ -52,7 +52,8 @@ Vercel (Frontend, SSG)
 ```
 
 **D1 Tabellen:**
-- `werke` — id, name, kategorie, bild_key, aktiv, reihenfolge
+- `werke` — id, name, kategorie, bild_key, aktiv, reihenfolge, beschreibung
+- `werk_bilder` — id, werk_id, bild_key, beschreibung, reihenfolge (Cover = Index 0, bild_key in werke immer in Sync)
 - `settings` — key, bild_key (kat_einzelstuecke, kat_entwicklung, kat_custom)
 - `contact_submissions` — Kontaktformular-Einträge
 
@@ -64,6 +65,9 @@ cd worker && npx wrangler deploy
 **D1 Migration:**
 ```bash
 npx wrangler d1 execute ng7-contacts --file=worker/schema.sql --remote
+# Galerie-Migration (bereits gelaufen):
+npx wrangler d1 execute ng7-contacts --file=worker/migrate-bilder.sql --remote
+npx wrangler d1 execute ng7-contacts --file=worker/migrate-redesign.sql --remote
 ```
 
 **Worker-Secrets:**
@@ -80,17 +84,26 @@ VERCEL_DEPLOY_HOOK → noch nicht gesetzt
 - "Veröffentlichen"-Button triggert Vercel Deploy Hook
 - Neue Werke: max. 4 werden auf Startseite angezeigt (Warnung im Admin)
 - Einstellungen-Tab: Kategorie-Bilder hochladen (Einzelstücke, Entwicklung, Individualisierung)
+- **Image Manager im Modal:** großes Hauptbild-Preview + horizontaler Drag-Drop Thumb-Strip, Cover-Badge auf erstem Bild, "+" Button zum Hochladen
+- Neues Werk: zuerst Name/Kat speichern → Modal bleibt offen im Edit-Mode → dann Bilder hochladen
 
 ## API-Routen (alle über Vercel-Rewrite)
-- `GET /api/werke?kategorie=X` — öffentlich, für Astro-Build
+- `GET /api/werke?kategorie=X&with_bilder=1` — öffentlich, für Astro-Build (inkl. Galerie-Bilder)
 - `GET /api/werke/all` — auth, Admin
 - `POST/PUT/DELETE /api/werke/:id` — auth
+- `GET /api/werke/:id/bilder` — öffentlich, Galerie für ein Werk
+- `POST /api/werke/:id/bilder` — auth, Bild hinzufügen (auto-setzt Cover wenn erstes)
+- `PUT /api/werke/:id/bilder/reorder` — auth, Reihenfolge ändern (synct Cover)
+- `PUT /api/werke/bilder/:bildId` — auth, Bild-Metadaten
+- `DELETE /api/werke/bilder/:bildId` — auth, Bild löschen (synct Cover)
 - `POST /api/upload` — auth, Bild zu R2
 - `GET /images/:path*` — öffentlich, R2 serve
 - `GET /api/settings` — öffentlich
 - `PUT /api/settings/:key` — auth
 - `POST /api/deploy` — auth, Vercel Hook
 - `POST /api/contact` — öffentlich, Kontaktformular
+
+**Wichtig Vercel-Rewrite-Reihenfolge:** Exakter Pfad `/api/werke` MUSS vor Wildcard `/api/werke/:path*` stehen — sonst matcht Wildcard mit Trailing Slash.
 
 ## Kontaktformular — Spam-Schutz (4 Stufen)
 1. Honeypot-Feld (unsichtbar)
@@ -115,33 +128,26 @@ VERCEL_DEPLOY_HOOK → noch nicht gesetzt
 - **Bilder aus CMS:** Immer `/images/${bild_key}` — NICHT die volle Worker-URL (CSP!)
 
 ## Letzte Session
-**Datum:** 2026-04-07
-**Schwerpunkt:** CMS-Integration (Cloudflare D1+R2+Worker), Admin-Panel, Kategorie-Bilder, Neue Werke max 4, PortaWerk Footer-Credit
+**Datum:** 2026-04-08
+**Schwerpunkt:** E-Mail (Cloudflare), Domain, Deploy Hook, Impressum, Umami
 **Erreicht:**
-- Cloudflare Worker deployed mit D1 + R2 + HMAC-Auth
-- Admin-Panel (`/admin`) mit Login, Werke CRUD, Bild-Upload, Einstellungen-Tab
-- 13 Platzhalter-Werke in D1, 9 Bilder in R2
-- Alle Astro-Produktseiten fetchen Daten aus CMS beim Build
-- `settings`-Tabelle für Kategorie-Bilder (editierbar im Admin)
-- Neue Werke auf max. 4 begrenzt (Startseite), Warnung im Admin
-- Social Media (Instagram) in Navbar + Footer + Kontaktseite
-- Legal-Seiten gestylt via LegalPage.astro
-- Footer: "Website by PortaWerk" mit Link auf portawerk.de
-- Bild-URLs fix: relativer Pfad `/images/...` statt absoluter Worker-URL (CSP-kompatibel)
-- Vercel-Rewrites für alle Worker-Routen
+- E-Mail: Resend → Cloudflare Email Routing umgebaut (send_email Binding + mimetext)
+- E-Mail-Template gestylt im NG7-Design (Logo Base64, dunkles Theme, Gold-Akzente)
+- Bug-Fix: Kontaktformular `/api/contact` war hinter Auth-Check — nach vorne verschoben
+- UTF-8 charset fix für Umlaute in E-Mails
+- Domain `ng7-customs.com` in Vercel + DNS (A + CNAME) in Cloudflare
+- Alle Domain-Referenzen `.de` → `.com` (astro.config, Layout, wrangler.toml)
+- VERCEL_DEPLOY_HOOK als Worker-Secret gesetzt
+- Impressum + Datenschutz: Adresse eingetragen (Am Weidengraben 66, 54296 Trier)
+- Datenschutz: Resend → Cloudflare, Tracking-Abschnitt → Umami
+- Umami Analytics eingebaut (analytics.z-up.studio)
 
 **Offen:**
-1. Admin Speichern-Fehler testen (war noch offen bei Abschluss)
-2. RESEND_API_KEY setzen (`wrangler secret put RESEND_API_KEY`)
-3. VERCEL_DEPLOY_HOOK setzen (Vercel Dashboard → Settings → Git → Deploy Hooks)
-4. Impressum + Datenschutz: Straße + PLZ von Nicolas nachtragen
-5. Echte Domain `ng7-customs.de` in Vercel eintragen
-6. OG-Image (1200×630) + Apple Touch Icon (180×180) erstellen
+1. Nicolas' Feedback zur E-Mail (Sonderzeichen-Fix verifizieren)
+2. OG-Image (1200×630) + Apple Touch Icon (180×180) + Favicon erstellen
+3. SSL-Zertifikat für ng7-customs.com verifizieren
 
 ## Nächste Schritte (priorisiert)
-1. Admin Speichern-Fehler debuggen und fixen
-2. VERCEL_DEPLOY_HOOK konfigurieren
-3. RESEND_API_KEY setzen + Kontaktformular testen
-4. Domain eintragen
-5. Impressum-Adresse nachtragen
-6. OG-Image erstellen
+1. OG-Image (1200×630) + Apple Touch Icon (180×180) + Favicon erstellen
+2. SSL für ng7-customs.com prüfen
+3. E-Mail-Test mit Nicolas abschließen

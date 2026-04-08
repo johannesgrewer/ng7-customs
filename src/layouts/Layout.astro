@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { title, description = 'NG7 Customs — Maßgefertigtes Handwerk aus Trier. Einzelstücke, Maßanfertigungen und Custom-Finishes.' } = Astro.props;
-const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.de');
+const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.com');
 ---
 <!doctype html>
 <html lang="de">
@@ -29,7 +29,7 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.de');
   <!-- Open Graph -->
   <meta property="og:title" content={`${title} | NG7 Customs`} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content="https://ng7-customs.de/og-image.jpg" />
+  <meta property="og:image" content="https://ng7-customs.com/og-image.jpg" />
   <meta property="og:url" content={canonicalUrl.href} />
   <meta property="og:locale" content="de_DE" />
   <meta property="og:type" content="website" />
@@ -41,8 +41,8 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.de');
     "@type": "LocalBusiness",
     "name": "NG7 Customs",
     "description": "Maßgefertigtes Handwerk aus Trier — Einzelstücke, Maßanfertigungen und Custom-Finishes.",
-    "url": "https://ng7-customs.de",
-    "image": "https://ng7-customs.de/og-image.jpg",
+    "url": "https://ng7-customs.com",
+    "image": "https://ng7-customs.com/og-image.jpg",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Trier",
@@ -56,6 +56,9 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.de');
       "https://www.instagram.com/ng7_customs/"
     ]
   })} />
+
+  <!-- Analytics -->
+  <script defer src="https://analytics.z-up.studio/script.js" data-website-id="9ff6ae6d-34aa-4bf5-a577-7ce843bfcd44"></script>
 
   <ClientRouter />
   <style>

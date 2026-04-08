@@ -1,14 +1,21 @@
 import { adminHtml } from './admin-html';
+import { EmailMessage } from 'cloudflare:email';
+import { createMimeMessage } from 'mimetext/browser';
+import { NG7_LOGO_BASE64 } from './logo';
 
 interface Env {
   DB: D1Database;
   IMAGES: R2Bucket;
-  RESEND_API_KEY: string;
+  SEND_EMAIL: SendEmail;
   ADMIN_PASSWORD: string;
   NOTIFY_EMAIL: string;
   FROM_EMAIL: string;
   ALLOWED_ORIGIN: string;
   VERCEL_DEPLOY_HOOK: string;
+}
+
+interface SendEmail {
+  send(message: EmailMessage): Promise<void>;
 }
 
 // In-memory rate limit (resets per Worker instance)
@@ -184,6 +191,11 @@ export default {
       return new Response(JSON.stringify(bilder), {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       });
+    }
+
+    // ── PUBLIC: POST /api/contact — contact form ──────
+    if ((path === '/api/contact' || path === '/') && method === 'POST') {
+      return handleContact(request, env);
     }
 
     // ── PROTECTED: all remaining routes need auth ─────
@@ -370,11 +382,6 @@ export default {
       return json({ ok: res.ok });
     }
 
-    // POST /api/contact or POST / — contact form (Vercel rewrite compatibility)
-    if ((path === '/api/contact' || path === '/') && method === 'POST') {
-      return handleContact(request, env);
-    }
-
     return new Response('Not found', { status: 404 });
   },
 };
@@ -423,17 +430,79 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
       "INSERT INTO contact_submissions (name, email, kategorie, nachricht, ip, created_at) VALUES (?, ?, ?, ?, ?, datetime('now'))"
     ).bind(safeName, safeEmail, safeKat, safeMsg, clientIp).run();
 
-    if (env.RESEND_API_KEY) {
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: `NG7 Customs <${env.FROM_EMAIL}>`,
-          to: env.NOTIFY_EMAIL,
-          subject: `Neue Anfrage von ${safeName}${safeKat ? ` (${safeKat})` : ''}`,
-          html: `<h2>Neue Kontaktanfrage</h2><p><b>Name:</b> ${safeName}</p><p><b>E-Mail:</b> ${safeEmail}</p>${safeKat ? `<p><b>Kategorie:</b> ${safeKat}</p>` : ''}<p><b>Nachricht:</b></p><p>${safeMsg.replace(/\n/g, '<br>')}</p><hr><p style="color:#999;font-size:12px">Gesendet über ng7-customs.de</p>`,
-        }),
-      });
+    try {
+      const subject = `Neue Anfrage von ${safeName}${safeKat ? ` (${safeKat})` : ''}`;
+      const htmlBody = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background-color:#1A1917;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#1A1917;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background-color:#2A2723;border-radius:4px;overflow:hidden;">
+        <!-- Header -->
+        <tr><td style="padding:32px 40px 24px;border-bottom:1px solid #3A372F;">
+          <img src="${NG7_LOGO_BASE64}" alt="NG7 Customs" height="24" style="height:24px;width:auto;display:inline-block;vertical-align:middle;" />
+          <span style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:#A0977D;margin-left:12px;vertical-align:middle;">NG7 Customs</span>
+        </td></tr>
+        <!-- Title -->
+        <tr><td style="padding:28px 40px 8px;">
+          <h1 style="margin:0;font-size:20px;font-weight:600;color:#F5F0E8;">Neue Kontaktanfrage</h1>
+        </td></tr>
+        <!-- Fields -->
+        <tr><td style="padding:20px 40px;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="padding:12px 0;border-bottom:1px solid #3A372F;">
+                <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8A8070;">Name</span><br>
+                <span style="font-size:15px;color:#F5F0E8;line-height:1.6;">${safeName}</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:12px 0;border-bottom:1px solid #3A372F;">
+                <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8A8070;">E-Mail</span><br>
+                <a href="mailto:${safeEmail}" style="font-size:15px;color:#A0977D;text-decoration:none;">${safeEmail}</a>
+              </td>
+            </tr>
+            ${safeKat ? `<tr>
+              <td style="padding:12px 0;border-bottom:1px solid #3A372F;">
+                <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8A8070;">Kategorie</span><br>
+                <span style="font-size:15px;color:#F5F0E8;line-height:1.6;">${safeKat}</span>
+              </td>
+            </tr>` : ''}
+            <tr>
+              <td style="padding:12px 0;">
+                <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8A8070;">Nachricht</span><br>
+                <span style="font-size:15px;color:#F5F0E8;line-height:1.6;">${safeMsg.replace(/\n/g, '<br>')}</span>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+        <!-- Reply Button -->
+        <tr><td style="padding:8px 40px 32px;">
+          <a href="mailto:${safeEmail}" style="display:inline-block;padding:10px 24px;border:1px solid #A0977D55;color:#A0977D;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;">Antworten</a>
+        </td></tr>
+        <!-- Footer -->
+        <tr><td style="padding:20px 40px;border-top:1px solid #3A372F;">
+          <span style="font-size:11px;color:#8A8070;">ng7-customs.com</span>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+      const msg = createMimeMessage();
+      msg.setSender({ name: 'NG7 Customs', addr: env.FROM_EMAIL });
+      msg.setRecipient(env.NOTIFY_EMAIL);
+      msg.setSubject(subject);
+      msg.setHeader('Content-Type', 'text/html; charset=UTF-8');
+      msg.addMessage({ contentType: 'text/html; charset=UTF-8', data: htmlBody });
+
+      const emailMessage = new EmailMessage(env.FROM_EMAIL, env.NOTIFY_EMAIL, msg.asRaw());
+      await env.SEND_EMAIL.send(emailMessage);
+    } catch (emailErr) {
+      console.error('Email send failed:', emailErr);
     }
 
     return new Response(JSON.stringify({ success: true }), {

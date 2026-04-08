@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ng7-customs.de',
+  site: 'https://ng7-customs.com',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()]

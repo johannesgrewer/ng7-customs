@@ -26,6 +26,7 @@ pnpm-debug.log*
 # dev tools
 scrape-output/
 screenshots/
+clientimages/
 
 # worker dependencies
 worker/node_modules/
