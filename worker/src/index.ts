@@ -1,7 +1,7 @@
 import { adminHtml } from './admin-html';
 import { EmailMessage } from 'cloudflare:email';
 import { createMimeMessage } from 'mimetext/browser';
-import { NG7_LOGO_BASE64 } from './logo';
+const NG7_LOGO_URL = 'https://ng7-customs.com/images/ng7-logo-white.png';
 
 interface Env {
   DB: D1Database;
@@ -435,55 +435,57 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
       const htmlBody = `
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background-color:#1A1917;font-family:'Helvetica Neue',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#1A1917;padding:40px 20px;">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background-color:#1A1917;font-family:'Helvetica Neue',Arial,sans-serif;-webkit-text-size-adjust:100%;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#1A1917" style="background-color:#1A1917;padding:40px 16px;">
     <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="background-color:#2A2723;border-radius:4px;overflow:hidden;">
+      <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" bgcolor="#2A2723" style="background-color:#2A2723;max-width:560px;width:100%;">
         <!-- Header -->
-        <tr><td style="padding:32px 40px 24px;border-bottom:1px solid #3A372F;">
-          <img src="${NG7_LOGO_BASE64}" alt="NG7 Customs" height="24" style="height:24px;width:auto;display:inline-block;vertical-align:middle;" />
-          <span style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:#A0977D;margin-left:12px;vertical-align:middle;">NG7 Customs</span>
+        <tr><td bgcolor="#2A2723" style="background-color:#2A2723;padding:32px 40px 24px;border-bottom:1px solid #3A372F;">
+          <img src="${NG7_LOGO_URL}" alt="NG7" width="auto" height="24" style="height:24px;width:auto;display:inline;vertical-align:middle;" />
+          <span style="font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#A0977D;padding-left:12px;">NG7 Customs</span>
         </td></tr>
         <!-- Title -->
-        <tr><td style="padding:28px 40px 8px;">
+        <tr><td bgcolor="#2A2723" style="background-color:#2A2723;padding:28px 40px 8px;">
           <h1 style="margin:0;font-size:20px;font-weight:600;color:#F5F0E8;">Neue Kontaktanfrage</h1>
         </td></tr>
         <!-- Fields -->
-        <tr><td style="padding:20px 40px;">
-          <table width="100%" cellpadding="0" cellspacing="0">
+        <tr><td bgcolor="#2A2723" style="background-color:#2A2723;padding:20px 40px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td style="padding:12px 0;border-bottom:1px solid #3A372F;">
-                <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8A8070;">Name</span><br>
-                <span style="font-size:15px;color:#F5F0E8;line-height:1.6;">${safeName}</span>
+                <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8A8070;">Name</span><br>
+                <span style="font-size:15px;color:#F5F0E8;line-height:24px;">${safeName}</span>
               </td>
             </tr>
             <tr>
               <td style="padding:12px 0;border-bottom:1px solid #3A372F;">
-                <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8A8070;">E-Mail</span><br>
+                <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8A8070;">E-Mail</span><br>
                 <a href="mailto:${safeEmail}" style="font-size:15px;color:#A0977D;text-decoration:none;">${safeEmail}</a>
               </td>
             </tr>
             ${safeKat ? `<tr>
               <td style="padding:12px 0;border-bottom:1px solid #3A372F;">
-                <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8A8070;">Kategorie</span><br>
-                <span style="font-size:15px;color:#F5F0E8;line-height:1.6;">${safeKat}</span>
+                <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8A8070;">Kategorie</span><br>
+                <span style="font-size:15px;color:#F5F0E8;line-height:24px;">${safeKat}</span>
               </td>
             </tr>` : ''}
             <tr>
               <td style="padding:12px 0;">
-                <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8A8070;">Nachricht</span><br>
-                <span style="font-size:15px;color:#F5F0E8;line-height:1.6;">${safeMsg.replace(/\n/g, '<br>')}</span>
+                <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8A8070;">Nachricht</span><br>
+                <span style="font-size:15px;color:#F5F0E8;line-height:24px;">${safeMsg.replace(/\n/g, '<br>')}</span>
               </td>
             </tr>
           </table>
         </td></tr>
         <!-- Reply Button -->
-        <tr><td style="padding:8px 40px 32px;">
-          <a href="mailto:${safeEmail}" style="display:inline-block;padding:10px 24px;border:1px solid #A0977D55;color:#A0977D;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;">Antworten</a>
+        <tr><td bgcolor="#2A2723" style="background-color:#2A2723;padding:8px 40px 32px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="border:1px solid #A0977D;padding:10px 24px;">
+            <a href="mailto:${safeEmail}" style="color:#A0977D;font-size:12px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-family:'Helvetica Neue',Arial,sans-serif;">Antworten</a>
+          </td></tr></table>
         </td></tr>
         <!-- Footer -->
-        <tr><td style="padding:20px 40px;border-top:1px solid #3A372F;">
+        <tr><td bgcolor="#2A2723" style="background-color:#2A2723;padding:20px 40px;border-top:1px solid #3A372F;">
           <span style="font-size:11px;color:#8A8070;">ng7-customs.com</span>
         </td></tr>
       </table>
@@ -496,8 +498,7 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
       msg.setSender({ name: 'NG7 Customs', addr: env.FROM_EMAIL });
       msg.setRecipient(env.NOTIFY_EMAIL);
       msg.setSubject(subject);
-      msg.setHeader('Content-Type', 'text/html; charset=UTF-8');
-      msg.addMessage({ contentType: 'text/html; charset=UTF-8', data: htmlBody });
+      msg.addMessage({ contentType: 'text/html', encoding: 'base64', charset: 'UTF-8', data: htmlBody });
 
       const emailMessage = new EmailMessage(env.FROM_EMAIL, env.NOTIFY_EMAIL, msg.asRaw());
       await env.SEND_EMAIL.send(emailMessage);

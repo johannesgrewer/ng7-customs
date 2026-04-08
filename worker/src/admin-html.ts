@@ -58,7 +58,7 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
 .upload-hint{font-size:.72rem;color:#8A8070}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
 .modal-overlay.open{display:flex}
-.modal{background:#2A2723;border:1px solid rgba(160,151,125,.15);width:100%;max-width:520px}
+.modal{background:#2A2723;border:1px solid rgba(160,151,125,.15);width:100%;max-width:640px}
 .modal-header{padding:18px 22px;border-bottom:1px solid rgba(160,151,125,.1);display:flex;align-items:center;justify-content:space-between}
 .modal-header h2{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
 .modal-body{padding:22px}
@@ -75,23 +75,26 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
 /* Image manager */
 .img-manager-label{display:flex;align-items:center;justify-content:space-between;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8070;margin-bottom:10px}
 .img-manager-hint{font-size:.58rem;letter-spacing:0;text-transform:none;color:#8A8070;font-weight:400}
-.main-preview{width:100%;background:#1A1917;overflow:hidden;margin-bottom:10px;display:none}
-.main-preview img{width:100%;max-height:240px;object-fit:contain;display:block}
-.thumb-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
-.thumb-strip::-webkit-scrollbar{height:3px}
-.thumb-strip::-webkit-scrollbar-thumb{background:rgba(160,151,125,.3)}
-.thumb{position:relative;flex-shrink:0;width:70px;cursor:grab;user-select:none}
-.thumb img{width:70px;height:93px;object-fit:cover;display:block;border:2px solid transparent;transition:border-color .15s}
+.main-preview{width:100%;background:#1A1917;overflow:hidden;margin-bottom:12px;display:none;border-radius:4px}
+.main-preview img{width:100%;max-height:280px;object-fit:contain;display:block}
+.thumb-strip{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:4px}
+.thumb{position:relative;width:100px;height:100px;cursor:grab;user-select:none;border-radius:4px;overflow:hidden}
+.thumb img{width:100px;height:100px;object-fit:cover;display:block;border:2px solid transparent;border-radius:4px;transition:border-color .15s}
+.thumb-uploading{opacity:.5;pointer-events:none;position:relative}
+.thumb-uploading::after{content:'';position:absolute;top:50%;left:50%;width:24px;height:24px;margin:-12px 0 0 -12px;border:2px solid rgba(160,151,125,.3);border-top-color:#A0977D;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .thumb.drag-over img{border-color:#A0977D}
-.thumb-del{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.7);border:none;color:#fff;width:18px;height:18px;cursor:pointer;font-size:.65rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;padding:0;line-height:1}
+.thumb-del{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.75);border:none;color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;padding:0;line-height:1}
 .thumb:hover .thumb-del{opacity:1}
-.thumb-cover{position:absolute;bottom:0;left:0;right:0;background:rgba(160,151,125,.9);color:#1A1917;font-size:.42rem;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:2px 0;pointer-events:none}
-.thumb-add{flex-shrink:0;width:70px;height:93px;border:1px dashed rgba(160,151,125,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:3px}
-.thumb-add:hover{border-color:#A0977D;background:rgba(160,151,125,.04)}
-.thumb-add-plus{font-size:1.5rem;color:#8A8070;line-height:1}
+.thumb-cover{position:absolute;bottom:0;left:0;right:0;background:rgba(160,151,125,.9);color:#1A1917;font-size:.45rem;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:3px 0;pointer-events:none}
+.thumb-add{width:100px;height:100px;border:1px dashed rgba(160,151,125,.3);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:4px}
+.thumb-add:hover{border-color:#A0977D;background:rgba(160,151,125,.06)}
+.thumb-add-plus{font-size:1.8rem;color:#8A8070;line-height:1}
 .thumb-add-text{font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:#8A8070}
-.thumb-add-disabled{opacity:.35;cursor:not-allowed}
-.thumb-add-disabled:hover{border-color:rgba(160,151,125,.3);background:transparent}
+.thumb-add-large{width:100%;height:160px;border:1px dashed rgba(160,151,125,.3);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:8px;background:#1A1917}
+.thumb-add-large:hover{border-color:#A0977D;background:rgba(160,151,125,.06)}
+.thumb-add-large .thumb-add-plus{font-size:2.5rem}
+.thumb-add-large .thumb-add-text{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#8A8070}
 /* Settings area */
 .settings-area{display:none;padding:20px;max-width:800px}
 .settings-section-title{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:#8A8070;margin-bottom:16px}
@@ -204,7 +207,7 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
           <img id="mainPreviewImg" alt="" />
         </div>
         <div id="thumbStrip" class="thumb-strip"></div>
-        <input type="file" id="thumbFileInput" accept="image/*" style="display:none" onchange="onThumbFile(this)" />
+        <input type="file" id="thumbFileInput" accept="image/*" multiple style="display:none" onchange="onThumbFiles(this)" />
       </div>
     </div>
     <div class="modal-footer">
@@ -238,7 +241,54 @@ body{background:#1A1917;color:#F5F0E8;font-family:system-ui,sans-serif;min-heigh
   </div>
 </div>
 
+<!-- Deploy success modal -->
+<div class="modal-overlay" id="deployOverlay" style="z-index:210;align-items:center" onclick="this.classList.remove('open')">
+  <div class="modal" style="max-width:420px;text-align:center;animation:modalPop .4s ease-out" onclick="event.stopPropagation()">
+    <div class="modal-body" style="padding:40px 32px 20px">
+      <div style="font-size:3rem;margin-bottom:16px;line-height:1">&#x1F680;</div>
+      <h3 style="font-size:1.1rem;color:#F5F0E8;margin:0 0 10px;font-weight:700;letter-spacing:.03em">Ver\\u00f6ffentlicht!</h3>
+      <p style="font-size:.82rem;color:#B5AFA3;margin:0;line-height:1.6">Deine \\u00c4nderungen werden jetzt live geschaltet.<br>Die Website ist in wenigen Sekunden aktuell.</p>
+    </div>
+    <div style="padding:0 32px 32px;text-align:center">
+      <button class="btn btn-primary" onclick="document.getElementById('deployOverlay').classList.remove('open')" style="padding:10px 28px">Alles klar</button>
+    </div>
+  </div>
+</div>
+<style>
+@keyframes modalPop{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+</style>
+
+<!-- Confirm modal -->
+<div class="modal-overlay" id="confirmOverlay" style="z-index:200;align-items:center">
+  <div class="modal" style="max-width:380px;text-align:center">
+    <div class="modal-body" style="padding:32px 28px 16px">
+      <div style="width:48px;height:48px;margin:0 auto 16px;border-radius:50%;background:rgba(192,57,43,.1);display:flex;align-items:center;justify-content:center">
+        <span style="font-size:1.4rem;color:#c0392b">&#x26A0;</span>
+      </div>
+      <h3 id="confirmTitle" style="font-size:.85rem;color:#F5F0E8;margin:0 0 8px;font-weight:600"></h3>
+      <p id="confirmMsg" style="font-size:.78rem;color:#8A8070;margin:0;line-height:1.5"></p>
+    </div>
+    <div class="modal-footer" style="justify-content:center;gap:10px;padding:16px 28px 24px;border:none">
+      <button class="btn btn-ghost" onclick="closeConfirm(false)">Abbrechen</button>
+      <button class="btn btn-danger" id="confirmBtn" onclick="closeConfirm(true)">L\\u00f6schen</button>
+    </div>
+  </div>
+</div>
+
 <script>
+let confirmResolve = null;
+function showConfirm(title, msg, btnText) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent = msg;
+  document.getElementById('confirmBtn').textContent = btnText || 'L\\u00f6schen';
+  document.getElementById('confirmOverlay').classList.add('open');
+  return new Promise(resolve => { confirmResolve = resolve; });
+}
+function closeConfirm(result) {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if (confirmResolve) { confirmResolve(result); confirmResolve = null; }
+}
+
 const CAT_LABELS = {einzelstuecke:'Einzelst\\u00fccke',entwicklung:'Entwicklung',custom:'Individualisierung',neue_werke:'Neue Werke'};
 const KAT_KEYS = [
   {key:'kat_einzelstuecke', label:'Einzelst\\u00fccke'},
@@ -509,7 +559,7 @@ async function saveWork() {
 }
 
 async function deleteWork(id, name) {
-  if (!confirm('"' + name + '" wirklich l\\u00f6schen?')) return;
+  if (!(await showConfirm('Werk l\\u00f6schen?', '\\u201e' + name + '\\u201c wird unwiderruflich gel\\u00f6scht \\u2014 inkl. aller Bilder.', 'Endg\\u00fcltig l\\u00f6schen'))) return;
   const r = await fetch('/api/werke/'+id,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
   if (r.ok) { setStatus('Gel\\u00f6scht.','success'); await loadWerke(); }
   else setStatus('L\\u00f6schen fehlgeschlagen.','error');
@@ -537,12 +587,29 @@ function renderImageManager() {
   } else {
     preview.style.display = 'none';
     previewImg.src = '';
+    // Large dropzone when no images
+    const addLarge = document.createElement('div');
+    addLarge.className = 'thumb-add-large';
+    addLarge.addEventListener('click', async () => {
+      if (!editingId) await ensureWerkSaved();
+      if (editingId) document.getElementById('thumbFileInput').click();
+    });
+    const pLg = document.createElement('span');
+    pLg.className = 'thumb-add-plus';
+    pLg.textContent = '+';
+    addLarge.appendChild(pLg);
+    const lLg = document.createElement('span');
+    lLg.className = 'thumb-add-text';
+    lLg.textContent = 'Bild hinzuf\\u00fcgen';
+    addLarge.appendChild(lLg);
+    strip.appendChild(addLarge);
+    return;
   }
 
   werkBilder.forEach((bild, idx) => {
     const thumb = document.createElement('div');
-    thumb.className = 'thumb';
-    thumb.setAttribute('draggable', 'true');
+    thumb.className = bild._uploading ? 'thumb thumb-uploading' : 'thumb';
+    if (!bild._uploading) thumb.setAttribute('draggable', 'true');
 
     const img = document.createElement('img');
     img.src = bild.bild_url; img.alt = '';
@@ -582,29 +649,43 @@ function renderImageManager() {
       e.preventDefault();
       thumb.classList.remove('drag-over');
       if (dragSrcIdx === null || dragSrcIdx === idx) return;
+      // Swap in data
       const moved = werkBilder.splice(dragSrcIdx, 1)[0];
       werkBilder.splice(idx, 0, moved);
+      // Swap DOM nodes instead of full re-render
+      const strip = document.getElementById('thumbStrip');
+      const thumbs = Array.from(strip.querySelectorAll('.thumb'));
+      const srcEl = thumbs[dragSrcIdx];
+      const tgtEl = thumbs[idx];
+      if (dragSrcIdx < idx) strip.insertBefore(srcEl, tgtEl.nextSibling);
+      else strip.insertBefore(srcEl, tgtEl);
+      // Update cover badge
+      strip.querySelectorAll('.thumb-cover').forEach(b => b.remove());
+      const firstThumb = strip.querySelector('.thumb');
+      if (firstThumb) { const cb = document.createElement('div'); cb.className = 'thumb-cover'; cb.textContent = 'COVER'; firstThumb.appendChild(cb); }
+      // Update main preview
+      if (werkBilder[0]) document.getElementById('mainPreviewImg').src = werkBilder[0].bild_url;
       dragSrcIdx = null;
-      renderImageManager();
       saveThumbOrder();
     });
 
     strip.appendChild(thumb);
   });
 
-  // Add button
+  // Add button — always active
   const addBtn = document.createElement('div');
-  addBtn.className = editingId ? 'thumb-add' : 'thumb-add thumb-add-disabled';
-  if (editingId) {
-    addBtn.addEventListener('click', () => document.getElementById('thumbFileInput').click());
-  }
+  addBtn.className = 'thumb-add';
+  addBtn.addEventListener('click', async () => {
+    if (!editingId) await ensureWerkSaved();
+    if (editingId) document.getElementById('thumbFileInput').click();
+  });
   const plus = document.createElement('span');
   plus.className = 'thumb-add-plus';
   plus.textContent = '+';
   addBtn.appendChild(plus);
   const lbl = document.createElement('span');
   lbl.className = 'thumb-add-text';
-  lbl.textContent = editingId ? 'Bild' : 'Erst speichern';
+  lbl.textContent = 'Bild';
   addBtn.appendChild(lbl);
   strip.appendChild(addBtn);
 }
@@ -616,7 +697,7 @@ async function saveThumbOrder() {
 }
 
 async function deleteThumb(idx) {
-  if (!confirm('Bild entfernen?')) return;
+  if (!(await showConfirm('Bild entfernen?', 'Dieses Bild wird unwiderruflich gel\\u00f6scht.', 'Entfernen'))) return;
   const bild = werkBilder[idx];
   if (!bild) return;
   const r = await fetch('/api/werke/bilder/'+bild.id,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
@@ -628,23 +709,55 @@ async function deleteThumb(idx) {
   } else setStatus('Fehler beim Entfernen.','error');
 }
 
-async function onThumbFile(input) {
-  const f = input.files[0]; if (!f || !editingId) return;
+async function ensureWerkSaved() {
+  if (editingId) return;
+  const name = document.getElementById('fName').value.trim();
+  const kategorie = document.getElementById('fKat').value;
+  if (!name) { setStatus('Bitte zuerst einen Namen eingeben.','error'); return; }
+  const reihenfolge = parseInt(document.getElementById('fOrder').value) || 0;
+  const aktiv = document.getElementById('fAktiv').checked ? 1 : 0;
+  const beschreibung = document.getElementById('fDesc').value.trim() || null;
+  const body = {name, kategorie, reihenfolge, aktiv, beschreibung};
+  const res = await fetch('/api/werke',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify(body)});
+  if (!res.ok) { const e = await res.json().catch(()=>({})); setStatus(e.error||'Fehler beim Anlegen','error'); return; }
+  const {id} = await res.json();
+  editingId = id;
+  document.getElementById('editId').value = id;
+  document.getElementById('modalTitle').textContent = 'Werk bearbeiten';
+  await loadWerke();
+}
+
+async function onThumbFiles(input) {
+  const files = Array.from(input.files); if (!files.length || !editingId) return;
   input.value = '';
   const addBtn = document.querySelector('.thumb-add');
   if (addBtn) addBtn.style.opacity = '.4';
-  try {
-    const fd = new FormData(); fd.append('file', f);
-    const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
-    if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error||'Upload fehlgeschlagen'); }
-    const {key} = await ur.json();
-    const cr = await fetch('/api/werke/'+editingId+'/bilder',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({bild_key:key,reihenfolge:werkBilder.length})});
-    if (!cr.ok) throw new Error('Fehler beim Speichern');
-    await loadGallery(editingId);
-    await loadWerke();
-    setStatus('Bild hinzugef\\u00fcgt.','success');
-  } catch(e) { setStatus(e.message,'error'); }
-  finally { if (addBtn) addBtn.style.opacity = '1'; }
+  setStatus(files.length + ' Bild' + (files.length > 1 ? 'er' : '') + ' werden hochgeladen\\u2026','');
+
+  // Show instant local previews
+  files.forEach(f => {
+    const localUrl = URL.createObjectURL(f);
+    werkBilder.push({ id: 'uploading-' + Math.random(), bild_url: localUrl, beschreibung: null, _uploading: true });
+  });
+  renderImageManager();
+
+  let successCount = 0;
+  const uploads = files.map(async (f, i) => {
+    try {
+      const fd = new FormData(); fd.append('file', f);
+      const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
+      if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error||'Upload fehlgeschlagen'); }
+      const {key} = await ur.json();
+      const cr = await fetch('/api/werke/'+editingId+'/bilder',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({bild_key:key,reihenfolge:werkBilder.length + i})});
+      if (!cr.ok) throw new Error('Fehler beim Speichern');
+      successCount++;
+    } catch(e) { setStatus(e.message,'error'); }
+  });
+  await Promise.all(uploads);
+  await loadGallery(editingId);
+  await loadWerke();
+  if (successCount) setStatus(successCount + ' Bild' + (successCount > 1 ? 'er' : '') + ' hinzugef\\u00fcgt.','success');
+  if (addBtn) addBtn.style.opacity = '1';
 }
 
 // ── Settings modal ──────────────────────────────────
@@ -698,8 +811,17 @@ async function triggerDeploy() {
   const btn = document.getElementById('deployBtn');
   btn.disabled = true;
   const r = await fetch('/api/deploy',{method:'POST',headers:{'Authorization':'Bearer '+token}});
-  setStatus(r.ok ? 'Deploy gestartet \\u2014 Website ist in ~30s aktuell.' : 'Deploy fehlgeschlagen. VERCEL_DEPLOY_HOOK konfiguriert?', r.ok?'success':'error');
+  if (r.ok) {
+    showDeploySuccess();
+  } else {
+    setStatus('Deploy fehlgeschlagen. VERCEL_DEPLOY_HOOK konfiguriert?','error');
+  }
   setTimeout(() => { btn.disabled = false; }, 4000);
+}
+
+function showDeploySuccess() {
+  document.getElementById('deployOverlay').classList.add('open');
+  setTimeout(() => { document.getElementById('deployOverlay').classList.remove('open'); }, 6000);
 }
 
 let stTimer;
