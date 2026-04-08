@@ -12,6 +12,7 @@
     "wrangler": "^4"
   },
   "dependencies": {
-    "mimetext": "^3.0.28"
+    "mimetext": "^3.0.28",
+    "sharp": "^0.34.5"
   }
 }
