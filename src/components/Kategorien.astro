@@ -33,29 +33,74 @@ const kategorien = [
 ];
 ---
 
+<style>
+  .kat-panel {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .kat-panel.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .kat-panel:nth-child(1) { transition-delay: 0s; }
+  .kat-panel:nth-child(2) { transition-delay: 0.12s; }
+  .kat-panel:nth-child(3) { transition-delay: 0.24s; }
+</style>
+
+<script>
+  function initKatStagger() {
+    const panels = document.querySelectorAll('.kat-panel');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    panels.forEach(p => observer.observe(p));
+  }
+  initKatStagger();
+  document.addEventListener('astro:after-swap', initKatStagger);
+</script>
+
 <!-- 2. KATEGORIEN — Expanding Panels -->
 <section id="kategorien" style="background: #656350;" class="py-20 px-6">
   <div class="max-w-[1200px] mx-auto">
-    <div class="flex items-center gap-5 mb-12">
+    <div class="flex flex-col items-center text-center md:flex-row md:items-center md:text-left gap-5 mb-12">
       <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 1.6rem; color: #FFFFFF; white-space: nowrap;">Kategorien</h2>
-      <div class="h-px flex-1" style="background: linear-gradient(to right, rgba(255,255,255,0.3), transparent);"></div>
+      <div class="hidden md:block h-px flex-1" style="background: linear-gradient(to right, rgba(255,255,255,0.3), transparent);"></div>
     </div>
 
     <div class="kat-panels flex flex-col md:flex-row gap-2 md:h-[550px]">
       {kategorien.map((kat) => (
-        <a href={kat.href} class="kat-panel group relative flex-1 overflow-hidden transition-all duration-700 ease-in-out min-h-[200px] md:min-h-0 md:hover:flex-[3]" style="background: #35342B;">
-          <img src={kat.img} alt={kat.alt} class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" width="600" height="800" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:from-black/70 group-hover:via-black/20 group-hover:to-transparent transition-all duration-500"></div>
-          <!-- Vertikaler Titel (sichtbar wenn schmal) -->
+        <a href={kat.href} class="kat-panel group flex flex-col md:relative md:flex-1 md:overflow-hidden transition-all duration-700 ease-in-out md:hover:flex-[3]" style="background: #35342B;">
+
+          <!-- Bild-Container -->
+          <div class="relative h-[240px] overflow-hidden md:absolute md:inset-0 md:h-auto">
+            <img src={kat.img} alt={kat.alt} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" width="600" height="800" />
+            <!-- Overlay nur Desktop -->
+            <div class="hidden md:block absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:from-black/70 group-hover:via-black/20 group-hover:to-transparent transition-all duration-500"></div>
+          </div>
+
+          <!-- Mobile Textkasten -->
+          <div class="md:hidden px-5 py-4" style="background: #2A2723;">
+            <span class="text-[10px] tracking-[0.3em] uppercase block mb-1" style="color: #A0977D; font-family: var(--font-body);">{kat.nr}</span>
+            <h3 class="text-base uppercase tracking-[0.12em] font-medium" style="font-family: var(--font-display); color: #F5F0E8;">{kat.title}</h3>
+            <p class="text-[13px] leading-relaxed mt-1" style="font-family: var(--font-body); color: #8A8070;">{kat.desc}</p>
+            <span class="flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] mt-3" style="color: #A0977D; font-family: var(--font-body);">
+              Entdecken
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+
+          <!-- Desktop: Vertikaler Titel (schmal) -->
           <div class="absolute inset-0 hidden md:flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300">
             <h3 class="text-sm uppercase tracking-[0.3em] text-white/80 whitespace-nowrap" style="font-family: var(--font-display); writing-mode: vertical-rl; transform: rotate(180deg);">{kat.title}</h3>
           </div>
-          <!-- Mobile Titel (immer sichtbar) -->
-          <div class="absolute bottom-0 left-0 right-0 p-5 md:hidden">
-            <h3 class="text-lg uppercase tracking-widest text-white" style="font-family: var(--font-display); font-weight: 500;">{kat.title}</h3>
-            <p class="text-[13px] text-white/60 mt-1" style="font-family: var(--font-body);">{kat.desc}</p>
-          </div>
-          <!-- Expanded Content (Desktop) -->
+
+          <!-- Desktop: Expanded Content -->
           <div class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 hidden md:block">
             <span class="text-[11px] tracking-[0.3em] uppercase mb-1 block" style="color: #A0977D;">{kat.nr}</span>
             <h3 class="text-xl uppercase tracking-widest text-white mb-2" style="font-family: var(--font-display); font-weight: 500;">{kat.title}</h3>

@@ -115,33 +115,58 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.com');
       </div>
 
       <!-- Mobile Toggle -->
-      <button class="lg:hidden text-white ml-auto" id="menu-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-nav">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <button class="lg:hidden text-white ml-auto p-1" id="menu-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-nav">
+        <svg id="icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <line x1="3" y1="6" x2="21" y2="6" />
           <line x1="3" y1="12" x2="21" y2="12" />
           <line x1="3" y1="18" x2="21" y2="18" />
         </svg>
+        <svg id="icon-close" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Fullscreen Overlay -->
+  <div
+    id="mobile-nav"
+    class="lg:hidden fixed inset-0 z-[60] flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+    style="background: #1A1917;"
+    aria-hidden="true"
+  >
+    <!-- Header-Zeile mit Logo + Schließen -->
+    <div class="absolute top-0 left-0 right-0 px-8 py-4 flex items-center justify-between" style="border-bottom: 1px solid rgba(160,151,125,0.1);">
+      <img src="/images/ng7-logo-white.webp" alt="NG7 Customs" class="h-5 w-auto" />
+      <button id="menu-close" aria-label="Menü schließen" class="p-1 transition-colors" style="color: rgba(245,240,232,0.5);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
       </button>
     </div>
 
-    <!-- Mobile Nav -->
-    <div class="lg:hidden hidden" id="mobile-nav" style="background: rgba(26,25,23,0.98); border-top: 1px solid rgba(160,151,125,0.1);">
-      <nav class="flex flex-col p-6 gap-5" aria-label="Mobile Navigation">
-        <a href="/" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Home</a>
-        <a href="/einzelstuecke" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Einzelstücke</a>
-        <a href="/entwicklung" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Entwicklung</a>
-        <a href="/custom" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Individualisierung</a>
-        <a href="/ueber-mich" class="text-[12px] tracking-[0.2em] uppercase transition-colors" style="color: rgba(245,240,232,0.5);">Über Mich</a>
-        <a href="/kontakt" class="text-[12px] tracking-[0.2em] uppercase border px-4 py-2.5 mt-2 text-center transition-all hover:bg-[#A0977D22]" style="color: #A0977D; border-color: #A0977D55;">Jetzt anfragen</a>
-        <div class="pt-4 mt-1 border-t flex items-center gap-4" style="border-color: rgba(160,151,125,0.12);">
-          <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" class="flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase transition-colors hover:text-[#C4B68A]" style="color: rgba(245,240,232,0.4);">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            Instagram
-          </a>
-        </div>
-      </nav>
+    <!-- Nav Links -->
+    <nav class="flex flex-col items-center w-full" aria-label="Mobile Navigation">
+      <a href="/" class="mobile-nav-link w-full text-center py-5 text-[1.1rem] tracking-[0.25em] uppercase transition-colors" style="color: rgba(245,240,232,0.55); border-bottom: 1px solid rgba(160,151,125,0.08);">Home</a>
+      <a href="/einzelstuecke" class="mobile-nav-link w-full text-center py-5 text-[1.1rem] tracking-[0.25em] uppercase transition-colors" style="color: rgba(245,240,232,0.55); border-bottom: 1px solid rgba(160,151,125,0.08);">Einzelstücke</a>
+      <a href="/entwicklung" class="mobile-nav-link w-full text-center py-5 text-[1.1rem] tracking-[0.25em] uppercase transition-colors" style="color: rgba(245,240,232,0.55); border-bottom: 1px solid rgba(160,151,125,0.08);">Entwicklung</a>
+      <a href="/custom" class="mobile-nav-link w-full text-center py-5 text-[1.1rem] tracking-[0.25em] uppercase transition-colors" style="color: rgba(245,240,232,0.55); border-bottom: 1px solid rgba(160,151,125,0.08);">Individualisierung</a>
+      <a href="/ueber-mich" class="mobile-nav-link w-full text-center py-5 text-[1.1rem] tracking-[0.25em] uppercase transition-colors" style="color: rgba(245,240,232,0.55); border-bottom: 1px solid rgba(160,151,125,0.08);">Über Mich</a>
+    </nav>
+
+    <!-- CTA + Instagram unten -->
+    <div class="absolute bottom-10 w-full px-8 flex flex-col items-center gap-5">
+      <a href="/kontakt" class="mobile-nav-link w-full text-center py-4 text-[0.75rem] tracking-[0.2em] uppercase border transition-all" style="color: #A0977D; border-color: #A0977D55;">
+        Jetzt anfragen
+      </a>
+      <a href="https://www.instagram.com/ng7_customs/" target="_blank" rel="noopener" class="flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase transition-colors" style="color: rgba(245,240,232,0.3);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Instagram
+      </a>
     </div>
-  </header>
+  </div>
 
   <style>
     .nav-link {
@@ -228,24 +253,44 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.com');
   <script>
     function initMobileNav() {
       const toggle = document.getElementById('menu-toggle');
+      const closeBtn = document.getElementById('menu-close');
       const mobileNav = document.getElementById('mobile-nav');
+      const iconOpen = document.getElementById('icon-open');
+      const iconClose = document.getElementById('icon-close');
 
       if (!toggle || !mobileNav) return;
 
+      function openMenu() {
+        mobileNav.classList.remove('opacity-0', 'pointer-events-none');
+        mobileNav.classList.add('opacity-100');
+        mobileNav.setAttribute('aria-hidden', 'false');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Menü schließen');
+        iconOpen?.classList.add('hidden');
+        iconClose?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        mobileNav.classList.add('opacity-0', 'pointer-events-none');
+        mobileNav.classList.remove('opacity-100');
+        mobileNav.setAttribute('aria-hidden', 'true');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Menü öffnen');
+        iconOpen?.classList.remove('hidden');
+        iconClose?.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
       toggle.addEventListener('click', () => {
-        const isOpen = !mobileNav.classList.contains('hidden');
-        mobileNav.classList.toggle('hidden');
-        toggle.setAttribute('aria-expanded', String(!isOpen));
-        toggle.setAttribute('aria-label', isOpen ? 'Menü öffnen' : 'Menü schließen');
+        const isOpen = mobileNav.getAttribute('aria-hidden') === 'false';
+        isOpen ? closeMenu() : openMenu();
       });
 
-      // Close on link click
+      closeBtn?.addEventListener('click', closeMenu);
+
       mobileNav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          mobileNav.classList.add('hidden');
-          toggle.setAttribute('aria-expanded', 'false');
-          toggle.setAttribute('aria-label', 'Menü öffnen');
-        });
+        link.addEventListener('click', closeMenu);
       });
     }
 

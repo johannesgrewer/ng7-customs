@@ -46,24 +46,24 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <!-- Story -->
-      <div class="reveal-right">
+      <div class="reveal-right text-center lg:text-left">
         <p class="text-[11px] uppercase tracking-[0.4em] mb-4" style="color: #A0977D; font-family: var(--font-body);">Trier, Deutschland</p>
         <h2 class="mb-8" style="font-family: var(--font-display); font-weight: 500; font-size: 2.4rem; color: #F5F0E8;">Nicolas Meriaux</h2>
 
-        <div class="mb-6 pl-5" style="border-left: 2px solid #A0977D;">
+        <div class="quote-block mb-6 lg:pl-5">
           <p class="text-[16px] leading-[1.8] italic" style="color: #D4CFC3; font-family: var(--font-body);">
             Hi, ich bin Nicolas und komme aus der ältesten Stadt Deutschlands. Hauptberuflich Mechatroniker, lebe ich hier meine Leidenschaft zu Kreativität, Design und vielseitigen Materialien aus.
           </p>
         </div>
 
-        <p class="text-[15px] leading-[1.8] mb-5" style="color: #B5AFA3; font-family: var(--font-body);">
+        <p class="text-[15px] leading-[1.8] mb-5 text-left" style="color: #B5AFA3; font-family: var(--font-body);">
           Ich lege großen Wert darauf, alles vom ersten Strich bis zur letzten Schraube in Eigenarbeit umzusetzen. Um auch deine Wünsche und Ideen verwirklichen zu können, erweitere ich stets mein Repertoire an Maschinen und Werkzeugen.
         </p>
-        <p class="text-[15px] leading-[1.8]" style="color: #B5AFA3; font-family: var(--font-body);">
+        <p class="text-[15px] leading-[1.8] text-left" style="color: #B5AFA3; font-family: var(--font-body);">
           Von Kunstobjekten über maßgefertigte Lösungen bis zur Individualisierung deiner Lieblingsgegenstände. Mit etwas Kreativität und Handarbeit wird alles möglich.
         </p>
 
-        <div class="flex items-center gap-4 mt-8">
+        <div class="hidden lg:flex items-center gap-4 mt-8">
           <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D, transparent);"></div>
         </div>
         <p class="mt-6 italic text-xl" style="font-family: var(--font-display); color: #A0977D;">Nicolas Meriaux</p>
@@ -96,12 +96,12 @@ import Layout from '../layouts/Layout.astro';
   <!-- WERTE — 3 Columns mit Nummern -->
   <section class="py-24 px-6" style="background: #656350;">
     <div class="max-w-[1100px] mx-auto">
-      <div class="flex items-center gap-5 mb-14 reveal">
+      <div class="flex flex-col items-center text-center md:flex-row md:items-center md:text-left gap-5 mb-14 reveal">
         <div>
           <p class="text-[11px] uppercase tracking-[0.4em] mb-2" style="color: #A0977D; font-family: var(--font-body);">Philosophie</p>
           <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 2rem; color: #F5F0E8;">Meine Werte</h2>
         </div>
-        <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
+        <div class="hidden md:block h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 stagger">
@@ -123,7 +123,7 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- DIVIDER — Leichter Parallax Werkstatt-Funken -->
   <section class="relative h-[45vh] md:h-[50vh] overflow-hidden" id="sparks-divider">
-    <img src="/images/divider-sparks-wide.webp" alt="" class="absolute inset-0 w-full h-[200%] object-cover will-change-transform" id="sparks-img" style="top: -50%;" />
+    <img src="/fotos/divider-client.jpg" alt="" class="absolute inset-0 w-full h-[200%] object-cover will-change-transform" id="sparks-img" style="top: -50%;" />
     <div class="absolute inset-0" style="background: rgba(0,0,0,0.1);"></div>
   </section>
 
@@ -151,10 +151,11 @@ import Layout from '../layouts/Layout.astro';
           { name: 'Ehrlichkeit', desc: 'Transparent und direkt. Keine leeren Versprechen.' },
           { name: 'Hoffnung', desc: 'Jede Vision verdient Verwirklichung.' },
         ].map((t, i) => (
-          <div class="tugend-row group flex items-center gap-6 py-6 border-b cursor-default select-none" style="border-color: rgba(255,255,255,0.05);">
+          <div class="tugend-row group flex flex-wrap items-center gap-x-6 gap-y-2 py-5 md:py-6 border-b cursor-default select-none" style="border-color: rgba(255,255,255,0.05);">
             <span class="tugend-nr text-[11px] tracking-[0.3em] flex-shrink-0 w-8" style="color: #A0977D; font-family: var(--font-body);">0{i + 1}</span>
-            <h3 class="tugend-name text-[clamp(1.8rem,5vw,3.5rem)] uppercase tracking-wide flex-shrink-0" style="font-family: var(--font-display); font-weight: 300; color: #F5F0E8; line-height: 1;">{t.name}</h3>
+            <h3 class="tugend-name text-[clamp(1.4rem,5vw,3.5rem)] uppercase tracking-normal md:tracking-wide flex-shrink-0" style="font-family: var(--font-display); font-weight: 300; color: #F5F0E8; line-height: 1;">{t.name}</h3>
             <span class="tugend-desc hidden md:block text-[15px] leading-relaxed ml-8" style="color: #B5AFA3; font-family: var(--font-body);"> — {t.desc}</span>
+            <p class="w-full md:hidden text-[13px] leading-[1.7] pl-14 pb-1" style="color: #B5AFA3; font-family: var(--font-body);">{t.desc}</p>
           </div>
         ))}
       </div>
@@ -172,7 +173,7 @@ import Layout from '../layouts/Layout.astro';
   <!-- CTA — Minimalistisch -->
   <section class="py-24 px-6" style="background: #4A4639;">
     <div class="max-w-[1100px] mx-auto flex flex-col md:flex-row items-center justify-between gap-10 reveal">
-      <div>
+      <div class="text-center md:text-left">
         <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 2rem; color: #F5F0E8;">Du hast eine Idee?</h2>
         <p class="text-[15px] mt-2" style="color: #B5AFA3; font-family: var(--font-body);">Lass uns darüber reden. Vom Gedanken zum fertigen Objekt.</p>
       </div>
@@ -184,6 +185,11 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <style>
+    /* Zitat-Block: Border nur auf Desktop */
+    @media (min-width: 1024px) {
+      .quote-block { border-left: 2px solid #A0977D; }
+    }
+
     /* Hero cinematic zoom */
     @keyframes heroZoom {
       0% { scale: 1.15; }

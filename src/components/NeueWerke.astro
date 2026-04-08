@@ -8,20 +8,26 @@ const rotations = ['-2deg', '1.5deg', '-1deg', '2.5deg'];
 const offsets = ['translate-y-3', '-translate-y-2', 'translate-y-5', '-translate-y-1'];
 ---
 
+<style>
+  @media (min-width: 768px) {
+    .werk-card { transform: rotate(var(--rotation)); }
+  }
+</style>
+
 <!-- 4. NEUE WERKE 2025 — Werkstatt-Tisch -->
 <section class="py-24 px-6 overflow-hidden" style="background: #3B3629;">
   <div class="max-w-[1200px] mx-auto">
-    <div class="flex items-center gap-5 mb-16">
+    <div class="flex flex-col items-center text-center md:flex-row md:items-center md:text-left gap-5 mb-16">
       <div>
         <p class="text-[11px] uppercase tracking-[0.3em] mb-2" style="color: #A0977D; font-family: var(--font-body);">Kollektion</p>
         <h2 style="font-family: var(--font-display); font-weight: 500; font-size: 1.8rem; color: #F5F0E8;">Neue Werke 2025</h2>
       </div>
-      <div class="h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
+      <div class="hidden md:block h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
     </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-6">
       {produkte.map((p, i) => (
-        <div class={`group ${offsets[i]} transition-all duration-500 hover:translate-y-0`} style={`transform: rotate(${rotations[i]});`}>
+        <div class={`werk-card group md:${offsets[i]} transition-all duration-500 hover:translate-y-0`} style={`--rotation: ${rotations[i]};`}>
           <div class="relative transition-all duration-500 group-hover:rotate-0 group-hover:scale-105">
             <!-- Schatten unter der Karte -->
             <div class="absolute -bottom-3 left-2 right-2 h-6 blur-xl opacity-30" style="background: #000;"></div>
