@@ -727,6 +727,30 @@ async function ensureWerkSaved() {
   await loadWerke();
 }
 
+async function resizeToWebP(file) {
+  const MAX_W = 2000;
+  const QUALITY = 0.82;
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const scale = Math.min(MAX_W / img.naturalWidth, 1);
+      const w = Math.round(img.naturalWidth * scale);
+      const h = Math.round(img.naturalHeight * scale);
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(
+        blob => blob ? resolve(new File([blob], 'upload.webp', { type: 'image/webp' })) : reject(new Error('Konvertierung fehlgeschlagen')),
+        'image/webp', QUALITY
+      );
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Bild konnte nicht geladen werden')); };
+    img.src = url;
+  });
+}
+
 async function onThumbFiles(input) {
   const files = Array.from(input.files); if (!files.length || !editingId) return;
   input.value = '';
@@ -744,7 +768,8 @@ async function onThumbFiles(input) {
   let successCount = 0;
   const uploads = files.map(async (f, i) => {
     try {
-      const fd = new FormData(); fd.append('file', f);
+      const optimized = await resizeToWebP(f);
+      const fd = new FormData(); fd.append('file', optimized);
       const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
       if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error||'Upload fehlgeschlagen'); }
       const {key} = await ur.json();
@@ -795,7 +820,8 @@ async function saveSettingImage() {
   const btn = document.getElementById('settingSaveBtn');
   btn.textContent = 'Speichern...'; btn.disabled = true;
   try {
-    const fd = new FormData(); fd.append('file', pendingSettingFile);
+    const optimized = await resizeToWebP(pendingSettingFile);
+    const fd = new FormData(); fd.append('file', optimized);
     const ur = await fetch('/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
     if (!ur.ok) { const e = await ur.json().catch(()=>({})); throw new Error(e.error || 'Upload fehlgeschlagen ('+ur.status+')'); }
     const ud = await ur.json();
