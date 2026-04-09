@@ -1,7 +1,7 @@
 # NG7 Customs — Website
 
 ## Status
-CMS + Galerie vollständig implementiert und live. Admin-Panel unter `/admin` mit unified Image Manager (Drag-Drop, Cover-Sync). Lightbox auf allen Produktseiten aktiv. Domain `ng7-customs.com` in Vercel + Cloudflare DNS konfiguriert. E-Mail über Cloudflare Email Routing. Deploy Hook aktiv. Umami Analytics eingebaut. Nächste Schritte: OG-Image + Favicon erstellen, SSL verifizieren.
+CMS + Galerie vollständig implementiert und live. Admin-Panel mit Image Manager (Drag-Drop, Cover-Sync, automatische WebP-Optimierung bei Upload). Lightbox auf allen Produktseiten. Domain `ng7-customs.com` live (SSL aktiv). E-Mail UTF-8 korrekt. Mobile vollständig optimiert (Fullscreen-Nav, zentrierte Layouts, Kategorie-Karten Stack, Bild-Optimierung). R2-Bilder migriert (WebP). **Launch-ready** — ausstehend: E-Mail-Bestätigung durch Nicolas.
 
 ## Tech Stack
 - **Framework:** Astro 6 (SSG, static output)
@@ -129,25 +129,31 @@ VERCEL_DEPLOY_HOOK → noch nicht gesetzt
 
 ## Letzte Session
 **Datum:** 2026-04-08
-**Schwerpunkt:** E-Mail (Cloudflare), Domain, Deploy Hook, Impressum, Umami
+**Schwerpunkt:** Mobile UX Improvements + automatische Bild-Optimierung
+
 **Erreicht:**
-- E-Mail: Resend → Cloudflare Email Routing umgebaut (send_email Binding + mimetext)
-- E-Mail-Template gestylt im NG7-Design (Logo Base64, dunkles Theme, Gold-Akzente)
-- Bug-Fix: Kontaktformular `/api/contact` war hinter Auth-Check — nach vorne verschoben
-- UTF-8 charset fix für Umlaute in E-Mails
-- Domain `ng7-customs.com` in Vercel + DNS (A + CNAME) in Cloudflare
-- Alle Domain-Referenzen `.de` → `.com` (astro.config, Layout, wrangler.toml)
-- VERCEL_DEPLOY_HOOK als Worker-Secret gesetzt
-- Impressum + Datenschutz: Adresse eingetragen (Am Weidengraben 66, 54296 Trier)
-- Datenschutz: Resend → Cloudflare, Tracking-Abschnitt → Umami
-- Umami Analytics eingebaut (analytics.z-up.studio)
+- Divider über-mich → echtes Client-Foto (`public/fotos/divider-client.webp`, aus clientimages/43742.jpg via sharp)
+- Tugenden in über-mich: Beschreibungstext auf Mobile direkt unter Name (kein Hover nötig)
+- Fullscreen Mobile-Menü: fixed overlay (`z-[60]`), große Klickziele, Hamburger/X-Icon
+- Kategorie-Karten Mobile: Bild ohne Overlay + `bg: #2A2723` Textkasten darunter (Desktop bleibt unverändert)
+- NeueWerke: `grid-cols-1` auf Mobile (4 Karten untereinander)
+- WarumNG7: Emblem-Bild wieder oben, CTA-Button als `lg:hidden` direkt unter Tugend-Karte auf Mobile
+- Zentrierungen Mobile: AboutPreview, NeueWerke, Galerie, Kategorien, über-mich Headings + Body-Text
+- Stagger-Animation auf Kategorie-Karten (IntersectionObserver, translateY)
+- Canvas-basierte WebP-Optimierung bei Admin-Upload (max 2000px, 82% Qualität) — kein WASM, kein paid CF
+- `worker/migrate-optimize-images.mjs` erstellt: alle 17 R2-Bilder geprüft, 8 optimiert (-90–97%), 9 schon WebP
+
+**Erkenntnisse:**
+- `/images/*` Vercel-Rewrite fängt auch `public/images/` ab → SSG-Bilder nach `public/fotos/` (nicht `public/images/`)
+- Wrangler v4: kein `r2 object list`, D1 `--command` hat Windows-Quoting-Probleme → Worker HTTP API für Daten-Abruf nutzen
+- 375px Mindest-Breakpoint (iPhone SE, kleinste relevante Größe), 320px ignorieren
 
 **Offen:**
-1. Nicolas' Feedback zur E-Mail (Sonderzeichen-Fix verifizieren)
-2. OG-Image (1200×630) + Apple Touch Icon (180×180) + Favicon erstellen
-3. SSL-Zertifikat für ng7-customs.com verifizieren
+1. Nicolas' Bestätigung zur E-Mail (Umlaute + Logo nach letztem Fix)
+2. favicon.ico noch Astro-Default (nur SVG aktualisiert — Browser nehmen SVG bevorzugt)
+3. `ng7-customs.de` noch nicht in Vercel (falls gewünscht)
 
 ## Nächste Schritte (priorisiert)
-1. OG-Image (1200×630) + Apple Touch Icon (180×180) + Favicon erstellen
-2. SSL für ng7-customs.com prüfen
-3. E-Mail-Test mit Nicolas abschließen
+1. E-Mail-Test mit Nicolas final abschließen → dann Launch
+2. favicon.ico updaten (optional — Browser nehmen SVG bevorzugt)
+3. `ng7-customs.de` in Vercel eintragen (falls Nicolas die .de-Domain auch will)
