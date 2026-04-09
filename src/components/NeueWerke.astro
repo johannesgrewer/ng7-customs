@@ -25,7 +25,7 @@ const offsets = ['translate-y-3', '-translate-y-2', 'translate-y-5', '-translate
       <div class="hidden md:block h-px flex-1" style="background: linear-gradient(to right, #A0977D44, transparent);"></div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
       {produkte.map((p, i) => (
         <div class={`werk-card group md:${offsets[i]} transition-all duration-500 hover:translate-y-0`} style={`--rotation: ${rotations[i]};`}>
           <div class="relative transition-all duration-500 group-hover:rotate-0 group-hover:scale-105">

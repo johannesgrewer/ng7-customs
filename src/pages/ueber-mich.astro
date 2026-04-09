@@ -46,7 +46,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <!-- Story -->
-      <div class="reveal-right text-center lg:text-left">
+      <div class="reveal-right text-center lg:text-left max-w-[600px] mx-auto lg:max-w-none">
         <p class="text-[11px] uppercase tracking-[0.4em] mb-4" style="color: #A0977D; font-family: var(--font-body);">Trier, Deutschland</p>
         <h2 class="mb-8" style="font-family: var(--font-display); font-weight: 500; font-size: 2.4rem; color: #F5F0E8;">Nicolas Meriaux</h2>
 
@@ -72,23 +72,23 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- ZAHLEN — Horizontal, dunkel mit Trennlinien + Counter -->
-  <section id="stats-section" class="py-20 px-6" style="background: #1A1917;">
+  <section id="stats-section" class="py-14 lg:py-20 px-6" style="background: #1A1917;">
     <div class="max-w-[1100px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-0 text-center">
-      <div class="py-8" style="border-color: #A0977D22;">
-        <span class="counter block text-4xl md:text-6xl font-light" data-target="250" data-suffix="+" style="font-family: var(--font-display); color: #A0977D;">0</span>
-        <p class="text-[10px] uppercase tracking-[0.2em] mt-4" style="color: #8A8070; font-family: var(--font-body);">Einzelstücke gefertigt</p>
+      <div class="py-6" style="border-color: #A0977D22;">
+        <span class="counter block text-3xl lg:text-5xl font-light" data-target="250" data-suffix="+" style="font-family: var(--font-display); color: #A0977D;">0</span>
+        <p class="text-[10px] uppercase tracking-[0.2em] mt-3" style="color: #8A8070; font-family: var(--font-body);">Einzelstücke gefertigt</p>
       </div>
-      <div class="py-8 md:border-l" style="border-color: #A0977D22;">
-        <span class="counter block text-4xl md:text-6xl font-light" data-target="100" data-suffix="%" style="font-family: var(--font-display); color: #A0977D;">0</span>
-        <p class="text-[10px] uppercase tracking-[0.2em] mt-4" style="color: #8A8070; font-family: var(--font-body);">Handarbeit</p>
+      <div class="py-6 md:border-l" style="border-color: #A0977D22;">
+        <span class="counter block text-3xl lg:text-5xl font-light" data-target="100" data-suffix="%" style="font-family: var(--font-display); color: #A0977D;">0</span>
+        <p class="text-[10px] uppercase tracking-[0.2em] mt-3" style="color: #8A8070; font-family: var(--font-body);">Handarbeit</p>
       </div>
-      <div class="py-8 md:border-l" style="border-color: #A0977D22;">
-        <span class="block text-2xl md:text-4xl font-light" style="font-family: var(--font-display); color: #A0977D;">Einzigartig</span>
-        <p class="text-[10px] uppercase tracking-[0.2em] mt-4" style="color: #8A8070; font-family: var(--font-body);">Jedes Stück ein Unikat</p>
+      <div class="py-6 md:border-l" style="border-color: #A0977D22;">
+        <span class="block text-xl lg:text-3xl font-light" style="font-family: var(--font-display); color: #A0977D;">Einzigartig</span>
+        <p class="text-[10px] uppercase tracking-[0.2em] mt-3" style="color: #8A8070; font-family: var(--font-body);">Jedes Stück ein Unikat</p>
       </div>
-      <div class="py-8 md:border-l" style="border-color: #A0977D22;">
-        <span class="block text-4xl md:text-6xl font-light" style="font-family: var(--font-display); color: #A0977D;">∞</span>
-        <p class="text-[10px] uppercase tracking-[0.2em] mt-4" style="color: #8A8070; font-family: var(--font-body);">Möglichkeiten</p>
+      <div class="py-6 md:border-l" style="border-color: #A0977D22;">
+        <span class="block text-3xl lg:text-5xl font-light" style="font-family: var(--font-display); color: #A0977D;">∞</span>
+        <p class="text-[10px] uppercase tracking-[0.2em] mt-3" style="color: #8A8070; font-family: var(--font-body);">Möglichkeiten</p>
       </div>
     </div>
   </section>
@@ -154,8 +154,8 @@ import Layout from '../layouts/Layout.astro';
           <div class="tugend-row group flex flex-wrap items-center gap-x-6 gap-y-2 py-5 md:py-6 border-b cursor-default select-none" style="border-color: rgba(255,255,255,0.05);">
             <span class="tugend-nr text-[11px] tracking-[0.3em] flex-shrink-0 w-8" style="color: #A0977D; font-family: var(--font-body);">0{i + 1}</span>
             <h3 class="tugend-name text-[clamp(1.4rem,5vw,3.5rem)] uppercase tracking-normal md:tracking-wide flex-shrink-0" style="font-family: var(--font-display); font-weight: 300; color: #F5F0E8; line-height: 1;">{t.name}</h3>
-            <span class="tugend-desc hidden md:block text-[15px] leading-relaxed ml-8" style="color: #B5AFA3; font-family: var(--font-body);"> — {t.desc}</span>
-            <p class="w-full md:hidden text-[13px] leading-[1.7] pl-14 pb-1" style="color: #B5AFA3; font-family: var(--font-body);">{t.desc}</p>
+            <span class="tugend-desc hidden lg:block text-[15px] leading-relaxed ml-8" style="color: #B5AFA3; font-family: var(--font-body);"> — {t.desc}</span>
+            <p class="w-full lg:hidden text-[13px] leading-[1.7] pl-14 pb-1" style="color: #B5AFA3; font-family: var(--font-body);">{t.desc}</p>
           </div>
         ))}
       </div>
