@@ -1,7 +1,7 @@
 # NG7 Customs — Website
 
 ## Status
-CMS + Galerie vollständig implementiert und live. Admin-Panel mit Image Manager (Drag-Drop, Cover-Sync, automatische WebP-Optimierung bei Upload). Lightbox auf allen Produktseiten. Domain `ng7-customs.com` live (SSL aktiv). E-Mail UTF-8 korrekt. Mobile vollständig optimiert (Fullscreen-Nav, zentrierte Layouts, Kategorie-Karten Stack, Bild-Optimierung). R2-Bilder migriert (WebP). **Launch-ready** — ausstehend: E-Mail-Bestätigung durch Nicolas.
+CMS + Galerie vollständig implementiert und live. Admin-Panel mit Image Manager (Drag-Drop, Cover-Sync, automatische WebP-Optimierung bei Upload). Lightbox auf allen Produktseiten. Domain `ng7-customs.com` live (SSL aktiv). E-Mail bestätigt durch Nicolas (UTF-8 korrekt). Mobile vollständig optimiert. R2-Bilder migriert (WebP). **Launch-ready** — ausstehend: Launch-Freigabe durch Nicolas.
 
 ## Tech Stack
 - **Framework:** Astro 6 (SSG, static output)
@@ -73,8 +73,8 @@ npx wrangler d1 execute ng7-contacts --file=worker/migrate-redesign.sql --remote
 **Worker-Secrets:**
 ```
 ADMIN_PASSWORD   → gesetzt (ng7admin2025)
-RESEND_API_KEY   → noch nicht gesetzt
-VERCEL_DEPLOY_HOOK → noch nicht gesetzt
+RESEND_API_KEY   → gesetzt (Cloudflare Email Routing)
+VERCEL_DEPLOY_HOOK → gesetzt
 ```
 
 ## Admin-Panel
@@ -112,12 +112,7 @@ VERCEL_DEPLOY_HOOK → noch nicht gesetzt
 4. Link-Filter (URLs in Nachricht = Block)
 
 ## Bekannte Platzhalter (vor Launch klären)
-- `impressum.astro` + `datenschutz.astro`: Straße + PLZ fehlen → `[NACHTRAGEN]`
-- `RESEND_API_KEY` nicht gesetzt → Kontaktformular sendet keine E-Mails
-- `VERCEL_DEPLOY_HOOK` nicht gesetzt → "Veröffentlichen" im Admin funktioniert nicht
-- OG-Image: `/og-image.jpg` noch nicht erstellt (1200×630)
-- Apple Touch Icon: `/apple-touch-icon.png` noch nicht erstellt (180×180)
-- Echte Domain `ng7-customs.de` noch nicht in Vercel eingetragen
+- Keine — alles erledigt. Domain .de nicht verfügbar, nur .com aktiv.
 
 ## Design-Patterns
 - **Fonts:** Immer `var(--font-display)` / `var(--font-body)` — nie hardcoded
@@ -128,32 +123,23 @@ VERCEL_DEPLOY_HOOK → noch nicht gesetzt
 - **Bilder aus CMS:** Immer `/images/${bild_key}` — NICHT die volle Worker-URL (CSP!)
 
 ## Letzte Session
-**Datum:** 2026-04-08
-**Schwerpunkt:** Mobile UX Improvements + automatische Bild-Optimierung
+**Datum:** 2026-04-09
+**Schwerpunkt:** Home-Redesign (Hero, Navbar, Kategorien, Divider, CTA)
 
 **Erreicht:**
-- Divider über-mich → echtes Client-Foto (`public/fotos/divider-client.webp`, aus clientimages/43742.jpg via sharp)
-- Tugenden in über-mich: Beschreibungstext auf Mobile direkt unter Name (kein Hover nötig)
-- Fullscreen Mobile-Menü: fixed overlay (`z-[60]`), große Klickziele, Hamburger/X-Icon
-- Kategorie-Karten Mobile: Bild ohne Overlay + `bg: #2A2723` Textkasten darunter (Desktop bleibt unverändert)
-- NeueWerke: `grid-cols-1` auf Mobile (4 Karten untereinander)
-- WarumNG7: Emblem-Bild wieder oben, CTA-Button als `lg:hidden` direkt unter Tugend-Karte auf Mobile
-- Zentrierungen Mobile: AboutPreview, NeueWerke, Galerie, Kategorien, über-mich Headings + Body-Text
-- Stagger-Animation auf Kategorie-Karten (IntersectionObserver, translateY)
-- Canvas-basierte WebP-Optimierung bei Admin-Upload (max 2000px, 82% Qualität) — kein WASM, kein paid CF
-- `worker/migrate-optimize-images.mjs` erstellt: alle 17 R2-Bilder geprüft, 8 optimiert (-90–97%), 9 schon WebP
-
-**Erkenntnisse:**
-- `/images/*` Vercel-Rewrite fängt auch `public/images/` ab → SSG-Bilder nach `public/fotos/` (nicht `public/images/`)
-- Wrangler v4: kein `r2 object list`, D1 `--command` hat Windows-Quoting-Probleme → Worker HTTP API für Daten-Abruf nutzen
-- 375px Mindest-Breakpoint (iPhone SE, kleinste relevante Größe), 320px ignorieren
+- Hero-Video: `min-h-[100svh]` → `h-[80vh]` (dezenter, flacher)
+- Navbar 20% dicker (`py-4` → `py-5`) + "NG7 Customs" Text rechts neben Logo
+- Kategorien-Namen auf Main Page an Navbar angeglichen (Entwicklung, Individualisierung)
+- Kategorien-Karten: smoother Hover (cubic-bezier), Plus-Icon oben rechts, größerer Gap auf Mobile
+- CTA-Banner: KI-Bild → echtes Client-Foto (`cta.png` → `public/fotos/cta-werkzeuge.webp`)
+- Divider Home: `divider.png` → `public/fotos/divider-werkstatt.webp`
+- Divider Über Mich: `divider02.png` → `public/fotos/divider-uebermich.webp`
+- E-Mail von Nicolas bestätigt — Mail sieht gut aus
+- favicon.ico generiert (N7 Gold auf Dunkel, 32×32)
+- Domain .de nicht verfügbar — entfällt, nur .com
 
 **Offen:**
-1. Nicolas' Bestätigung zur E-Mail (Umlaute + Logo nach letztem Fix)
-2. favicon.ico noch Astro-Default (nur SVG aktualisiert — Browser nehmen SVG bevorzugt)
-3. `ng7-customs.de` noch nicht in Vercel (falls gewünscht)
+1. Launch-Freigabe von Nicolas
 
 ## Nächste Schritte (priorisiert)
-1. E-Mail-Test mit Nicolas final abschließen → dann Launch
-2. favicon.ico updaten (optional — Browser nehmen SVG bevorzugt)
-3. `ng7-customs.de` in Vercel eintragen (falls Nicolas die .de-Domain auch will)
+1. Launch-Freigabe von Nicolas einholen → dann ist das Projekt abgeschlossen

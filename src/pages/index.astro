@@ -9,6 +9,7 @@ import WarumNG7 from '../components/WarumNG7.astro';
 import Galerie from '../components/Galerie.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 
+
 const res = await fetch('https://ng7-contact.contact-1f9.workers.dev/api/werke?kategorie=neue_werke');
 const data = await res.json() as { name: string; bild_key: string | null }[];
 const produkte = data.slice(0, 4).map(w => ({ name: w.name, bild: w.bild_key ? `/images/${w.bild_key}` : '' }));
