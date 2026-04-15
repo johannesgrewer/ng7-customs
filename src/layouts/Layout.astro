@@ -19,6 +19,8 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.com');
   <link rel="canonical" href={canonicalUrl.href} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <title>{title} | NG7 Customs</title>
 
@@ -241,9 +243,16 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://ng7-customs.com');
               <a href="/agb" class="hover:text-[var(--ng7-accent)] transition-colors">AGB</a>
             </div>
             <p class="text-[11px]" style="color: var(--ng7-text-muted);">&copy; 2026 NG7 Customs. Alle Rechte vorbehalten.</p>
-            <a href="https://portawerk.de" target="_blank" rel="noopener" class="flex items-center gap-1.5 hover:opacity-100 transition-opacity" style="opacity: 0.6; margin-top: 8px; color: var(--ng7-text-muted);">
-              <span class="text-[10px] uppercase tracking-[0.15em]">Website by</span>
-              <span class="text-[10px] font-semibold uppercase tracking-[0.2em]" style="color: #A0977D;">PortaWerk</span>
+            <a
+              href="https://portawerk.de"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 mt-3 px-3 py-1.5 rounded border transition-colors hover:border-[var(--ng7-accent)]"
+              style="border-color: var(--ng7-border); color: var(--ng7-text-muted);"
+              aria-label="Website erstellt von PortaWerk"
+            >
+              <span class="text-[10px] uppercase tracking-[0.15em]">Website von</span>
+              <span class="text-[11px] font-semibold uppercase tracking-[0.2em]" style="color: #A0977D;">PortaWerk</span>
             </a>
           </div>
         </div>
